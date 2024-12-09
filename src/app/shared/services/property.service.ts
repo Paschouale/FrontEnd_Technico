@@ -13,4 +13,9 @@ export class PropertyService {
     let url = "http://localhost:8080/api/properties";
     return this.http.get<Property[]>(url);
   }
+
+  postProperty(property: Property){
+    let url = "http://localhost:8080/api/properties";
+    return this.http.post(url, property);
+  }
 }

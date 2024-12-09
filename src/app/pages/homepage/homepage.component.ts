@@ -18,4 +18,8 @@ export class HomepageComponent {
   navigateToCreateOwner(): void {
     this.router.navigate(['/create-owner']);
   }
+
+  navigateToCreateProperty(): void {
+    this.router.navigate(['/create-property']);
+  }
 }

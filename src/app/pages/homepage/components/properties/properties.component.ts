@@ -16,6 +16,7 @@ export class PropertiesComponent {
   constructor(private propertyService: PropertyService){
     propertyService.getAllProperties().subscribe((result: Property[]) => {
       for (let property of result){
+        console.log(property);
         this.properties.push({
           id: property.id,
           numberE9: property.numberE9,

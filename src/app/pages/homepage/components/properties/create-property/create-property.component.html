@@ -1,0 +1,43 @@
+<div class="form-container">
+    <form [formGroup]="propertyForm" (submit)="onSubmit()">
+        <div>
+            E9 Number
+            <input formControlName="numberE9" type="text">
+            @if(propertyForm.get("numberE9")?.hasError("required")){
+                Required
+            }
+        </div>
+        <div>
+            Address
+            <input formControlName="address" type="text">
+            @if(propertyForm.get("address")?.hasError("required")){
+                Required
+            }
+        </div>
+        <div>
+            Year Of Construction
+            <input formControlName="yearOfConstruction" type="number">
+        </div>
+        <div>
+            Property Type
+            <select formControlName="propertyType">
+                <option value="" disabled>Select PropertyType</option>
+                <option *ngFor="let type of propertyTypes" [value]="type">
+                    {{ type }}
+                </option>
+            </select>
+        </div>
+        <div formGroupName="propertyOwner">
+            <div>
+                Property Owner ID
+                <input formControlName="id" type="number">
+                @if(propertyForm.get("propertyOwner.id")?.hasError("required")){
+                    Required
+                }
+            </div>
+        </div>
+        <div>
+            <button type="submit" [disabled]="propertyForm.invalid">Submit</button>
+        </div>
+    </form>
+</div>
