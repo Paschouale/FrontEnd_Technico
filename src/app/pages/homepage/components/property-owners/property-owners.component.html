@@ -1,0 +1,19 @@
+<h3>Property Owner List</h3>
+<hr>
+<table>
+    <th>ID</th><th>Name</th><th>Surname</th><th>VatNumber</th><th>Phone Number</th><th>Property ID</th>
+    @for (propertyOwner of propertyOwners; track $index) {
+        <tr>
+            <td>{{propertyOwner.id}}</td>
+            <td>{{propertyOwner.name}}</td>
+            <td>{{propertyOwner.surname}}</td>
+            <td>{{propertyOwner.vatNumber}}</td>
+            <td>{{propertyOwner.phoneNumber}}</td>
+            <td>
+                @for (property of propertyOwner.propertyList; track $index) {
+                    {{property.id}}<br>
+                }
+            </td>
+        </tr>
+    }
+</table>

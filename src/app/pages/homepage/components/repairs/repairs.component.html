@@ -1,0 +1,15 @@
+<h3>Repair List</h3>
+<hr>
+<table>
+    <th>ID</th><th>Repair Type</th><th>Repair Status</th><th>Cost</th><th>Description</th><th>Property ID</th> 
+    @for (repair of repairs; track $index) {
+        <tr>
+            <td>{{repair.id}}</td>
+            <td>{{repair.repairType}}</td>
+            <td>{{repair.repairStatus}}</td>
+            <td>{{repair.cost}}</td>
+            <td>{{repair.description}}</td>
+            <td>{{repair.property.id}}</td>
+        </tr>
+    }
+</table>
