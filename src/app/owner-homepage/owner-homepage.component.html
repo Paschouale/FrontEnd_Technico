@@ -1,0 +1,181 @@
+<!-- <div class="container mt-4">
+    <h2 class="mb-4">Welcome, {{username}}!</h2>
+    <p>Below are the repairs for your properties:</p>
+    <hr>
+    <h3>Repair List</h3>
+    <hr>
+    <table class="table table-striped table-hover" *ngIf="repairs.length > 0; else noRepairs">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Repair Type</th>
+          <th>Repair Status</th>
+          <th>Cost</th>
+          <th>Description</th>
+          <th>Property ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let repair of repairs">
+          <td>{{repair.id}}</td>
+          <td>{{repair.repairType}}</td>
+          <td>{{repair.repairStatus}}</td>
+          <td>{{repair.cost}}</td>
+          <td>{{repair.description}}</td>
+          <td>{{repair.property.id}}</td>
+          <td>
+            
+
+            <button class="btn btn-primary btn-sm" (click)="requestUpdate(repair)">Request Status Update</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <ng-template #noRepairs>
+      <div class="text-muted mt-3">No repairs found for your properties.</div>
+    </ng-template>
+  </div>
+  
+  
+  <div class="modal fade" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content" style="border-radius:0.5rem;">
+        <div class="modal-header">
+          <h5 class="modal-title">Request Repair Status Update</h5>
+          <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Send a message requesting an update for repair #{{selectedRepair?.id}}</p>
+          <textarea class="form-control" [(ngModel)]="updateMessage" rows="4" placeholder="Enter your message..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="sendUpdateRequest()">Send Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="modal-backdrop fade" [class.show]="showModal" *ngIf="showModal"></div>
+   -->
+
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Technico (Owner)</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/owner-home">Home</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-link nav-link" (click)="logout()">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container mt-4">
+    <h2 class="mb-4">Welcome, {{ username }}!</h2>
+    <p>Below are the repairs for your properties:</p>
+    <hr>
+    <h3>Repair List</h3>
+    <hr>
+    <table class="table table-striped table-hover" *ngIf="repairs.length > 0; else noRepairs">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Repair Type</th>
+          <th>Repair Status</th>
+          <th>Cost</th>
+          <th>Description</th>
+          <th>Property ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let repair of repairs">
+          <td>{{ repair.id }}</td>
+          <td>{{ repair.repairType }}</td>
+          <td>{{ repair.repairStatus }}</td>
+          <td>{{ repair.cost }}</td>
+          <td>{{ repair.description }}</td>
+          <td>{{ repair.property.id }}</td>
+          <td>
+            <button
+              class="btn btn-primary btn-sm"
+              (click)="requestUpdate(repair)"
+            >
+              Request Status Update
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <ng-template #noRepairs>
+      <div class="text-muted mt-3">No repairs found for your properties.</div>
+    </ng-template>
+  </div>
+  
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="showModal"
+    [style.display]="showModal ? 'block' : 'none'"
+    role="dialog"
+  >
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Request Repair Status Update</h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeModal()"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Send a message requesting an update for repair #{{ selectedRepair?.id }}
+          </p>
+          <textarea
+            class="form-control"
+            [(ngModel)]="updateMessage"
+            rows="4"
+            placeholder="Enter your message..."
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" (click)="sendUpdateRequest()">
+            Send Request
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div
+    class="modal-backdrop fade"
+    [class.show]="showModal"
+    *ngIf="showModal"
+  ></div>
+  

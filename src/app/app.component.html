@@ -1,1 +1,41 @@
-<router-outlet></router-outlet>
+<div class="d-flex">
+    <!-- Only show the sidebar if showNav is true -->
+    <nav class="sidebar bg-white border-end" *ngIf="showNav">
+      <div class="sidebar-header p-3 text-center fs-5 fw-bold border-bottom">
+        Technico
+      </div>
+      <ul class="nav flex-column py-3">
+        <!-- If ADMIN on admin-home: show admin menu -->
+        <ng-container *ngIf="role === 'ADMIN'">
+          <!-- Admin-specific links -->
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center px-3 py-2 text-secondary" routerLink="/admin-home" routerLinkActive="active">
+              <span class="me-2 bi bi-house"></span>Admin Home
+            </a>
+          </li>
+          <!-- Add other admin links if needed -->
+        </ng-container>
+  
+        <!-- If PROPERTY_OWNER on owner-home: show owner menu -->
+        <ng-container *ngIf="role === 'PROPERTY_OWNER'">
+          <!-- Property Owner-specific links -->
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center px-3 py-2 text-secondary" routerLink="/owner-home" routerLinkActive="active">
+              <span class="me-2 bi bi-house"></span>Owner Home
+            </a>
+          </li>
+          <!-- Add other owner links if needed -->
+        </ng-container>
+  
+        <li class="nav-item mt-3">
+          <button class="btn btn-outline-secondary w-100" (click)="logout()">Logout</button>
+        </li>
+      </ul>
+    </nav>
+  
+    <!-- Main content area -->
+    <div class="flex-grow-1 p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

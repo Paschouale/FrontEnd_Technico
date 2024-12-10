@@ -1,0 +1,17 @@
+.modal {
+    transition: opacity 0.15s linear;
+  }
+  
+  .modal.show .modal-dialog {
+    transform: translate(0,0);
+  }
+  
+  .modal-backdrop {
+    transition: opacity 0.15s linear;
+    opacity: 0.5;
+  }
+  
+  textarea.form-control {
+    resize: vertical;
+  }
+  

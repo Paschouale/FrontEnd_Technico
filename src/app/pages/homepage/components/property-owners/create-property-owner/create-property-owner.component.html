@@ -1,60 +1,56 @@
-<div class="form-container">
-    <form [formGroup]="propertyOwnerForm" (submit)="onSubmit()">
-        <div>
-            VatNumber
-            <input formControlName="vatNumber" type="text">
-            @if(propertyOwnerForm.get("vatNumber")?.hasError("required")){
-                Required
-            }
+<div class="container mt-4">
+    <h3>Create Property Owner</h3>
+    <hr>
+    <form [formGroup]="propertyOwnerForm" (submit)="onSubmit()" novalidate>
+      <div class="mb-3">
+        <label class="form-label">VatNumber</label>
+        <input formControlName="vatNumber" type="text" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('required') && propertyOwnerForm.get('vatNumber')?.touched" class="text-danger">
+          Required
         </div>
-        <div>
-            Name
-            <input formControlName="name" type="text">
-            @if(propertyOwnerForm.get("name")?.hasError("required")){
-                Required
-            }
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input formControlName="name" type="text" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('name')?.hasError('required') && propertyOwnerForm.get('name')?.touched" class="text-danger">
+          Required
         </div>
-        <div>
-            Surname
-            <input formControlName="surname" type="text">
-            @if(propertyOwnerForm.get("surname")?.hasError("required"))
-            {
-                Required
-            }
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Surname</label>
+        <input formControlName="surname" type="text" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('surname')?.hasError('required') && propertyOwnerForm.get('surname')?.touched" class="text-danger">
+          Required
         </div>
-        <div>
-            Address
-            <input formControlName="address" type="text">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input formControlName="address" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input formControlName="phoneNumber" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input formControlName="email" type="email" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('email')?.hasError('required') && propertyOwnerForm.get('email')?.touched" class="text-danger">
+          Required
         </div>
-        <div>
-            Phone Number
-            <input formControlName="phoneNumber" type="text">
+      </div>
+      <div formGroupName="loginUser" class="mb-3">
+        <label class="form-label">Username</label>
+        <input formControlName="username" type="text" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('required') && propertyOwnerForm.get('loginUser.username')?.touched" class="text-danger">
+          Required
         </div>
-        <div>
-            Email
-            <input formControlName="email" type="email">
-            @if(propertyOwnerForm.get("email")?.hasError("required")){
-                Required
-            }
+        <label class="form-label mt-2">Password</label>
+        <input formControlName="password" type="password" class="form-control">
+        <div *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('required') && propertyOwnerForm.get('loginUser.password')?.touched" class="text-danger">
+          Required
         </div>
-        <div formGroupName="loginUser">
-            <div>
-                Username
-                <input formControlName="username" type="text">
-                @if(propertyOwnerForm.get("loginUser.username")?.hasError("required")){
-                    Required
-                }
-            </div>
-            <div>
-                Password
-                <input formControlName="password" type="password">
-                @if(propertyOwnerForm.get("loginUser.password")?.hasError("required")){
-                    Required
-                }
-            </div>
-        </div>
-        <div>
-            <button type="submit" [disabled]="propertyOwnerForm.invalid">Submit</button>
-        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="propertyOwnerForm.invalid">Submit</button>
     </form>
-</div>
+  </div>
+  

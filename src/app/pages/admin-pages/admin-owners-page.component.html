@@ -1,0 +1,34 @@
+<div class="container mt-4">
+    <h2>Manage Property Owners</h2>
+    <button class="btn btn-secondary mb-3" (click)="backToHome()">Back</button>
+    <hr>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Surname</th><th>VatNumber</th><th>Phone Number</th><th>Username</th><th>Password</th><th>Property IDs</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let owner of propertyOwners">
+          <td>{{owner.id}}</td>
+          <td>{{owner.name}}</td>
+          <td>{{owner.surname}}</td>
+          <td>{{owner.vatNumber}}</td>
+          <td>{{owner.phoneNumber}}</td>
+          <td>{{owner.loginUser.username}}</td>
+            <td>{{owner.loginUser.password}}</td>
+                            
+          <td>
+            <ng-container *ngFor="let property of owner.propertyList">
+              {{property.id}}<br>
+            </ng-container>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="updateOwner(owner)">Update</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteOwner(owner)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

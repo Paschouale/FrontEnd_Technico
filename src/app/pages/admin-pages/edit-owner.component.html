@@ -1,0 +1,40 @@
+<div class="container mt-4">
+    <h2>Edit Owner</h2>
+    <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">VatNumber</label>
+        <input class="form-control" formControlName="vatNumber" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input class="form-control" formControlName="name" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Surname</label>
+        <input class="form-control" formControlName="surname" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input class="form-control" formControlName="address" type="text">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input class="form-control" formControlName="phoneNumber" type="text">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" formControlName="email" type="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input class="form-control" formControlName="username" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" formControlName="password" type="password" required>
+      </div>
+      <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid">Update</button>
+      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  
