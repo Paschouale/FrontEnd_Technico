@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <h2>Create Repair</h2>
+    <form [formGroup]="repairForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="scheduledRepairDate" class="form-label">Scheduled Date</label>
+        <input type="datetime-local" id="scheduledRepairDate" formControlName="scheduledRepairDate" class="form-control" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="repairType" class="form-label">Repair Type</label>
+        <select id="repairType" formControlName="repairType" class="form-select" required>
+          <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="repairStatus" class="form-label">Repair Status</label>
+        <select id="repairStatus" formControlName="repairStatus" class="form-select" required>
+          <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="cost" class="form-label">Cost</label>
+        <input type="number" id="cost" formControlName="cost" class="form-control" required min="0">
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" formControlName="description" class="form-control" rows="3" required></textarea>
+      </div>
+  
+      <div class="mb-3" formGroupName="property">
+        <div>
+            Property ID
+            <input formControlName="id" type="number">
+            @if(repairForm.get("property.id")?.hasError("required")){
+            Required
+            }
+        </div>
+    </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="repairForm.invalid">Create Repair</button>
+    </form>
+  </div>
+  

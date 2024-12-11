@@ -43,7 +43,9 @@ export class PropertyService {
   postProperty(property: Property){
     let url = "http://localhost:8080/api/properties";
     return this.http.post(url, property);
-  }
-  
+  }}
+//   postProperty(property: Property): Observable<Property> {
+//     return this.http.post<Property>(`${this.baseUrl}`, property);
+//   }
 
-}
+// }

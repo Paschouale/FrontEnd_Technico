@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyService } from '../../shared/services/property.service';
 import { Property } from '../../shared/model/property';
+import { PropertyType } from '../../shared/enumeration/property-type';
 
 @Component({
   selector: 'app-edit-property',
@@ -15,6 +16,7 @@ import { Property } from '../../shared/model/property';
 export class EditPropertyComponent implements OnInit {
   propertyForm!: FormGroup;
   propertyId!: number;
+  propertyTypes = Object.values(PropertyType);
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +48,8 @@ export class EditPropertyComponent implements OnInit {
           address: property.address || '',
           yearOfConstruction: property.yearOfConstruction || '',
           propertyType: property.propertyType || ''
-          // If editing owner: propertyOwnerId: property.propertyOwner?.id || ''
+          // If editing owner: 
+          // propertyOwnerId: property.propertyOwner?.id || ''
         });
       },
       error: err => {
@@ -71,6 +74,7 @@ export class EditPropertyComponent implements OnInit {
           this.router.navigate(['/admin-properties']);
         },
         error: err => {
+          console.log(this.propertyForm.value);
           console.error(err);
           alert('Failed to update property.');
         }

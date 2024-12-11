@@ -15,15 +15,21 @@
       </div>
       <div class="mb-3">
         <label class="form-label">Property Type</label>
-        <input class="form-control" formControlName="propertyType" type="text" required>
+        <!-- <input class="form-control" formControlName="propertyType" type="text" required> -->
+        <select class="form-control" formControlName="propertyType">
+            <!-- <option value="" disabled>Select PropertyType</option> -->
+            <option *ngFor="let type of propertyTypes" [value]="type">
+                {{ type }}
+            </option>
+        </select>        
         <!-- You may want to use a select input if propertyType is an enumeration -->
       </div>
-      <!-- If changing owner:
-      <div class="mb-3">
+      <!-- If changing owner: -->
+      <!-- <div class="mb-3">
         <label class="form-label">Owner ID</label>
         <input class="form-control" formControlName="propertyOwnerId" type="number" required>
-      </div>
-      -->
+      </div> -->
+     
       <button class="btn btn-primary me-2" type="submit" [disabled]="propertyForm.invalid">Update</button>
       <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
     </form>

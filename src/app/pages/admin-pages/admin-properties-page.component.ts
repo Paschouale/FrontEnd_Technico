@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PropertyService } from '../../shared/services/property.service';
 import { Property } from '../../shared/model/property';
+import { PropertyType } from '../../shared/enumeration/property-type';
 
 @Component({
   selector: 'app-admin-properties-page',

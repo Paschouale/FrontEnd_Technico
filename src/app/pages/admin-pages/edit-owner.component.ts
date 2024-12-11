@@ -108,40 +108,56 @@ export class EditOwnerComponent implements OnInit {
 
     this.ownerService.updatePropertyOwnerById(this.ownerId, updatedOwner).subscribe({
       next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Owner updated successfully!',
-          confirmButtonText: 'OK',
-          timer: 3000,
-          timerProgressBar: true
-        }).then(() => {
-          this.router.navigate(['/admin-owners']);
-        });
+        alert('Property owner updated successfully!');
+        this.router.navigate(['/admin-owners']); // Redirect to "Manage Property Owners"
       },
-      error: err => {
-        console.error('Update failed:', err);
-        Swal.fire({
-          icon: 'success', // Pretend success
-          title: 'Success!',
-          text: 'Owner updated successfully!',
-          confirmButtonText: 'OK',
-          timer: 3000,
-          timerProgressBar: true
-        }).then(() => {
-          this.router.navigate(['/admin-owners']);
-        });
+      error: (err) => {
+        console.error('Failed to update property owner', err);
+        alert('Failed to update property owner');
       }
     });
   } else {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Invalid Data!',
-      text: 'Please fill in all required fields correctly before submitting.',
-      confirmButtonText: 'OK'
-    });
+    alert('Please fill in all required fields correctly before submitting.');
   }
 }
+    // this.ownerService.updatePropertyOwnerById(this.ownerId, updatedOwner).subscribe({
+    //   next: () => {
+    //     console.log("success");
+        
+        // Swal.fire({
+        //   icon: 'success',
+        //   title: 'Success!',
+        //   text: 'Owner updated successfully!',
+        //   confirmButtonText: 'OK',
+        //   timer: 3000,
+        //   timerProgressBar: true
+        // }).then(() => {
+        //   this.router.navigate(['/admin-owners']);
+        // });
+      // },
+      // error: err => {
+      //   console.error('Update failed:', err);
+        // Swal.fire({
+        //   icon: 'success', // Pretend success
+        //   title: 'Success!',
+        //   text: 'Owner updated successfully!',
+        //   confirmButtonText: 'OK',
+        //   timer: 3000,
+        //   timerProgressBar: true
+        // }).then(() => {
+        //   this.router.navigate(['/admin-owners']);
+        // });
+//       }
+//     });
+//   } else {
+//     Swal.fire({
+//       icon: 'warning',
+//       title: 'Invalid Data!',
+//       text: 'Please fill in all required fields correctly before submitting.',
+//       confirmButtonText: 'OK'
+//     });
+//   }
+// }
 
 
  cancel() {

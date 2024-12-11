@@ -17,7 +17,7 @@
           <td>{{owner.phoneNumber}}</td>
           <td>{{owner.loginUser.username}}</td>
             <td>{{owner.loginUser.password}}</td>
-                            
+
           <td>
             <ng-container *ngFor="let property of owner.propertyList">
               {{property.id}}<br>
@@ -25,7 +25,7 @@
           </td>
           <td>
             <button class="btn btn-sm btn-warning me-2" (click)="updateOwner(owner)">Update</button>
-            <button class="btn btn-sm btn-danger" (click)="deleteOwner(owner)">Delete</button>
+            <button class="btn btn-sm btn-danger" (click)="deletePropertyOwner(owner)">Delete</button>
           </td>
         </tr>
       </tbody>

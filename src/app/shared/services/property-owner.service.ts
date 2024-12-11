@@ -17,6 +17,7 @@ export class PropertyOwnerService {
   }
 
   updatePropertyOwnerById(id: number, owner: PropertyOwner): Observable<any> {
+    console.log(owner);
     const url = `${this.baseUrl}/${id}`;
     return this.http.put(url, owner);
   }
@@ -24,6 +25,12 @@ export class PropertyOwnerService {
   getAllPropertyOwners(): Observable<PropertyOwner[]> {
     return this.http.get<PropertyOwner[]>(this.baseUrl);
   }
+
+  deletePropertyOwnerById(id: number): Observable<any> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete(url);
+  }
+
   createPropertyOwner(propertyOwner: PropertyOwner): Observable<PropertyOwner> {
     const url = 'http://localhost:8080/api/propertyOwners';
     return this.http.post<PropertyOwner>(url, propertyOwner);
