@@ -48,5 +48,18 @@ export class PropertiesComponent {
     propertyService.getAllProperties().subscribe((result: Property[]) => {
       this.properties = result;
     });
+      for (let property of result){
+        console.log(property);
+        this.properties.push({
+          id: property.id,
+          numberE9: property.numberE9,
+          address: property.address,
+          yearOfConstruction: property.yearOfConstruction,
+          propertyType: property.propertyType,
+          propertyOwner: property.propertyOwner,
+          repairList: property.repairList
+         })
+      }
+    })
   }
 }

@@ -39,6 +39,11 @@ export class PropertyService {
     const url = `http://localhost:8080/api/properties/${id}`;
     return this.http.delete(url);
   }
+
+  postProperty(property: Property){
+    let url = "http://localhost:8080/api/properties";
+    return this.http.post(url, property);
+  }
   
 
 }
