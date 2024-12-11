@@ -1,31 +1,108 @@
+/* src/app/app.component.scss */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  background-color: #f8f9fa;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  flex: 1;
+}
+
+.user-info {
+  flex: 1;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
 .sidebar {
-    width: 220px;
-    min-height: 100vh;
-    display: flex;
+  width: 220px; /* Adjust width as needed */
+  background-color: #ffffff;
+  border-right: 1px solid #dee2e6;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #495057;
+  border-radius: 0;
+  &:hover {
+    background-color: #f1f3f5;
+    color: #212529;
+  }
+}
+
+.nav-link.active {
+  background-color: #dee2e6;
+  color: #212529;
+  font-weight: 600;
+}
+
+.content-area {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.btn-outline-secondary {
+  margin-top: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-container {
     flex-direction: column;
   }
-  
-  .sidebar-header {
-    background: #e9ecef;
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .nav-link {
-    font-weight: 500;
-    color: #495057;
-    border-radius: 0;
-    &:hover {
-      background: #f1f3f5;
-      color: #212529;
-    }
+
+  .user-info {
+    text-align: left;
+    margin-top: 0.5rem;
   }
-  
-  .nav-link.active {
-    background: #dee2e6;
-    color: #212529;
-    font-weight: 600;
+
+  .main-content {
+    flex-direction: column;
   }
-  
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .content-area {
+    padding: 1rem;
+  }
+
   .btn-outline-secondary {
-    margin-top: auto;
+    margin-top: 1rem;
   }
-  
+}

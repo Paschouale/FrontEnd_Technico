@@ -23,6 +23,15 @@ export class PropertyService {
     return this.http.get<Property>(url);
   }
 
+
+ // Fetch properties by property owner ID
+ getPropertiesByOwnerId(ownerId: number): Observable<Property[]> {
+  // According to backend: GET /api/properties/propertyOwner/{id}
+  const url = `${this.baseUrl}/propertyOwner/${ownerId}`;
+  return this.http.get<Property[]>(url);
+}
+
+
   // Create a new property
   createProperty(property: Property): Observable<Property> {
     return this.http.post<Property>(this.baseUrl, property);

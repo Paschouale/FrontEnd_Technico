@@ -99,26 +99,7 @@ export class CreatePropertyComponent implements OnInit {
       })
     });
   }
-
-//   onSubmit() {
-//     if (this.propertyForm.valid) {
-//       const formValue = {
-//         ...this.propertyForm.value,
-//         propertyOwner: {
-//           id: this.propertyForm.get('propertyOwner.id')?.value
-//         }
-//       };
-
-//       this.propertyService.postProperty(formValue).subscribe({
-//         next: () => this.router.navigate(['/admin-properties']),
-//         error: (err) => {
-//           console.error('Failed to create property:', err);
-//           alert('Failed to create property. Please ensure the property owner exists.');
-//         }
-//       });
-//     }
-//   }
-
+  
 onSubmit() {
   if (this.propertyForm.valid) {
     const formValue = {

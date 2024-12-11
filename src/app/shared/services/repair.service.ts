@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Repair } from '../model/repair';
 import { UpdateRequest } from '../update-request';
+import { Property } from '../model/property';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,20 @@ export class RepairService {
     return this.http.get<Repair>(url);
   }
 
+   // Fetch properties by property owner ID
+   getPropertiesByOwnerId(ownerId: number): Observable<Property[]> {
+    // According to backend: GET /api/properties/propertyOwner/{id}
+    const url = `${this.baseUrl}/propertyOwner/${ownerId}`;
+    return this.http.get<Property[]>(url);
+  }
+
   // Create a new repair
-  createRepair(repair: Repair): Observable<Repair> {
+  // createRepair(repair: Repair): Observable<Repair> {
+  //   return this.http.post<Repair>(this.baseUrl, repair);
+  // }
+
+   // Create a new repair (accepts Partial<Repair>)
+   createRepair(repair: Partial<Repair>): Observable<Repair> {
     return this.http.post<Repair>(this.baseUrl, repair);
   }
 
