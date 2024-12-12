@@ -31,7 +31,10 @@ export class PropertyService {
   return this.http.get<Property[]>(url);
 }
 
-
+getPropertiesByOwnerVat(vatNumber: string): Observable<Property[]> {
+  const url = `${this.baseUrl}/propertyOwner/${vatNumber}`;
+  return this.http.get<Property[]>(url);
+}
   // Create a new property
   createProperty(property: Property): Observable<Property> {
     return this.http.post<Property>(this.baseUrl, property);
