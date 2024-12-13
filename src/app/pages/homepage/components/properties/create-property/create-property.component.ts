@@ -56,6 +56,7 @@ import { Router } from '@angular/router';
 import { PropertyType } from '../../../../../shared/enumeration/property-type';
 import { CommonModule } from '@angular/common';
 import { PropertyOwner } from '../../../../../shared/model/property-owner';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-create-property',
@@ -71,10 +72,10 @@ export class CreatePropertyComponent implements OnInit {
   propertyOwners: PropertyOwner[] = [];
 
   constructor(
-    private propertyService: PropertyService, 
-    private propertyOwnerService: PropertyOwnerService, 
+    private propertyService: PropertyService,
+    private propertyOwnerService: PropertyOwnerService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Fetch all property owners to populate the dropdown
@@ -91,38 +92,34 @@ export class CreatePropertyComponent implements OnInit {
     // Initialize the form
     this.propertyForm = new FormGroup({
       numberE9: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
-      yearOfConstruction: new FormControl('', Validators.required),
+      address: new FormControl(''),
+      yearOfConstruction: new FormControl(''),
       propertyType: new FormControl('', Validators.required),
       propertyOwner: new FormGroup({
         id: new FormControl('', Validators.required)
       })
     });
   }
-  
-onSubmit() {
-  if (this.propertyForm.valid) {
-    const formValue = {
-      ...this.propertyForm.value,
-      propertyOwner: {
-        id: this.propertyForm.get('propertyOwner.id')?.value
-      }
-    };
 
-    this.propertyService.postProperty(formValue).subscribe({
-      next: () => {
-        alert('Property created successfully!');
-        this.router.navigate(['/admin-properties']);
-      },
-      error: (err) => {
-        console.error('Failed to create property:', err);
-        if (err.status === 500) {
-          alert('Server error: Unable to create property. Please try again later.');
-        } else if (err.status === 400) {
-          alert('Bad request: Please check your input data.');
-        } else {
-          alert('An unexpected error occurred. Please try again.');
+  onSubmit() {
+    if (this.propertyForm.valid) {
+      const formValue = {
+        ...this.propertyForm.value,
+        propertyOwner: {
+          id: this.propertyForm.get('propertyOwner.id')?.value
         }
-      }
-    });
-        }}}
+      };
+
+      this.propertyService.postProperty(formValue)
+        .pipe(catchError((err) => {
+          console.log(err);
+          alert(err.error);
+          return EMPTY
+        }))
+        .subscribe(() => {
+          alert('Property created successfully!');
+          this.router.navigate(['/admin-properties']);
+        });
+    }
+  }
+}

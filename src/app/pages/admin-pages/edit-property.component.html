@@ -4,14 +4,17 @@
       <div class="mb-3">
         <label class="form-label">E9 Number</label>
         <input class="form-control" formControlName="numberE9" type="text" required>
+        <div *ngIf="propertyForm.get('numberE9')?.hasError('required') && propertyForm.get('numberE9')?.touched" class="text-danger">
+          Required
+      </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Address</label>
-        <input class="form-control" formControlName="address" type="text" required>
+        <input class="form-control" formControlName="address" type="text">
       </div>
       <div class="mb-3">
         <label class="form-label">Year Of Construction</label>
-        <input class="form-control" formControlName="yearOfConstruction" type="number" required>
+        <input class="form-control" formControlName="yearOfConstruction" type="number">
       </div>
       <div class="mb-3">
         <label class="form-label">Property Type</label>
@@ -21,7 +24,10 @@
             <option *ngFor="let type of propertyTypes" [value]="type">
                 {{ type }}
             </option>
-        </select>        
+        </select>
+        <div *ngIf="propertyForm.get('propertyType')?.hasError('required') && propertyForm.get('propertyType')?.touched" class="text-danger">
+          Required
+      </div>        
         <!-- You may want to use a select input if propertyType is an enumeration -->
       </div>
       <!-- If changing owner: -->

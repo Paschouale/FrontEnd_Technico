@@ -22,6 +22,7 @@ export class AdminOwnersPageComponent implements OnInit {
 
   loadOwners() {
     this.propertyOwnerService.getAllPropertyOwners().subscribe((owners: PropertyOwner[]) => {
+      turnOwnerPasswordsIntoAsterisks(owners);
       this.propertyOwners = owners;
     });
   }
@@ -50,3 +51,9 @@ export class AdminOwnersPageComponent implements OnInit {
     this.router.navigate(['/admin-home']);
   }
 }
+function turnOwnerPasswordsIntoAsterisks(owners: PropertyOwner[]) {
+  owners.forEach((owner) => {
+    owner.loginUser.password = '****';
+  });
+}
+

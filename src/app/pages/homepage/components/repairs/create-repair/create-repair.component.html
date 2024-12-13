@@ -3,7 +3,7 @@
     <form [formGroup]="repairForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="scheduledRepairDate" class="form-label">Scheduled Date</label>
-        <input type="datetime-local" id="scheduledRepairDate" formControlName="scheduledRepairDate" class="form-control" required>
+        <input type="datetime-local" id="scheduledRepairDate" formControlName="scheduledRepairDate" class="form-control">
       </div>
   
       <div class="mb-3">
@@ -11,6 +11,9 @@
         <select id="repairType" formControlName="repairType" class="form-select" required>
           <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
         </select>
+        <div *ngIf="repairForm.get('repairType')?.hasError('required') && repairForm.get('repairType')?.touched" class="text-danger">
+          Required
+        </div>
       </div>
   
       <div class="mb-3">
@@ -18,25 +21,33 @@
         <select id="repairStatus" formControlName="repairStatus" class="form-select" required>
           <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
         </select>
+        <div *ngIf="repairForm.get('repairStatus')?.hasError('required') && repairForm.get('repairStatus')?.touched" class="text-danger">
+          Required
+        </div>
       </div>
   
       <div class="mb-3">
         <label for="cost" class="form-label">Cost</label>
-        <input type="number" id="cost" formControlName="cost" class="form-control" required min="0">
+        <input type="number" id="cost" formControlName="cost" class="form-control" min="0">
       </div>
   
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea id="description" formControlName="description" class="form-control" rows="3" required></textarea>
+        <textarea id="description" formControlName="description" class="form-control" rows="3"></textarea>
       </div>
   
       <div class="mb-3" formGroupName="property">
         <div>
-            Property ID
+            <!-- Property ID
             <input formControlName="id" type="number">
             @if(repairForm.get("property.id")?.hasError("required")){
             Required
-            }
+            } -->
+            <label for="propertyId" class="form-label">Property ID</label>
+            <input type="number" id="propertyId" formControlName="id" class="form-control" required>
+        </div>
+        <div *ngIf="repairForm.get('property.id')?.hasError('required') && repairForm.get('property.id')?.touched" class="text-danger">
+          Required
         </div>
     </div>
   

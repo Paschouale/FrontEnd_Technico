@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { PropertyService } from '../../shared/services/property.service';
 import { Property } from '../../shared/model/property';
 import { PropertyType } from '../../shared/enumeration/property-type';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-edit-property',
@@ -30,8 +31,8 @@ export class EditPropertyComponent implements OnInit {
     // Initialize form with empty values
     this.propertyForm = new FormGroup({
       numberE9: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
-      yearOfConstruction: new FormControl('', Validators.required),
+      address: new FormControl(''),
+      yearOfConstruction: new FormControl(''),
       propertyType: new FormControl('', Validators.required),
       // If you want to allow changing owner, you can include a field for owner ID or similar
       // propertyOwnerId: new FormControl('', Validators.required)
@@ -68,18 +69,18 @@ export class EditPropertyComponent implements OnInit {
         // propertyOwner: { id: this.propertyForm.get('propertyOwnerId')?.value } as PropertyOwner
       };
 
-      this.propertyService.updatePropertyById(this.propertyId, updatedProperty).subscribe({
-        next: () => {
-          alert('Property updated successfully!');
-          this.router.navigate(['/admin-properties']);
-        },
-        error: err => {
-          console.log(this.propertyForm.value);
-          console.error(err);
-          alert('Failed to update property.');
-        }
+      this.propertyService.updatePropertyById(this.propertyId, updatedProperty)
+      .pipe(catchError((err) => {
+        console.log(err);
+        alert(err.error);
+        return EMPTY
+      }))
+      .subscribe(() => {
+        alert('Property updated successfully!');
+        this.router.navigate(['/admin-properties']);
       });
-    } else {
+  }
+      else {
       alert('Please fill in all required fields correctly before submitting.');
     }
   }

@@ -42,7 +42,6 @@ export class OwnerHomepageComponent implements OnInit {
 
   // Define available repair types (Assuming these are similar to admin's repair types)
   repairTypes: RepairType[] = [
-    RepairType.GeneralMaintenance,
     RepairType.ELECTRICAL,
     RepairType.PLUMBING,
     RepairType.INSULATION,

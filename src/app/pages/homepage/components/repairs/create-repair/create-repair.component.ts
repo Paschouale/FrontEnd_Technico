@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { RepairType } from '../../../../../shared/enumeration/repair-type';
 import { RepairStatus } from '../../../../../shared/enumeration/repair-status';
 import { CommonModule } from '@angular/common';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-create-repair',
@@ -23,11 +24,11 @@ export class CreateRepairComponent implements OnInit {
 
   ngOnInit(): void {
     this.repairForm = new FormGroup({
-      scheduledRepairDate: new FormControl('', Validators.required),
+      scheduledRepairDate: new FormControl(''),
       repairStatus: new FormControl(RepairStatus.STANDBY, Validators.required),
       repairType: new FormControl('', Validators.required),
-      cost: new FormControl('', [Validators.required, Validators.min(0)]),
-      description: new FormControl('', Validators.required),
+      cost: new FormControl('', [Validators.min(0)]),
+      description: new FormControl(''),
       property: new FormGroup({
         id: new FormControl('', Validators.required)
       })
@@ -43,9 +44,15 @@ export class CreateRepairComponent implements OnInit {
         }
       };
 
-      this.repairService.createRepair(formValue).subscribe({
-        next: () => this.router.navigate(['/admin-repairs']),
-        error: (err) => console.error('Failed to create repair:', err)
+      this.repairService.createRepair(formValue)
+      .pipe(catchError((err) => {
+        console.log(err);
+        alert(err.error);
+        return EMPTY
+      }))
+      .subscribe(() => {
+        alert('Repair created successfully!')
+        this.router.navigate(['/admin-repairs'])
       });
     }
   }

@@ -3,15 +3,27 @@
     <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label">VatNumber</label>
-        <input class="form-control" formControlName="vatNumber" type="text" required>
+        <input class="form-control" formControlName="vatNumber" type="text" maxlength="9">
+      </div>
+      <div *ngIf="ownerForm.get('vatNumber')?.hasError('required') && ownerForm.get('vatNumber')?.touched" class="text-danger">
+        Required
+      </div>
+      <div *ngIf="ownerForm.get('vatNumber')?.hasError('pattern') && ownerForm.get('vatNumber')?.touched" class="text-danger">
+        Must be 9 digits
       </div>
       <div class="mb-3">
         <label class="form-label">Name</label>
         <input class="form-control" formControlName="name" type="text" required>
+        <div *ngIf="ownerForm.get('name')?.hasError('required') && ownerForm.get('name')?.touched" class="text-danger">
+          Required
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Surname</label>
         <input class="form-control" formControlName="surname" type="text" required>
+        <div *ngIf="ownerForm.get('surname')?.hasError('required') && ownerForm.get('surname')?.touched" class="text-danger">
+          Required
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Address</label>
@@ -20,18 +32,33 @@
       <div class="mb-3">
         <label class="form-label">Phone Number</label>
         <input class="form-control" formControlName="phoneNumber" type="text">
+        <div *ngIf="ownerForm.get('phoneNumber')?.hasError('pattern') && ownerForm.get('phoneNumber')?.touched" class="text-danger">
+          Must be 10 digits
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
         <input class="form-control" formControlName="email" type="email" required>
+        <div *ngIf="ownerForm.get('email')?.hasError('required') && ownerForm.get('email')?.touched" class="text-danger">
+          Required
+        </div>
+        <div *ngIf="ownerForm.get('email')?.hasError('pattern') && ownerForm.get('email')?.touched" class="text-danger">
+          Must be a correct email
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Username</label>
-        <input class="form-control" formControlName="username" type="text" required>
+        <input class="form-control" formControlName="username" type="text">
+        <div *ngIf="ownerForm.get('username')?.hasError('minlength') && ownerForm.get('username')?.touched" class="text-danger">
+          Must be at least 5 characters
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input class="form-control" formControlName="password" type="password" required>
+        <input class="form-control" formControlName="password" type="password">
+        <div *ngIf="ownerForm.get('password')?.hasError('minlength') && ownerForm.get('password')?.touched" class="text-danger">
+          Must be at least 4 characters
+        </div>
       </div>
       <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid">Update</button>
       <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>

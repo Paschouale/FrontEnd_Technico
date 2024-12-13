@@ -4,24 +4,37 @@
       <div class="mb-3">
         <label class="form-label">Scheduled Repair Date</label>
         <input class="form-control" formControlName="scheduledRepairDate" type="datetime-local" required>
+        <div *ngIf="repairForm.get('scheduledRepairDate')?.hasError('required') && repairForm.get('scheduledRepairDate')?.touched" class="text-danger">
+          Required
+        </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Repair Status</label>
-        <input class="form-control" formControlName="repairStatus" type="text" required>
+        <label for="repairStatus" class="form-label">Repair Status</label>
+        <select id="repairStatus" formControlName="repairStatus" class="form-select" required>
+          <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="repairForm.get('repairStatus')?.hasError('required') && repairForm.get('repairStatus')?.touched" class="text-danger">
+          Required
+        </div>
         <!-- Possibly use a select for predefined statuses -->
       </div>
       <div class="mb-3">
-        <label class="form-label">Repair Type</label>
-        <input class="form-control" formControlName="repairType" type="text" required>
+        <label for="repairType" class="form-label">Repair Type</label>
+        <select id="repairType" formControlName="repairType" class="form-select" required>
+          <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
+        </select>
+        <div *ngIf="repairForm.get('repairType')?.hasError('required') && repairForm.get('repairType')?.touched" class="text-danger">
+          Required
+        </div>
         <!-- Possibly use a select for predefined types -->
       </div>
       <div class="mb-3">
         <label class="form-label">Cost</label>
-        <input class="form-control" formControlName="cost" type="number" step="0.01" required>
+        <input class="form-control" formControlName="cost" type="number" step="0.01">
       </div>
       <div class="mb-3">
         <label class="form-label">Description</label>
-        <input class="form-control" formControlName="description" type="text" required>
+        <input class="form-control" formControlName="description" type="text">
       </div>
       <!-- If editing property:
       <div class="mb-3">

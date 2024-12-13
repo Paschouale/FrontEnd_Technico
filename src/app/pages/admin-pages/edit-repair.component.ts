@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RepairService } from '../../shared/services/repair.service';
 import { Repair } from '../../shared/model/repair';
+import { RepairType } from '../../shared/enumeration/repair-type';
+import { RepairStatus } from '../../shared/enumeration/repair-status';
 
 @Component({
   selector: 'app-edit-repair',
@@ -15,6 +17,8 @@ import { Repair } from '../../shared/model/repair';
 export class EditRepairComponent implements OnInit {
   repairForm!: FormGroup;
   repairId!: number;
+  repairTypes = Object.values(RepairType);
+  repairStatuses = Object.values(RepairStatus);
 
   constructor(
     private route: ActivatedRoute,
@@ -29,8 +33,8 @@ export class EditRepairComponent implements OnInit {
       scheduledRepairDate: new FormControl('', Validators.required),
       repairStatus: new FormControl('', Validators.required),
       repairType: new FormControl('', Validators.required),
-      cost: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      cost: new FormControl('', [Validators.min(0)]),
+      description: new FormControl(''),
       // If you allow changing the property linked to the repair:
       // propertyId: new FormControl('', Validators.required)
     });

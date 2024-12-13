@@ -4,9 +4,12 @@
     <form [formGroup]="propertyOwnerForm" (submit)="onSubmit()" novalidate>
       <div class="mb-3">
         <label class="form-label">VatNumber</label>
-        <input formControlName="vatNumber" type="text" class="form-control">
+        <input formControlName="vatNumber" type="text" class="form-control" maxlength="9">
         <div *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('required') && propertyOwnerForm.get('vatNumber')?.touched" class="text-danger">
           Required
+        </div>
+        <div *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('pattern') && propertyOwnerForm.get('vatNumber')?.touched" class="text-danger">
+          Must be 9 digits
         </div>
       </div>
       <div class="mb-3">
@@ -29,13 +32,19 @@
       </div>
       <div class="mb-3">
         <label class="form-label">Phone Number</label>
-        <input formControlName="phoneNumber" type="text" class="form-control">
+        <input formControlName="phoneNumber" type="text" class="form-control" maxlength="10">
+        <div *ngIf="propertyOwnerForm.get('phoneNumber')?.hasError('pattern') && propertyOwnerForm.get('phoneNumber')?.touched" class="text-danger">
+          Must be 10 digits
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
         <input formControlName="email" type="email" class="form-control">
         <div *ngIf="propertyOwnerForm.get('email')?.hasError('required') && propertyOwnerForm.get('email')?.touched" class="text-danger">
           Required
+        </div>
+        <div *ngIf="propertyOwnerForm.get('email')?.hasError('pattern') && propertyOwnerForm.get('email')?.touched" class="text-danger">
+          Must be a correct email
         </div>
       </div>
       <div formGroupName="loginUser" class="mb-3">
@@ -44,10 +53,16 @@
         <div *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('required') && propertyOwnerForm.get('loginUser.username')?.touched" class="text-danger">
           Required
         </div>
+        <div *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('minlength') && propertyOwnerForm.get('loginUser.username')?.touched" class="text-danger">
+          Must be at least 5 characters
+        </div>
         <label class="form-label mt-2">Password</label>
         <input formControlName="password" type="password" class="form-control">
         <div *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('required') && propertyOwnerForm.get('loginUser.password')?.touched" class="text-danger">
           Required
+        </div>
+        <div *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('minlength') && propertyOwnerForm.get('loginUser.password')?.touched" class="text-danger">
+          Must be at least 4 characters
         </div>
       </div>
       <button type="submit" class="btn btn-primary" [disabled]="propertyOwnerForm.invalid">Submit</button>

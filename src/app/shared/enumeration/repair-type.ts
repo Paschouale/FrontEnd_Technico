@@ -3,8 +3,5 @@ export enum RepairType {
     INSULATION = 'INSULATION',
     FRAMES = 'FRAMES',
     PLUMBING = 'PLUMBING',
-    ELECTRICAL = 'ELECTRICAL',
-    GeneralMaintenance = "GeneralMaintenance",
-    GENERAL_ = "GENERAL_",
-    MAINTENANCE = "MAINTENANCE"
+    ELECTRICAL = 'ELECTRICAL'
   }

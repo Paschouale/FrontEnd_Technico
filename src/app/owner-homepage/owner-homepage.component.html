@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <h2 class="mb-4">Property Owner Homepage</h2>
+    <h2 class="mb-4">Welcome, {{ username }}!</h2>
     <button
       class="navbar-toggler"
       type="button"
@@ -23,10 +23,8 @@
 </nav>
 
 <div class="container mt-4">
-  <h2 class="mb-4">Welcome, {{ username }}!</h2>
-
   <!-- Properties Section -->
-  <p>Below are your properties:</p>
+  <!-- <p>Below are your properties:</p> -->
   <hr>
   <h3>Your Properties</h3>
   <hr>
@@ -63,9 +61,9 @@
   <ng-template #noProperties>
     <div class="text-muted mt-3">No properties found.</div>
   </ng-template>
-
+  <br><br>
   <!-- Repairs Section -->
-  <p class="mt-5">Below are the repairs for your properties:</p>
+  <!-- <p class="mt-5">Below are the repairs for your properties:</p> -->
   <hr>
   <h3>Repair List</h3>
   <hr>
