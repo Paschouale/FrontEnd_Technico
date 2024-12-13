@@ -1,1 +1,180 @@
-<router-outlet></router-outlet>
+<!-- <div class="d-flex"> -->
+    <!-- Only show the sidebar if showNav is true -->
+    <!-- <nav class="sidebar bg-white border-end" *ngIf="showNav">
+      <div class="sidebar-header p-3 text-center fs-5 fw-bold border-bottom">
+        Technico
+      </div>
+      <ul class="nav flex-column py-3"> -->
+        <!-- If ADMIN on admin-home: show admin menu -->
+        <!-- <ng-container *ngIf="role === 'ADMIN'">
+          <!-- Admin-specific links -->
+          <!-- <li class="nav-item">
+            <a class="nav-link d-flex align-items-center px-3 py-2 text-secondary" routerLink="/admin-home" routerLinkActive="active">
+              <span class="me-2 bi bi-house"></span>Admin Home
+            </a>
+          </li> -->
+          <!-- Add other admin links if needed -->
+        <!-- </ng-container> -->
+  
+        <!-- If PROPERTY_OWNER on owner-home: show owner menu -->
+        <!-- <ng-container *ngIf="role === 'PROPERTY_OWNER'"> -->
+          <!-- Property Owner-specific links -->
+          <!-- <li class="nav-item">
+            <a class="nav-link d-flex align-items-center px-3 py-2 text-secondary" routerLink="/owner-home" routerLinkActive="active">
+              <span class="me-2 bi bi-house"></span>Owner Home
+            </a>
+          </li> -->
+          <!-- Add other owner links if needed -->
+        <!-- </ng-container>
+  
+        <li class="nav-item mt-3">
+          <button class="btn btn-outline-secondary w-100" (click)="logout()">Logout</button>
+        </li>
+      </ul>
+    </nav>
+  
+    Main content area -->
+    <!-- <div class="flex-grow-1 p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+   --> 
+  <!-- app.component.html -->
+
+<!-- app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<!-- src/app/app.component.html -->
+
+<div class="app-container">
+  <!-- Header Component: Shown only on authenticated routes -->
+  <app-header *ngIf="showNav"></app-header>
+
+  <div class="main-content">
+    <!-- Sidebar (Navigation Menu): Shown only on authenticated routes -->
+    <nav class="sidebar" *ngIf="showNav">
+      <ul class="nav flex-column py-3">
+        <!-- Admin-specific links -->
+        <ng-container *ngIf="role === 'ADMIN'">
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/admin-home"
+              routerLinkActive="active"
+              aria-label="Admin Home"
+            >
+              <i class="bi bi-house me-2"></i>
+              <span>Admin Home</span>
+            </a>
+          </li>
+          <!-- Additional Admin Links -->
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/create-owner"
+              routerLinkActive="active"
+              aria-label="Create Property Owner"
+            >
+              <i class="bi bi-person-plus me-2"></i>
+              <span>Create Property Owner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/create-property"
+              routerLinkActive="active"
+              aria-label="Create Property"
+            >
+              <i class="bi bi-house-add me-2"></i>
+              <span>Create Property</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/create-repair"
+              routerLinkActive="active"
+              aria-label="Create Repair"
+            >
+              <i class="bi bi-tools me-2"></i>
+              <span>Create Repair</span>
+            </a>
+          </li>
+          <!-- Add other admin links as needed -->
+        </ng-container>
+
+        <!-- Property Owner-specific links -->
+        <ng-container *ngIf="role === 'PROPERTY_OWNER'">
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/owner-home"
+              routerLinkActive="active"
+              aria-label="Owner Home"
+            >
+              <i class="bi bi-house me-2"></i>
+              <span>{{ ownerUsername }} Home</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/contact-us"
+              routerLinkActive="active"
+              aria-label="Contact Us"
+            >
+              <i class="bi bi-envelope me-2"></i>
+              <span>Contact Us</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/about-us"
+              routerLinkActive="active"
+              aria-label="About Us"
+            >
+              <i class="bi bi-info-circle me-2"></i>
+              <span>About Us</span>
+            </a>
+          </li>
+          <!-- Add other property owner links as needed -->
+        </ng-container>
+      </ul>
+    </nav>
+
+    <!-- Router Outlet: Always rendered to display components based on routes -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Debugging Information (Remove After Verification) -->
+  <!--
+  <div *ngIf="showNav" class="debug-info">
+    <p>Current Role: {{ role }}</p>
+  </div>
+  -->
+</div>

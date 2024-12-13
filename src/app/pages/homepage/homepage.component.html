@@ -1,9 +1,20 @@
-<app-property-owners></app-property-owners>
-<hr>
-<button (click)="navigateToCreateOwner()">Create Owner</button>
-<hr>
-<app-properties></app-properties>
-<hr>
-<button (click)="navigateToCreateProperty()">Create Property</button>
-<hr>
-<app-repairs></app-repairs>
+<div class="container mt-4">
+    <h2 class="mb-4">Homepage</h2>
+    <div class="row mb-3">
+      <div class="col-12 d-flex justify-content-end">
+        <button (click)="navigateToCreateOwner()" class="btn btn-success">Create Owner</button>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-12">
+        <app-property-owners></app-property-owners>
+      </div>
+      <div class="col-md-12 mt-4">
+        <app-properties></app-properties>
+      </div>
+      <div class="col-md-12 mt-4">
+        <app-repairs></app-repairs>
+      </div>
+    </div>
+  </div>
+  

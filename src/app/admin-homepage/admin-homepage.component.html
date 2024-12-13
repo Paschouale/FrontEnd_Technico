@@ -1,0 +1,132 @@
+<!-- src/app/admin-homepage/admin-homepage.component.html -->
+
+<div class="container mt-4">
+  <h2 class="mb-4">Admin Homepage</h2>
+
+  <!-- Search Bar -->
+  <div class="mb-4">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search Repairs, Properties, or Property Owners..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchTerm.trim() !== ''">
+    <!-- Repairs Results -->
+    <div class="mb-4">
+      <h4>Repairs</h4>
+      <table class="table table-striped table-hover" *ngIf="filteredRepairs.length > 0; else noRepairs">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Repair Type</th>
+            <th>Repair Status</th>
+            <th>Cost</th>
+            <th>Description</th>
+            <th>Property ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let repair of filteredRepairs">
+            <td>{{ repair.id }}</td>
+            <td>{{ repair.repairType }}</td>
+            <td>{{ repair.repairStatus }}</td>
+            <td>{{ repair.cost }}</td>
+            <td>{{ repair.description }}</td>
+            <td>{{ repair.property.id }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noRepairs>
+        <p class="text-muted">No repairs match your search.</p>
+      </ng-template>
+    </div>
+
+    <!-- Properties Results -->
+    <div class="mb-4">
+      <h4>Properties</h4>
+      <table class="table table-striped table-hover" *ngIf="filteredProperties.length > 0; else noProperties">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>E9 Number</th>
+            <th>Address</th>
+            <th>Property Type</th>
+            <th>Year Of Construction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let property of filteredProperties">
+            <td>{{ property.id }}</td>
+            <td>{{ property.numberE9 }}</td>
+            <td>{{ property.address }}</td>
+            <td>{{ property.propertyType }}</td>
+            <td>{{ property.yearOfConstruction }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noProperties>
+        <p class="text-muted">No properties match your search.</p>
+      </ng-template>
+    </div>
+
+    <!-- Property Owners Results -->
+    <div class="mb-4">
+      <h4>Property Owners</h4>
+      <table class="table table-striped table-hover" *ngIf="filteredPropertyOwners.length > 0; else noPropertyOwners">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>VAT Number</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let owner of filteredPropertyOwners">
+            <td>{{ owner.id }}</td>
+            <td>{{ owner.name }}</td>
+            <td>{{ owner.surname }}</td>
+            <td>{{ owner.vatNumber }}</td>
+            <td>{{ owner.phoneNumber }}</td>
+            <td>{{ owner.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noPropertyOwners>
+        <p class="text-muted">No property owners match your search.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Existing Admin Navigation Links -->
+  <div class="list-group">
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="/admin-owners"
+      routerLinkActive="active"
+    >
+      Manage Property Owners
+    </a>
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="/admin-properties"
+      routerLinkActive="active"
+    >
+      Manage Properties
+    </a>
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="/admin-repairs"
+      routerLinkActive="active"
+    >
+      Manage Repairs
+    </a>
+  </div>
+</div>

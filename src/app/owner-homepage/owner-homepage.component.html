@@ -1,0 +1,219 @@
+<!-- src/app/pages/owner-homepage/owner-homepage.component.html -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <h2 class="mb-4">Property Owner Homepage</h2>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <!-- You can add navigation links here if needed -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Welcome, {{ username }}!</h2>
+
+  <!-- Properties Section -->
+  <p>Below are your properties:</p>
+  <hr>
+  <h3>Your Properties</h3>
+  <hr>
+  <table class="table table-striped table-hover" *ngIf="properties.length > 0; else noProperties">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>E9 Number</th>
+        <th>Address</th>
+        <th>Property Type</th>
+        <th>Year of Construction</th>
+        <th>Actions</th> <!-- New Actions Column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let property of properties">
+        <td>{{ property.id }}</td>
+        <td>{{ property.numberE9 }}</td>
+        <td>{{ property.address }}</td>
+        <td>{{ property.propertyType }}</td>
+        <td>{{ property.yearOfConstruction }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-success"
+            (click)="openCreateRepairModal(property)"
+          >
+            Create Repair
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noProperties>
+    <div class="text-muted mt-3">No properties found.</div>
+  </ng-template>
+
+  <!-- Repairs Section -->
+  <p class="mt-5">Below are the repairs for your properties:</p>
+  <hr>
+  <h3>Repair List</h3>
+  <hr>
+  <table class="table table-striped table-hover" *ngIf="repairs.length > 0; else noRepairs">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Repair Type</th>
+        <th>Repair Status</th>
+        <th>Cost</th>
+        <th>Description</th>
+        <th>Property ID</th>
+        <th>Actions</th> <!-- Existing Actions Column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let repair of repairs">
+        <td>{{ repair.id }}</td>
+        <td>{{ repair.repairType }}</td>
+        <td>{{ repair.repairStatus }}</td>
+        <td>{{ repair.cost }}</td>
+        <td>{{ repair.description }}</td>
+        <td>{{ repair.property.id }}</td>
+        <td>
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="requestUpdate(repair)"
+          >
+            Request Status Update
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noRepairs>
+    <div class="text-muted mt-3">No repairs found for your properties.</div>
+  </ng-template>
+</div>
+
+<!-- Existing Repair Status Update Modal -->
+<div
+  class="modal fade"
+  tabindex="-1"
+  [class.show]="showModal"
+  [style.display]="showModal ? 'block' : 'none'"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Request Repair Status Update</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeModal()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Send a message requesting an update for repair #{{ selectedRepair?.id }}
+        </p>
+        <textarea
+          class="form-control"
+          [(ngModel)]="updateMessage"
+          rows="4"
+          placeholder="Enter your message..."
+        ></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="sendUpdateRequest()">
+          Send Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop for Status Update Modal -->
+<div
+  class="modal-backdrop fade"
+  [class.show]="showModal"
+  *ngIf="showModal"
+></div>
+
+<!-- New Create Repair Modal -->
+<div
+  class="modal fade"
+  tabindex="-1"
+  [class.show]="createRepairModalVisible"
+  [style.display]="createRepairModalVisible ? 'block' : 'none'"
+  role="dialog"
+  aria-labelledby="createRepairModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="submitCreateRepair()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createRepairModalLabel">Create Repair for Property ID {{ selectedProperty?.id }}</h5>
+          <button type="button" class="btn-close" (click)="closeCreateRepairModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Repair Type Field -->
+          <div class="mb-3">
+            <label for="repairType" class="form-label">Repair Type</label>
+            <select
+              id="repairType"
+              class="form-select"
+              [(ngModel)]="createRepairForm.repairType"
+              name="repairType"
+              required
+            >
+              <option value="" disabled selected>Select Repair Type</option>
+              <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- Description Field -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              id="description"
+              class="form-control"
+              [(ngModel)]="createRepairForm.description"
+              name="description"
+              rows="3"
+              placeholder="Enter repair description"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeCreateRepairModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Repair</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop for Create Repair Modal -->
+<div
+  class="modal-backdrop fade"
+  [class.show]="createRepairModalVisible"
+  *ngIf="createRepairModalVisible"
+></div>

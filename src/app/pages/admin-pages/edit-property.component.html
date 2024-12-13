@@ -1,0 +1,37 @@
+<div class="container mt-4">
+    <h2>Edit Property</h2>
+    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">E9 Number</label>
+        <input class="form-control" formControlName="numberE9" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input class="form-control" formControlName="address" type="text" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Year Of Construction</label>
+        <input class="form-control" formControlName="yearOfConstruction" type="number" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Property Type</label>
+        <!-- <input class="form-control" formControlName="propertyType" type="text" required> -->
+        <select class="form-control" formControlName="propertyType">
+            <!-- <option value="" disabled>Select PropertyType</option> -->
+            <option *ngFor="let type of propertyTypes" [value]="type">
+                {{ type }}
+            </option>
+        </select>        
+        <!-- You may want to use a select input if propertyType is an enumeration -->
+      </div>
+      <!-- If changing owner: -->
+      <!-- <div class="mb-3">
+        <label class="form-label">Owner ID</label>
+        <input class="form-control" formControlName="propertyOwnerId" type="number" required>
+      </div> -->
+     
+      <button class="btn btn-primary me-2" type="submit" [disabled]="propertyForm.invalid">Update</button>
+      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  

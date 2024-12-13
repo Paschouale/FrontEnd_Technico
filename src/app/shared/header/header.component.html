@@ -1,0 +1,24 @@
+<!-- src/app/shared/header/header.component.html -->
+
+<header class="app-header">
+    <div class="header-content">
+      <div class="logo">
+        <!-- Application Logo or Title -->
+        <span class="fs-4 fw-bold">Technico</span>
+      </div>
+      
+      <!-- Property Owner Information -->
+      <div class="user-info" *ngIf="role === 'PROPERTY_OWNER'">
+        You are logged in as: {{ firstName }} {{ lastName }}
+      </div>
+      
+      <!-- Admin Information -->
+      <div class="user-info" *ngIf="role === 'ADMIN'">
+        You are logged in as: {{ userName }}
+      </div>
+      
+      <!-- Logout Button -->
+      <button class="btn btn-outline-secondary ms-3" (click)="logout()">Logout</button>
+    </div>
+  </header>
+  

@@ -1,15 +1,24 @@
 <h3>Property List</h3>
 <hr>
-<table>
-    <th>ID</th><th>E9 Number</th><th>Property Owner</th><th>Property Type</th><th>Address</th><th>Year Of Construction</th>
-    @for (property of properties; track $index) {
-        <tr>
-            <td>{{property.id}}</td>
-            <td>{{property.numberE9}}</td>
-            <td>{{property.propertyOwner.name}} {{property.propertyOwner.surname}}</td>
-            <td>{{property.propertyType}}</td>
-            <td>{{property.address}}</td>
-            <td>{{property.yearOfConstruction}}</td>
-        </tr>
-    }
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>E9 Number</th>
+      <th>Property Owner</th>
+      <th>Property Type</th>
+      <th>Address</th>
+      <th>Year Of Construction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let property of properties">
+      <td>{{property.id}}</td>
+      <td>{{property.numberE9}}</td>
+      <td>{{property.propertyOwner.name}} {{property.propertyOwner.surname}}</td>
+      <td>{{property.propertyType}}</td>
+      <td>{{property.address}}</td>
+      <td>{{property.yearOfConstruction}}</td>
+    </tr>
+  </tbody>
 </table>
