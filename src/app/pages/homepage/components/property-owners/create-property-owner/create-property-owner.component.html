@@ -1,71 +1,206 @@
-<div class="container mt-4">
-    <h3>Create Property Owner</h3>
-    <hr>
-    <form [formGroup]="propertyOwnerForm" (submit)="onSubmit()" novalidate>
-      <div class="mb-3">
-        <label class="form-label">VatNumber</label>
-        <input formControlName="vatNumber" type="text" class="form-control" maxlength="9">
-        <div *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('required') && propertyOwnerForm.get('vatNumber')?.touched" class="text-danger">
-          Required
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h3 class="mb-0">Create Property Owner</h3>
         </div>
-        <div *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('pattern') && propertyOwnerForm.get('vatNumber')?.touched" class="text-danger">
-          Must be 9 digits
+        <div class="card-body">
+          <form [formGroup]="propertyOwnerForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- VAT Number -->
+            <div class="mb-4">
+              <label for="vatNumber" class="form-label">
+                <i class="bi bi-123"></i> VAT Number
+              </label>
+              <input
+                id="vatNumber"
+                type="text"
+                class="form-control"
+                formControlName="vatNumber"
+                maxlength="9"
+                placeholder="Enter 9-digit VAT Number"
+                aria-describedby="vatNumberHelp"
+                required
+              />
+              <!-- Validation Feedback -->
+              <div *ngIf="propertyOwnerForm.get('vatNumber')?.touched" class="form-text">
+                <span *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('required')" class="text-danger">
+                  VAT Number is required.
+                </span>
+                <span *ngIf="propertyOwnerForm.get('vatNumber')?.hasError('pattern')" class="text-danger">
+                  VAT Number must be exactly 9 digits.
+                </span>
+              </div>
+            </div>
+
+            <!-- Name and Surname -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="name" class="form-label">
+                  <i class="bi bi-person-fill"></i> First Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                  placeholder="Enter First Name"
+                  required
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('name')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('name')?.hasError('required')" class="text-danger">
+                    First Name is required.
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="surname" class="form-label">
+                  <i class="bi bi-person-fill"></i> Surname
+                </label>
+                <input
+                  id="surname"
+                  type="text"
+                  class="form-control"
+                  formControlName="surname"
+                  placeholder="Enter Surname"
+                  required
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('surname')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('surname')?.hasError('required')" class="text-danger">
+                    Surname is required.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-4">
+              <label for="address" class="form-label">
+                <i class="bi bi-house-fill"></i> Address
+              </label>
+              <input
+                id="address"
+                type="text"
+                class="form-control"
+                formControlName="address"
+                placeholder="Enter Address"
+              />
+            </div>
+
+            <!-- Phone Number and Email -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="phoneNumber" class="form-label">
+                  <i class="bi bi-telephone-fill"></i> Phone Number
+                </label>
+                <input
+                  id="phoneNumber"
+                  type="text"
+                  class="form-control"
+                  formControlName="phoneNumber"
+                  placeholder="e.g., 697XXXXXXX or 21XXXXXXXX"
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('phoneNumber')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('phoneNumber')?.hasError('pattern')" class="text-danger">
+                    Phone Number must start with 2 or 6 and be exactly 10 digits.
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">
+                  <i class="bi bi-envelope-fill"></i> Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="Enter Email"
+                  required
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('email')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('email')?.hasError('required')" class="text-danger">
+                    Email is required.
+                  </span>
+                  <span *ngIf="propertyOwnerForm.get('email')?.hasError('pattern')" class="text-danger">
+                    Please enter a valid email address.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Username and Password -->
+            <div formGroupName="loginUser" class="row mb-4">
+              <div class="col-md-6">
+                <label for="username" class="form-label">
+                  <i class="bi bi-person-circle"></i> Username
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  class="form-control"
+                  formControlName="username"
+                  placeholder="Enter Username"
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('loginUser.username')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('required')" class="text-danger">
+                    Username is required.
+                  </span>
+                  <span *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('minlength')" class="text-danger">
+                    Username must be at least 5 characters long.
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="password" class="form-label">
+                  <i class="bi bi-lock-fill"></i> Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="Enter Password"
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyOwnerForm.get('loginUser.password')?.touched" class="form-text">
+                  <span *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('required')" class="text-danger">
+                    Password is required.
+                  </span>
+                  <span *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('minlength')" class="text-danger">
+                    Password must be at least 4 characters long.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end">
+              <button
+                type="submit"
+                class="btn btn-success me-3"
+                [disabled]="propertyOwnerForm.invalid"
+                aria-label="Create Owner"
+              >
+                <i class="bi bi-check-circle-fill me-2"></i> Create
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancel()"
+                aria-label="Cancel Creation"
+              >
+                <i class="bi bi-x-circle-fill me-2"></i> Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input formControlName="name" type="text" class="form-control">
-        <div *ngIf="propertyOwnerForm.get('name')?.hasError('required') && propertyOwnerForm.get('name')?.touched" class="text-danger">
-          Required
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Surname</label>
-        <input formControlName="surname" type="text" class="form-control">
-        <div *ngIf="propertyOwnerForm.get('surname')?.hasError('required') && propertyOwnerForm.get('surname')?.touched" class="text-danger">
-          Required
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Address</label>
-        <input formControlName="address" type="text" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Phone Number</label>
-        <input formControlName="phoneNumber" type="text" class="form-control" maxlength="10">
-        <div *ngIf="propertyOwnerForm.get('phoneNumber')?.hasError('pattern') && propertyOwnerForm.get('phoneNumber')?.touched" class="text-danger">
-          Must be 10 digits
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input formControlName="email" type="email" class="form-control">
-        <div *ngIf="propertyOwnerForm.get('email')?.hasError('required') && propertyOwnerForm.get('email')?.touched" class="text-danger">
-          Required
-        </div>
-        <div *ngIf="propertyOwnerForm.get('email')?.hasError('pattern') && propertyOwnerForm.get('email')?.touched" class="text-danger">
-          Must be a correct email
-        </div>
-      </div>
-      <div formGroupName="loginUser" class="mb-3">
-        <label class="form-label">Username</label>
-        <input formControlName="username" type="text" class="form-control">
-        <div *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('required') && propertyOwnerForm.get('loginUser.username')?.touched" class="text-danger">
-          Required
-        </div>
-        <div *ngIf="propertyOwnerForm.get('loginUser.username')?.hasError('minlength') && propertyOwnerForm.get('loginUser.username')?.touched" class="text-danger">
-          Must be at least 5 characters
-        </div>
-        <label class="form-label mt-2">Password</label>
-        <input formControlName="password" type="password" class="form-control">
-        <div *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('required') && propertyOwnerForm.get('loginUser.password')?.touched" class="text-danger">
-          Required
-        </div>
-        <div *ngIf="propertyOwnerForm.get('loginUser.password')?.hasError('minlength') && propertyOwnerForm.get('loginUser.password')?.touched" class="text-danger">
-          Must be at least 4 characters
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary" [disabled]="propertyOwnerForm.invalid">Submit</button>
-    </form>
+    </div>
   </div>
-  
+</div>

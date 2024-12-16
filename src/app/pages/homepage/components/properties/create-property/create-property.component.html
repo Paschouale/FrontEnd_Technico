@@ -1,60 +1,136 @@
 <div class="container mt-5">
-    <h2>Create Property</h2>
-    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <label for="numberE9" class="form-label">E9 Number</label>
-            <input type="text" id="numberE9" formControlName="numberE9" class="form-control" required>
-            <div *ngIf="propertyForm.get('numberE9')?.hasError('required') && propertyForm.get('numberE9')?.touched" class="text-danger">
-                Required
-            </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Create Property</h3>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" novalidate>
+              <!-- E9 Number with 'E9-' prefix and 5 digits max -->
+              <div class="mb-4">
+                <label for="numberE9" class="form-label">
+                  <i class="bi bi-bar-chart-line-fill"></i> E9 Number
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text" id="e9-prefix">E9-</span>
+                  <input
+                    id="numberE9"
+                    type="text"
+                    class="form-control"
+                    formControlName="numberE9"
+                    maxlength="5"
+                    placeholder="Enter 5-digit E9 Number"
+                    aria-describedby="e9-prefix numberE9Help"
+                    required
+                    (input)="formatNumberE9()"
+                  />
+                </div>
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyForm.get('numberE9')?.touched" class="form-text">
+                  <span *ngIf="propertyForm.get('numberE9')?.hasError('required')" class="text-danger">
+                    E9 Number is required.
+                  </span>
+                  <span *ngIf="propertyForm.get('numberE9')?.hasError('pattern')" class="text-danger">
+                    E9 Number must be exactly 5 digits.
+                  </span>
+                </div>
+              </div>
+  
+              <!-- Address -->
+              <div class="mb-4">
+                <label for="address" class="form-label">
+                  <i class="bi bi-house-fill"></i> Address
+                </label>
+                <input
+                  id="address"
+                  type="text"
+                  class="form-control"
+                  formControlName="address"
+                  placeholder="Enter Address"
+                />
+              </div>
+  
+              <!-- Year of Construction -->
+              <div class="mb-4">
+                <label for="yearOfConstruction" class="form-label">
+                  <i class="bi bi-calendar-check-fill"></i> Year of Construction
+                </label>
+                <input
+                  id="yearOfConstruction"
+                  type="number"
+                  class="form-control"
+                  formControlName="yearOfConstruction"
+                  placeholder="Enter Year of Construction"
+                />
+              </div>
+  
+              <!-- Property Type -->
+              <div class="mb-4">
+                <label for="propertyType" class="form-label">
+                  <i class="bi bi-building-fill"></i> Property Type
+                </label>
+                <select
+                  id="propertyType"
+                  formControlName="propertyType"
+                  class="form-select"
+                  required
+                >
+                  <option value="" disabled selected>Select Property Type</option>
+                  <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
+                </select>
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyForm.get('propertyType')?.touched" class="form-text">
+                  <span *ngIf="propertyForm.get('propertyType')?.hasError('required')" class="text-danger">
+                    Property Type is required.
+                  </span>
+                </div>
+              </div>
+  
+              <!-- Property Owner ID -->
+              <div formGroupName="propertyOwner" class="mb-4">
+                <label for="propertyOwnerId" class="form-label">
+                  <i class="bi bi-people-fill"></i> Property Owner ID
+                </label>
+                <input
+                  type="number"
+                  id="propertyOwnerId"
+                  formControlName="id"
+                  class="form-control"
+                  placeholder="Enter Property Owner ID"
+                  required
+                />
+                <!-- Validation Feedback -->
+                <div *ngIf="propertyForm.get('propertyOwner.id')?.touched" class="form-text">
+                  <span *ngIf="propertyForm.get('propertyOwner.id')?.hasError('required')" class="text-danger">
+                    Property Owner ID is required.
+                  </span>
+                </div>
+              </div>
+  
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-end">
+                <button
+                  type="submit"
+                  class="btn btn-primary me-3"
+                  [disabled]="propertyForm.invalid"
+                  aria-label="Create Property"
+                >
+                  <i class="bi bi-check-circle-fill me-2"></i> Create Property
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="cancel()"
+                  aria-label="Cancel Creation"
+                >
+                  <i class="bi bi-x-circle-fill me-2"></i> Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" id="address" formControlName="address" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="yearOfConstruction" class="form-label">Year of Construction</label>
-            <input type="number" id="yearOfConstruction" formControlName="yearOfConstruction" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="propertyType" class="form-label">Property Type</label>
-            <select id="propertyType" formControlName="propertyType" class="form-select" required>
-                <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
-            </select>
-            <div *ngIf="propertyForm.get('propertyType')?.hasError('required') && propertyForm.get('propertyType')?.touched" class="text-danger">
-                Required
-            </div>
-        </div>
-
-        <!-- <div class="mb-3">
-        <label for="propertyOwnerId" class="form-label">Owner ID</label>
-        <input type="number" id="propertyOwnerId" formControlName="propertyOwner.id" class="form-control" required>
-      </div> -->
-
-        <!-- <div class="mb-3" formGroupName="propertyOwner">
-            <div>
-                Property Owner ID
-                <input formControlName="id" type="number">
-                @if(propertyForm.get("propertyOwner.id")?.hasError("required")){
-                Required
-                }
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary" [disabled]="propertyForm.invalid">Create Property</button>
-    </form>
-</div> -->
-<div class="mb-3" formGroupName="propertyOwner">
-    <label for="propertyOwnerId" class="form-label">Property Owner ID</label>
-    <input type="number" id="propertyOwnerId" formControlName="id" class="form-control" required>
-    <div *ngIf="propertyForm.get('propertyOwner.id')?.hasError('required') && propertyForm.get('propertyOwner.id')?.touched" class="text-danger">
-        Required
+      </div>
     </div>
   </div>
-
-  <button type="submit" class="btn btn-primary" [disabled]="propertyForm.invalid">Create Property</button>
-</form>
-</div>
+  

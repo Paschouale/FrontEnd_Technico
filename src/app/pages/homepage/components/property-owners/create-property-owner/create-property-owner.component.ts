@@ -55,4 +55,8 @@ export class CreatePropertyOwnerComponent implements OnInit{
     }
   }
 
+  // Added cancel() method
+  cancel(){
+    this.router.navigate(['/admin-owners']);
+  }
 }

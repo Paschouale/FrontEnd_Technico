@@ -1,0 +1,49 @@
+/* src/app/pages/homepage/components/property-owners/create-property-owner/create-property-owner.component.scss */
+
+/* Card Styling */
+.card {
+    border-radius: 0.75rem;
+  }
+  
+  .card-header {
+    border-bottom: none;
+  }
+  
+  /* Form Labels */
+  .form-label {
+    font-weight: 600;
+  }
+  
+  /* Input Focus State */
+  .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Green focus shadow */
+    border-color: #28a745; /* Bootstrap success border color */
+  }
+  
+  /* Validation Messages */
+  .text-danger {
+    font-size: 0.875em;
+  }
+  
+  /* Button Hover Effects */
+  .btn-success:hover {
+    background-color: #218838; /* Darker shade of green */
+    border-color: #1e7e34;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1rem;
+    }
+  
+    .form-label {
+      font-size: 1em;
+    }
+  }
+  

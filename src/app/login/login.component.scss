@@ -1,67 +1,353 @@
-.login-container {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  
-    h2 {
-      margin-bottom: 1.5rem;
-      color: #333;
-    }
-  
-    .form-group {
-      margin-bottom: 1.2rem;
-      text-align: left;
-  
-      label {
-        font-weight: bold;
-        color: #555;
-      }
-  
-      input {
-        width: 100%;
-        padding: 0.8rem;
-        margin-top: 0.3rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 1rem;
-  
-        &:focus {
-          outline: none;
-          border-color: #007bff;
-        }
-      }
-    }
-  
-    .btn {
-      width: 100%;
-      padding: 0.8rem;
-      font-size: 1rem;
-      font-weight: bold;
-      color: white;
-      background: #007bff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s;
-  
-      &:hover {
-        background: #0056b3;
-      }
-  
-      &:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-      }
-    }
-  
-    .error-message {
-      margin-top: 1rem;
-      color: red;
-      font-weight: bold;
+/* src/app/login/login.component.scss */
+
+:host {
+  /* Ensure the component occupies the full viewport */
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; // Prevent scrollbars due to animations
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); // Subtle background gradient
+}
+
+/* Background Icons Styling */
+.background-icons {
+  position: fixed; /* Fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through, except on icons */
+  z-index: 0; /* Layer behind the login form */
+}
+
+/* Individual Icon Styling */
+.background-icons i {
+  position: absolute;
+  font-size: 2rem;
+  color: rgba(0, 123, 255, 0.2);
+  animation: moveIcons linear infinite;
+  cursor: grab;
+  transition: transform 0.3s, color 0.3s;
+  pointer-events: auto; /* Enable click events on icons */
+  left: 0;
+  top: 0;
+  will-change: transform, color;
+}
+
+/* Define a list of colors for variety */
+$icon-colors: (
+  rgba(255, 99, 132, 0.2), // Red
+  rgba(54, 162, 235, 0.2), // Blue
+  rgba(255, 206, 86, 0.2), // Yellow
+  rgba(75, 192, 192, 0.2), // Green
+  rgba(153, 102, 255, 0.2), // Purple
+  rgba(255, 159, 64, 0.2)  // Orange
+);
+
+/* Define the number of icons and their initial positions */
+@for $i from 1 through 15 {
+  // Assign random values with units to variables
+  $randTop: random(100) * 1%;         // Generates a value between 1% and 100%
+  $randLeft: random(100) * 1%;        // Generates a value between 1% and 100%
+  $randDuration: (random(20) + 10) * 1s; // Generates a duration between 11s and 30s
+  $randDelay: random(20) * 1s;        // Generates a delay between 1s and 20s
+
+  // Assign color from the list, cycling through if necessary
+  $color: nth($icon-colors, ($i % length($icon-colors)) + 1);
+
+  .background-icons i:nth-child(#{$i}) {
+    top: $randTop;
+    left: $randLeft;
+    animation-duration: $randDuration;
+    animation-delay: $randDelay;
+    transform: translate(-50%, -50%);
+    color: $color; // Assign color from the list
+    font-size: (random(3) + 1) * 1rem; // Random font size between 1rem and 4rem
+
+    // Alternate between different animations for diversity
+    @if ($i % 2 == 0) {
+      animation-name: moveIconsAlternative;
+    } @else {
+      animation-name: moveIcons;
     }
   }
-  
+}
+
+/* Keyframes for moving icons diagonally */
+@keyframes moveIcons {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(80px, 80px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+}
+
+/* Keyframes for alternative movement */
+@keyframes moveIconsAlternative {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(-80px, 80px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Apply bounce when the 'bounce' class is added */
+.background-icons i.bounce {
+  animation: bounce 0.6s;
+  color: rgba(0, 123, 255, 0.5); // Enhance color on bounce
+}
+
+/* Hover Effects for Icons */
+.background-icons i:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  color: rgba(0, 123, 255, 0.4); // Slightly darker on hover
+}
+
+/* Logo Container Styling */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  max-width: 150px;
+  height: auto;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Login Form Container Styling */
+.login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1; /* Ensure it appears above background-icons */
+  backdrop-filter: blur(5px); /* Slight blur for a modern look */
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+    letter-spacing: 1px;
+  }
+
+  form {
+    width: 100%;
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-group-text {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px 0 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      padding: 0.6rem 0.75rem;
+    }
+
+    .form-control {
+      border-radius: 0 8px 8px 0;
+      border-left: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      padding: 0.6rem 0.75rem;
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+      }
+
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+
+    .btn-toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 0.75rem;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:focus {
+        outline: none;
+      }
+
+      i {
+        font-size: 1.2rem;
+      }
+    }
+
+    .invalid-feedback {
+      display: block;
+      color: #dc3545;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      text-align: left;
+      padding-left: 0.75rem;
+    }
+
+    .error-message {
+      margin-bottom: 1rem;
+      color: #dc3545;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.75rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      &:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      &:active {
+        background-color: #004080;
+        transform: translateY(0);
+        box-shadow: none;
+      }
+
+      &:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .forgot-password {
+    font-size: 0.9rem;
+    color: #007bff;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .login-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .logo {
+    max-width: 120px;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .input-group-text {
+    font-size: 1rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .form-control {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .btn-toggle-password {
+    right: 0.6rem;
+  }
+
+  .btn-login {
+    font-size: 1rem;
+    padding: 0.6rem 0;
+  }
+
+  .forgot-password {
+    font-size: 0.85rem;
+  }
+}

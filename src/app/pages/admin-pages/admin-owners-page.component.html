@@ -1,15 +1,94 @@
+<!-- src/app/pages/admin-pages/admin-owners-page.component.html -->
+
 <div class="container mt-4">
-    <h2>Manage Property Owners</h2>
-    <button class="btn btn-secondary mb-3" (click)="backToHome()">Back</button>
-    <hr>
-    <table class="table table-striped table-hover">
-      <thead>
+  <h2 class="mb-4">Manage Property Owners</h2>
+  
+  <!-- Back Button -->
+  <button class="btn btn-secondary mb-3" (click)="backToHome()">
+    <i class="bi bi-arrow-left-circle me-2"></i> Back
+  </button>
+  
+  <!-- Search and Add Owner -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Search Input -->
+    <div class="input-group w-50">
+      <span class="input-group-text" id="search-icon">
+        <i class="bi bi-search"></i>
+      </span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by name, VAT number, etc..."
+        aria-label="Search"
+        aria-describedby="search-icon"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    
+    <!-- Add Owner Button -->
+    <button class="btn btn-primary" (click)="navigateToCreateOwner()">
+      <i class="bi bi-plus-circle me-2"></i> Add Property Owner
+    </button>
+  </div>
+  
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  
+  <!-- Owners Table -->
+  <div class="table-responsive" *ngIf="!isLoading">
+    <table class="table table-striped table-hover align-middle">
+      <thead class="table-dark">
         <tr>
-          <th>ID</th><th>Name</th><th>Surname</th><th>VatNumber</th><th>Phone Number</th><th>Username</th><th>Password</th><th>Property IDs</th><th>Actions</th>
+          <th scope="col" (click)="sortTable('id')">
+            ID
+            <i [ngClass]="getSortIcon('id')"></i>
+          </th>
+          <th scope="col" (click)="sortTable('name')">
+            Name
+            <i [ngClass]="getSortIcon('name')"></i>
+          </th>
+          <th scope="col" (click)="sortTable('surname')">
+            Surname
+            <i [ngClass]="getSortIcon('surname')"></i>
+          </th>
+          <th scope="col" (click)="sortTable('vatNumber')">
+            VAT Number
+            <i [ngClass]="getSortIcon('vatNumber')"></i>
+          </th>
+          <th scope="col" (click)="sortTable('phoneNumber')">
+            Phone Number
+            <i [ngClass]="getSortIcon('phoneNumber')"></i>
+          </th>
+          <th scope="col" (click)="sortTable('username')">
+            Username
+            <i [ngClass]="getSortIcon('username')"></i>
+          </th>
+          <th scope="col">
+            Password
+          </th>
+          <th scope="col">
+            Property IDs
+          </th>
+          <th scope="col">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let owner of propertyOwners">
+        <tr *ngFor="let owner of filteredPropertyOwners | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
           <td>{{owner.id}}</td>
           <td>{{owner.name}}</td>
           <td>{{owner.surname}}</td>
@@ -17,18 +96,31 @@
           <td>{{owner.phoneNumber}}</td>
           <td>{{owner.loginUser.username}}</td>
           <td>{{owner.loginUser.password}}</td>
-
           <td>
-            <ng-container *ngFor="let property of owner.propertyList">
-              {{property.id}}<br>
-            </ng-container>
+            <span *ngFor="let property of owner.propertyList; let last = last">
+              <i class="bi bi-house-door-fill text-success me-1"></i>{{property.id}}<span *ngIf="!last">, </span>
+            </span>
           </td>
           <td>
-            <button class="btn btn-sm btn-warning me-2" (click)="updateOwner(owner)">Update</button>
-            <button class="btn btn-sm btn-danger" (click)="deletePropertyOwner(owner)">Delete</button>
+            <button class="btn btn-sm btn-warning me-2" (click)="updateOwner(owner)" aria-label="Update Property Owner">
+              <i class="bi bi-pencil-square me-1"></i> Update
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deletePropertyOwner(owner)" aria-label="Delete Property Owner">
+              <i class="bi bi-trash-fill me-1"></i> Delete
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
   
+  <!-- Pagination Controls -->
+  <div class="d-flex justify-content-center mt-4" *ngIf="!isLoading && filteredPropertyOwners.length > 0">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+  
+  <!-- No Results Message -->
+  <div *ngIf="!isLoading && filteredPropertyOwners.length === 0" class="text-muted text-center mt-5">
+    No property owners match your search criteria.
+  </div>
+</div>

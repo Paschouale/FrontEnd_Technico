@@ -1,7 +1,8 @@
+// src/app/admin-homepage/admin-homepage.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Repair } from '../shared/model/repair';
@@ -10,6 +11,8 @@ import { PropertyOwner } from '../shared/model/property-owner';
 import { RepairService } from '../shared/services/repair.service';
 import { PropertyService } from '../shared/services/property.service';
 import { PropertyOwnerService } from '../shared/services/property-owner.service';
+
+declare var bootstrap: any; // Declare Bootstrap for modal control
 
 @Component({
   selector: 'app-admin-homepage',
@@ -36,6 +39,11 @@ export class AdminHomepageComponent implements OnInit {
   filteredRepairs: Repair[] = [];
   filteredProperties: Property[] = [];
   filteredPropertyOwners: PropertyOwner[] = [];
+
+  // Selected items for modals
+  selectedRepair: Repair | null = null;
+  selectedProperty: Property | null = null;
+  selectedOwner: PropertyOwner | null = null;
 
   constructor(
     private router: Router,
@@ -79,9 +87,11 @@ export class AdminHomepageComponent implements OnInit {
     });
 
     // Setup search with debouncing
-    this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((term) => {
-      this.performSearch(term);
-    });
+    this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((term) => {
+        this.performSearch(term);
+      });
   }
 
   // Existing navigation and logout methods
@@ -145,5 +155,52 @@ export class AdminHomepageComponent implements OnInit {
       owner.phoneNumber.toLowerCase().includes(lowerTerm) ||
       owner.email.toLowerCase().includes(lowerTerm)
     );
+  }
+
+  // Clear Search Method
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.filteredRepairs = [];
+    this.filteredProperties = [];
+    this.filteredPropertyOwners = [];
+  }
+
+  // Method to get badge color based on repair status
+  getStatusBadge(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return 'success';
+      case 'in progress':
+        return 'warning';
+      case 'pending':
+        return 'secondary';
+      default:
+        return 'primary';
+    }
+  }
+
+  // Methods to open modals with selected item details
+  viewRepairDetails(repair: Repair): void {
+    this.selectedRepair = repair;
+    const repairModal = new bootstrap.Modal(
+      document.getElementById('repairDetailsModal')
+    );
+    repairModal.show();
+  }
+
+  viewPropertyDetails(property: Property): void {
+    this.selectedProperty = property;
+    const propertyModal = new bootstrap.Modal(
+      document.getElementById('propertyDetailsModal')
+    );
+    propertyModal.show();
+  }
+
+  viewOwnerDetails(owner: PropertyOwner): void {
+    this.selectedOwner = owner;
+    const ownerModal = new bootstrap.Modal(
+      document.getElementById('ownerDetailsModal')
+    );
+    ownerModal.show();
   }
 }

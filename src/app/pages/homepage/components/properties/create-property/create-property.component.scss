@@ -1,0 +1,49 @@
+/* src/app/pages/homepage/components/property/create-property/create-property.component.scss */
+
+/* Card Styling */
+.card {
+    border-radius: 0.75rem;
+  }
+  
+  .card-header {
+    border-bottom: none;
+  }
+  
+  /* Form Labels */
+  .form-label {
+    font-weight: 600;
+  }
+  
+  /* Input Focus State */
+  .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap primary color */
+    border-color: #007bff; /* Bootstrap primary border color */
+  }
+  
+  /* Validation Messages */
+  .text-danger {
+    font-size: 0.875em;
+  }
+  
+  /* Button Hover Effects */
+  .btn-primary:hover {
+    background-color: #0069d9; /* Darker shade of primary color */
+    border-color: #0062cc;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1rem;
+    }
+  
+    .form-label {
+      font-size: 1em;
+    }
+  }
+  

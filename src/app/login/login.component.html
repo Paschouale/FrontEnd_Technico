@@ -1,21 +1,112 @@
-<div class="container login-container mt-5">
-  <h2 class="text-center mb-4">Login</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="needs-validation">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input formControlName="username" type="text" class="form-control" id="username" required>
-      <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="text-danger">
-        Username is required.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input formControlName="password" type="password" class="form-control" id="password" required>
-      <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger">
-        Password is required.
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
-    <div *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</div>
-  </form>
+<!-- src/app/login/login.component.html -->
+
+<!-- Background Icons Container -->
+<div class="background-icons">
+  <i
+    *ngFor="let icon of backgroundIcons; let i = index"
+    [class]="icon.class"
+    [ngStyle]="{'--i': i}"
+    (click)="triggerBounce($event)"
+    (mousedown)="onDragStart($event)"
+    (touchstart)="onTouchStart($event)"
+    aria-hidden="true"
+  ></i>
 </div>
+
+<!-- Login Form Container -->
+<div class="login-container">
+  <div class="form-wrapper">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="assets/images/technico.png" alt="Company Logo" class="logo" />
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+      <!-- Username Field -->
+      <div class="input-group mb-4">
+        <span class="input-group-text" id="username-icon">
+          <i class="bi bi-person-fill"></i>
+        </span>
+        <input
+          type="text"
+          formControlName="username"
+          class="form-control"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="username-icon"
+          required
+        />
+      </div>
+      <!-- Username Error -->
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+      >
+        <span *ngIf="loginForm.get('username')?.errors?.['required']">
+          Username is required.
+        </span>
+        <span *ngIf="loginForm.get('username')?.errors?.['minlength']">
+          Username must be at least 4 characters long.
+        </span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-group mb-4">
+        <span class="input-group-text" id="password-icon">
+          <i class="bi bi-lock-fill"></i>
+        </span>
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          class="form-control"
+          placeholder="Password"
+          aria-label="Password"
+          aria-describedby="password-icon"
+          required
+        />
+        <button
+          type="button"
+          class="btn btn-toggle-password"
+          (click)="togglePasswordVisibility()"
+          aria-label="Toggle Password Visibility"
+        >
+          <i [class]="hidePassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+        </button>
+      </div>
+      <!-- Password Error -->
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+      >
+        <span *ngIf="loginForm.get('password')?.errors?.['required']">
+          Password is required.
+        </span>
+        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+          Password must be at least 4 characters long.
+        </span>
+      </div>
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message mb-3">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Login Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-login"
+        [disabled]="loginForm.invalid || isLoading"
+        [attr.aria-disabled]="loginForm.invalid || isLoading"
+        aria-label="Login Button"
+      >
+        <i class="bi bi-box-arrow-in-right" *ngIf="!isLoading"></i>
+        <span *ngIf="!isLoading">Login</span>
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <span *ngIf="isLoading">Logging in...</span>
+      </button>
+    </form>
