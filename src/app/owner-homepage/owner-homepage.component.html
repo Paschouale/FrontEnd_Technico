@@ -3,108 +3,125 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <h2 class="mb-4">Welcome, {{ username }}!</h2>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <!-- You can add navigation links here if needed -->
-      </ul>
-    </div>
+    <button class="btn btn-link" (click)="logout()">Logout</button>
   </div>
 </nav>
 
 <div class="container mt-4">
+
+  <!-- Edit Profile Button -->
+  <div class="mb-4">
+    <button class="btn btn-primary" (click)="toggleEditMode()">Edit Profile</button>
+  </div>
+
+  <!-- Edit Form (Shown only if editMode is true) -->
+  <div *ngIf="editMode">
+    <h2>Edit Owner</h2>
+    <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input class="form-control" formControlName="username" type="text" readonly>
+        <div *ngIf="ownerForm.get('username')?.hasError('minlength') && ownerForm.get('username')?.touched" class="text-danger">
+          Must be at least 5 characters
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" formControlName="password" type="password">
+        <div *ngIf="ownerForm.get('password')?.hasError('minlength') && ownerForm.get('password')?.touched" class="text-danger">
+          Must be at least 4 characters
+        </div>
+      </div>
+      <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid">Update</button>
+      <button class="btn btn-secondary" type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
+    <hr>
+  </div>
+
   <!-- Properties Section -->
-  <!-- <p>Below are your properties:</p> -->
   <hr>
   <h3>Your Properties</h3>
   <hr>
-  <table class="table table-striped table-hover" *ngIf="properties.length > 0; else noProperties">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>E9 Number</th>
-        <th>Address</th>
-        <th>Property Type</th>
-        <th>Year of Construction</th>
-        <th>Actions</th> <!-- New Actions Column -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let property of properties">
-        <td>{{ property.id }}</td>
-        <td>{{ property.numberE9 }}</td>
-        <td>{{ property.address }}</td>
-        <td>{{ property.propertyType }}</td>
-        <td>{{ property.yearOfConstruction }}</td>
-        <td>
-          <button
-            class="btn btn-sm btn-success"
-            (click)="openCreateRepairModal(property)"
-          >
-            Create Repair
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div *ngIf="properties.length > 0; else noProperties">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col" *ngFor="let property of properties">
+        <div class="card property-card h-100 shadow-sm position-relative">
+          <div class="card-icon-bg text-success">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-3">
+              Property #{{ property.id }}
+            </h5>
+            <p class="mb-2"><strong>E9 Number:</strong> {{ property.numberE9 }}</p>
+            <p class="mb-2"><strong>Address:</strong> {{ property.address }}</p>
+            <p class="mb-2"><strong>Type:</strong> {{ property.propertyType }}</p>
+            <p class="mb-3"><strong>Year:</strong> {{ property.yearOfConstruction }}</p>
+          </div>
+          <div class="card-footer bg-white d-flex justify-content-end">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="openCreateRepairModal(property)"
+              aria-label="Create Repair"
+            >
+              <i class="bi bi-tools me-1"></i> Create Repair
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-template #noProperties>
     <div class="text-muted mt-3">No properties found.</div>
   </ng-template>
+
   <br><br>
+
   <!-- Repairs Section -->
-  <!-- <p class="mt-5">Below are the repairs for your properties:</p> -->
   <hr>
   <h3>Repair List</h3>
   <hr>
-  <table class="table table-striped table-hover" *ngIf="repairs.length > 0; else noRepairs">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Repair Type</th>
-        <th>Repair Status</th>
-        <th>Cost</th>
-        <th>Description</th>
-        <th>Property ID</th>
-        <th>Actions</th> <!-- Existing Actions Column -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let repair of repairs">
-        <td>{{ repair.id }}</td>
-        <td>{{ repair.repairType }}</td>
-        <td>{{ repair.repairStatus }}</td>
-        <td>{{ repair.cost }}</td>
-        <td>{{ repair.description }}</td>
-        <td>{{ repair.property.id }}</td>
-        <td>
-          <button
-            class="btn btn-primary btn-sm"
-            (click)="requestUpdate(repair)"
-          >
-            Request Status Update
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div *ngIf="repairs.length > 0; else noRepairs">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col" *ngFor="let repair of repairs">
+        <div class="card repair-card h-100 shadow-sm position-relative">
+          <div class="card-icon-bg text-primary">
+            <i class="bi bi-wrench-adjustable-circle"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-3">
+              Repair #{{ repair.id }}
+            </h5>
+            <p class="mb-2"><strong>Type:</strong> {{ repair.repairType }}</p>
+            <p class="mb-2 d-flex align-items-center">
+              <strong>Status:</strong>
+              <span class="badge bg-secondary ms-2">{{ repair.repairStatus }}</span>
+            </p>
+            <p class="mb-2"><strong>Cost:</strong> ${{ repair.cost }}</p>
+            <p class="mb-3"><strong>Description:</strong> {{ repair.description }}</p>
+            <p class="mb-0"><strong>Property ID:</strong> {{ repair.property.id }}</p>
+          </div>
+          <div class="card-footer bg-white d-flex justify-content-end">
+            <button
+              class="btn btn-primary btn-sm"
+              (click)="requestUpdate(repair)"
+              aria-label="Request Status Update"
+            >
+              <i class="bi bi-envelope me-1"></i> Request Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-template #noRepairs>
     <div class="text-muted mt-3">No repairs found for your properties.</div>
   </ng-template>
 </div>
 
-<!-- Existing Repair Status Update Modal -->
+<!-- Existing modals remain unchanged -->
+
+<!-- Repair Status Update Modal -->
 <div
   class="modal fade"
   tabindex="-1"
@@ -146,14 +163,13 @@
   </div>
 </div>
 
-<!-- Modal Backdrop for Status Update Modal -->
 <div
   class="modal-backdrop fade"
   [class.show]="showModal"
   *ngIf="showModal"
 ></div>
 
-<!-- New Create Repair Modal -->
+<!-- Create Repair Modal -->
 <div
   class="modal fade"
   tabindex="-1"
@@ -209,7 +225,6 @@
   </div>
 </div>
 
-<!-- Modal Backdrop for Create Repair Modal -->
 <div
   class="modal-backdrop fade"
   [class.show]="createRepairModalVisible"

@@ -16,8 +16,8 @@
   
   /* Input Focus State */
   .form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap primary color */
-    border-color: #007bff; /* Bootstrap primary border color */
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Green focus shadow */
+    border-color: #28a745; /* Bootstrap success border color */
   }
   
   /* Validation Messages */
@@ -27,8 +27,8 @@
   
   /* Button Hover Effects */
   .btn-primary:hover {
-    background-color: #0069d9; /* Darker shade of primary color */
-    border-color: #0062cc;
+    background-color: #218838; /* Darker shade of green */
+    border-color: #1e7e34;
   }
   
   .btn-secondary:hover {

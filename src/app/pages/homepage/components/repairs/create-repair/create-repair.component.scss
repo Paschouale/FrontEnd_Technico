@@ -1,0 +1,68 @@
+/* Card Styling */
+.card {
+    border-radius: 0.75rem;
+  }
+  
+  .card-header {
+    border-bottom: none;
+  }
+  
+  /* Form Labels */
+  .form-label {
+    font-weight: 600;
+  }
+  
+  /* Input Focus State */
+  .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    border-color: #28a745;
+  }
+  
+  /* Validation Messages */
+  .text-danger {
+    font-size: 0.875em;
+  }
+  
+  /* Button Hover Effects */
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  /* Input Group */
+  .date-time-input-group .form-control {
+    border-left: 0;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  
+  .date-time-input-group .input-group-text {
+    background-color: #f8f9fa;
+    border-right: 0;
+  }
+  
+  .date-time-input-group .form-control:hover,
+  .date-time-input-group .form-control:focus {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.25);
+  }
+  
+  .date-time-input-group .input-group-text i {
+    font-size: 1.2rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1rem;
+    }
+  
+    .form-label {
+      font-size: 1em;
+    }
+  }
+  

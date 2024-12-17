@@ -1,8 +1,6 @@
-// src/app/pages/owner-homepage/owner-homepage.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Repair } from '../shared/model/repair';
 import { Property } from '../shared/model/property';
 import { RepairService } from '../shared/services/repair.service';
@@ -11,12 +9,14 @@ import { PropertyOwnerService } from '../shared/services/property-owner.service'
 import { Router } from '@angular/router';
 import { RepairType } from '../shared/enumeration/repair-type';
 import { RepairStatus } from '../shared/enumeration/repair-status';
-
+import { PropertyOwner } from '../shared/model/property-owner';
+import { Role } from '../shared/enumeration/role';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-owner-homepage',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './owner-homepage.component.html',
   styleUrls: ['./owner-homepage.component.scss']
 })
@@ -29,7 +29,6 @@ export class OwnerHomepageComponent implements OnInit {
   selectedRepair: Repair | null = null;
   updateMessage: string = '';
 
-  // Create Repair Modal Properties
   createRepairModalVisible: boolean = false;
   selectedProperty: Property | null = null;
   createRepairForm: {
@@ -39,16 +38,19 @@ export class OwnerHomepageComponent implements OnInit {
     repairType: '',
     description: ''
   };
-
-  // Define available repair types (Assuming these are similar to admin's repair types)
   repairTypes: RepairType[] = [
     RepairType.ELECTRICAL,
     RepairType.PLUMBING,
     RepairType.INSULATION,
     RepairType.PAINTING,
     RepairType.FRAMES
-    // Add other RepairType enum values as needed
   ];
+
+  // Fields for the edit-owner functionality
+  ownerForm!: FormGroup;
+  ownerId!: number;
+  owner!: PropertyOwner;
+  editMode: boolean = false; // toggle to show/hide the edit form
 
   constructor(
     private repairService: RepairService,
@@ -62,19 +64,21 @@ export class OwnerHomepageComponent implements OnInit {
     if (userStr) {
       const user = JSON.parse(userStr);
       this.username = user.username;
-      const ownerId = user.propertyOwnerId;
-      if (ownerId) {
+      this.ownerId = user.propertyOwnerId;
+
+      if (this.ownerId) {
         // Fetch Repairs
-        this.repairService.getRepairsByPropertyOwnerId(ownerId).subscribe((result: Repair[]) => {
+        this.repairService.getRepairsByPropertyOwnerId(this.ownerId).subscribe((result: Repair[]) => {
           this.repairs = result;
         });
 
-        // Fetch Property Owner to get VAT Number
-        this.propertyOwnerService.getPropertyOwnerById(ownerId).subscribe({
+        // Fetch Property Owner details
+        this.propertyOwnerService.getPropertyOwnerById(this.ownerId).subscribe({
           next: (owner) => {
+            this.owner = owner;
+
             const vatNumber = owner.vatNumber;
             if (vatNumber) {
-              // Fetch Properties using VAT Number
               this.propertyService.getPropertiesByOwnerVat(vatNumber).subscribe({
                 next: (props: Property[]) => {
                   this.properties = props;
@@ -85,9 +89,21 @@ export class OwnerHomepageComponent implements OnInit {
                 }
               });
             } else {
-              console.error('VAT Number not found for owner ID:', ownerId);
+              console.error('VAT Number not found for owner ID:', this.ownerId);
               alert('Your VAT Number is missing. Please contact support.');
             }
+
+            // Initialize form with the same structure as edit-owner
+            this.ownerForm = new FormGroup({
+              vatNumber: new FormControl(owner.vatNumber || '', [Validators.required, Validators.pattern("\\d{9}")]),
+              name: new FormControl(owner.name || '', Validators.required),
+              surname: new FormControl(owner.surname || '', Validators.required),
+              address: new FormControl(owner.address || ''),
+              phoneNumber: new FormControl(owner.phoneNumber || '', Validators.pattern("^[26]\\d{9}$")),
+              email: new FormControl(owner.email || '', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]),
+              username: new FormControl(owner.loginUser?.username || '', Validators.minLength(5)),
+              password: new FormControl('', Validators.minLength(4))
+            });
           },
           error: (err) => {
             console.error('Failed to fetch property owner details:', err);
@@ -106,19 +122,16 @@ export class OwnerHomepageComponent implements OnInit {
 
   sendUpdateRequest() {
     if (this.selectedRepair && this.updateMessage.trim()) {
-      // Call the service method to send the request
-      this.repairService
-        .sendStatusUpdateRequest(this.selectedRepair.id, this.updateMessage)
-        .subscribe({
-          next: () => {
-            alert('Your update request has been sent successfully.');
-            this.showModal = false;
-          },
-          error: (err) => {
-            console.error(err);
-            alert('Failed to send update request.');
-          },
-        });
+      this.repairService.sendStatusUpdateRequest(this.selectedRepair.id, this.updateMessage).subscribe({
+        next: () => {
+          alert('Your update request has been sent successfully.');
+          this.showModal = false;
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to send update request.');
+        },
+      });
     } else {
       alert('Please enter a message before sending the request.');
     }
@@ -133,10 +146,6 @@ export class OwnerHomepageComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  /**
-   * Opens the Create Repair modal for the specified property.
-   * @param property The property for which to create a repair.
-   */
   openCreateRepairModal(property: Property): void {
     this.selectedProperty = property;
     this.createRepairForm = {
@@ -146,9 +155,6 @@ export class OwnerHomepageComponent implements OnInit {
     this.createRepairModalVisible = true;
   }
 
-  /**
-   * Closes the Create Repair modal.
-   */
   closeCreateRepairModal(): void {
     this.createRepairModalVisible = false;
     this.selectedProperty = null;
@@ -158,10 +164,6 @@ export class OwnerHomepageComponent implements OnInit {
     };
   }
 
-  /**
-   * Submits the Create Repair form.
-   * Creates a repair with cost=0 and status="STANDBY".
-   */
   submitCreateRepair(): void {
     if (!this.selectedProperty) {
       alert('No property selected.');
@@ -173,28 +175,74 @@ export class OwnerHomepageComponent implements OnInit {
       return;
     }
 
-    // Define the new repair object with predefined cost and status
     const newRepair: Partial<Repair> = {
       repairType: this.createRepairForm.repairType,
-      repairStatus: RepairStatus.STANDBY, // Set status to "STANDBY"
-      cost: 0, // Set cost to 0
+      repairStatus: RepairStatus.STANDBY,
+      cost: 0,
       description: this.createRepairForm.description.trim(),
-      property: this.selectedProperty // Associate with the selected property
+      property: this.selectedProperty
     };
 
-    // Proceed to create the repair
     this.repairService.createRepair(newRepair).subscribe({
       next: (createdRepair: Repair) => {
         alert('Repair created successfully with status "STANDBY" and cost 0.');
-        // Optionally, add the new repair to the repairs list
         this.repairs.push(createdRepair);
-        // Close the modal
         this.closeCreateRepairModal();
       },
       error: (err) => {
         console.error('Failed to create repair:', err);
         alert('Failed to create repair. Please try again.');
       }
+    });
+  }
+
+  // Toggle edit mode
+  toggleEditMode() {
+    this.editMode = !this.editMode;
+  }
+
+  // Update the owner using the service (same logic as edit-owner)
+ onSubmit() {
+    if (this.ownerForm.valid) {
+      const updatedOwner: PropertyOwner = {
+        ...this.ownerForm.value,
+        id: this.ownerId,
+        loginUser: {
+          username: this.ownerForm.get('username')?.value,
+          password: this.ownerForm.get('password')?.value,
+          role: 'PROPERTY_OWNER'
+        }
+      };
+
+      this.propertyOwnerService.updatePropertyOwnerById(this.ownerId, updatedOwner)
+      .pipe(catchError((err) => {
+        console.log(err);
+        alert(err.error);
+        return EMPTY
+      }))
+        .subscribe(() => {
+          alert('Property Owner updated successfully!');
+          // Update local owner object
+          this.owner = updatedOwner;
+          this.editMode = false;
+        });
+    } else {
+      alert('Please fill in all required fields correctly before submitting.');
+    }
+  }
+
+  cancelEdit() {
+    this.editMode = false;
+    // Reset form to the owner's original data
+    this.ownerForm.setValue({
+      vatNumber: this.owner.vatNumber || '',
+      name: this.owner.name || '',
+      surname: this.owner.surname || '',
+      address: this.owner.address || '',
+      phoneNumber: this.owner.phoneNumber || '',
+      email: this.owner.email || '',
+      username: this.owner.loginUser?.username || '',
+      password: ''
     });
   }
 }

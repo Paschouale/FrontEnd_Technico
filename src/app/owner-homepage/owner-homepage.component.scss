@@ -1,17 +1,77 @@
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: #ddd;
+}
+
+/* Icon background for card type, positioned absolutely */
+.card .card-icon-bg {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  font-size: 5rem;
+  opacity: 0.1;
+}
+
+.property-card .card-icon-bg {
+  color: #198754; /* success color */
+}
+
+.repair-card .card-icon-bg {
+  color: #0d6efd; /* primary color */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.card-text strong {
+  color: #333;
+}
+
+.card-footer {
+  border-top: none;
+  background-color: #ffffff;
+}
+
+.badge {
+  font-size: 0.9rem;
+}
+
+.btn.btn-sm:hover {
+  opacity: 0.9;
+}
+
 .modal {
-    transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+
+.modal.show .modal-dialog {
+  transform: translate(0,0);
+}
+
+.modal-backdrop {
+  transition: opacity 0.15s linear;
+  opacity: 0.5;
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1.1rem;
   }
-  
-  .modal.show .modal-dialog {
-    transform: translate(0,0);
-  }
-  
-  .modal-backdrop {
-    transition: opacity 0.15s linear;
-    opacity: 0.5;
-  }
-  
-  textarea.form-control {
-    resize: vertical;
-  }
-  
+}

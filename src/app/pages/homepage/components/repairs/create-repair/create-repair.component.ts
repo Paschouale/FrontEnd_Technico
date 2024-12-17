@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RepairService } from '../../../../../shared/services/repair.service';
 import { Router } from '@angular/router';
 import { RepairType } from '../../../../../shared/enumeration/repair-type';
@@ -12,7 +12,7 @@ import { EMPTY, catchError } from 'rxjs';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './create-repair.component.html',
-  styleUrls: ['./create-repair.component.scss'] 
+  styleUrls: ['./create-repair.component.scss']
 })
 export class CreateRepairComponent implements OnInit {
 
@@ -24,8 +24,8 @@ export class CreateRepairComponent implements OnInit {
 
   ngOnInit(): void {
     this.repairForm = new FormGroup({
-      scheduledRepairDate: new FormControl(''),
-      repairStatus: new FormControl(RepairStatus.STANDBY, Validators.required),
+      scheduledRepairDate: new FormControl('', []),
+      repairStatus: new FormControl('', Validators.required),
       repairType: new FormControl('', Validators.required),
       cost: new FormControl('', [Validators.min(0)]),
       description: new FormControl(''),
@@ -48,12 +48,21 @@ export class CreateRepairComponent implements OnInit {
       .pipe(catchError((err) => {
         console.log(err);
         alert(err.error);
-        return EMPTY
+        return EMPTY;
       }))
       .subscribe(() => {
-        alert('Repair created successfully!')
-        this.router.navigate(['/admin-repairs'])
+        alert('Repair created successfully!');
+        this.router.navigate(['/admin-repairs']);
       });
     }
+  }
+
+  cancel() {
+    this.router.navigate(['/admin-repairs']);
+  }
+
+  onScheduledDateChange(inputElement: HTMLInputElement) {
+    // Once the user picks a value, blur the input field to close the native date-time picker
+    inputElement.blur();
   }
 }
