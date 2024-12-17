@@ -21,6 +21,7 @@ import { EMPTY, catchError } from 'rxjs';
   styleUrls: ['./owner-homepage.component.scss']
 })
 export class OwnerHomepageComponent implements OnInit {
+
   repairs: Repair[] = [];
   properties: Property[] = [];
   username: string | null = null;
@@ -245,4 +246,18 @@ export class OwnerHomepageComponent implements OnInit {
       password: ''
     });
   }
+
+    // Method to get badge color based on repair status
+    getStatusBadge(status: string): string {
+      switch (status.toLowerCase()) {
+        case 'complete':
+          return 'success';
+        case 'inprogress':
+          return 'warning';
+        case 'pending':
+          return 'secondary';
+        default:
+          return 'primary';
+      }
+    }
 }

@@ -1,11 +1,17 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Manage Repairs</h2>
-  
-  <!-- Back Button -->
-  <button class="btn btn-secondary mb-3" (click)="backToHome()">
-    <i class="bi bi-arrow-left-circle me-2"></i> Back
-  </button>
-  
+  <div class="mb-4 entity-header">
+    <h2>
+      Manage Repairs
+    </h2>
+    <div>
+      <!-- Back Button -->
+      <button class="btn btn-secondary mb-3" (click)="backToHome()">
+        <i class="bi bi-arrow-left-circle me-2"></i> Back
+      </button>
+    </div>
+  </div>
+
+
   <!-- Search and Add Repair Section -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <!-- Search Input -->
@@ -13,38 +19,26 @@
       <span class="input-group-text" id="search-icon">
         <i class="bi bi-search"></i>
       </span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by Repair Type, Status, Property ID, etc..."
-        aria-label="Search"
-        aria-describedby="search-icon"
-        [(ngModel)]="searchTerm"
-        (input)="onSearch()"
-      />
-      <button
-        class="btn btn-outline-secondary"
-        type="button"
-        (click)="clearSearch()"
-        aria-label="Clear search"
-      >
+      <input type="text" class="form-control" placeholder="Search by Repair Type, Status, Property ID, etc..."
+        aria-label="Search" aria-describedby="search-icon" [(ngModel)]="searchTerm" (input)="onSearch()" />
+      <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" aria-label="Clear search">
         <i class="bi bi-x-circle"></i>
       </button>
     </div>
-    
+
     <!-- Add Repair Button -->
-    <button class="btn btn-primary" (click)="navigateToCreateRepair()">
+    <button class="btn btn-success" (click)="navigateToCreateRepair()">
       <i class="bi bi-plus-circle me-2"></i> Add Repair
     </button>
   </div>
-  
+
   <!-- Loading Indicator -->
   <div *ngIf="isLoading" class="text-center my-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  
+
   <!-- Repairs Table -->
   <div class="table-responsive" *ngIf="!isLoading">
     <table class="table table-striped table-hover align-middle">
@@ -80,7 +74,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let repair of filteredRepairs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
+        <tr
+          *ngFor="let repair of filteredRepairs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
           <td>{{repair.id}}</td>
           <td>{{repair.repairType}}</td>
           <td>{{repair.repairStatus}}</td>
@@ -99,12 +94,12 @@
       </tbody>
     </table>
   </div>
-  
+
   <!-- Pagination Controls -->
-  <div class="d-flex justify-content-center mt-4" *ngIf="!isLoading && filteredRepairs.length > 0">
+  <div class="d-flex justify-content-center mt-4 customer-pagination-control-active" *ngIf="!isLoading && filteredRepairs.length > 0">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
-  
+
   <!-- No Results Message -->
   <div *ngIf="!isLoading && filteredRepairs.length === 0" class="text-muted text-center mt-5">
     No repairs match your search criteria.

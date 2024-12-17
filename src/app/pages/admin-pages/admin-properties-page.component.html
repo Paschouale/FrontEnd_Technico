@@ -1,10 +1,15 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Manage Properties</h2>
-  
-  <!-- Back Button -->
-  <button class="btn btn-secondary mb-3" (click)="backToHome()">
-    <i class="bi bi-arrow-left-circle me-2"></i> Back
-  </button>
+  <div class="mb-4 entity-header">
+    <h2>
+      Manage Properties
+    </h2>
+    <div>
+      <!-- Back Button -->
+      <button class="btn btn-secondary mb-3" (click)="backToHome()">
+        <i class="bi bi-arrow-left-circle me-2"></i> Back
+      </button>
+    </div>
+  </div>
   
   <!-- Search and Add Property Section -->
   <div class="d-flex justify-content-between align-items-center mb-3">
@@ -33,7 +38,7 @@
     </div>
     
     <!-- Add Property Button -->
-    <button class="btn btn-primary" (click)="navigateToCreateProperty()">
+    <button class="btn btn-success" (click)="navigateToCreateProperty()">
       <i class="bi bi-plus-circle me-2"></i> Add Property
     </button>
   </div>
@@ -101,7 +106,7 @@
   </div>
   
   <!-- Pagination Controls -->
-  <div class="d-flex justify-content-center mt-4" *ngIf="!isLoading && filteredProperties.length > 0">
+  <div class="d-flex justify-content-center mt-4 customer-pagination-control-active" *ngIf="!isLoading && filteredProperties.length > 0">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
   

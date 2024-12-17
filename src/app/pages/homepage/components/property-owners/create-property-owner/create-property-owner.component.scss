@@ -16,8 +16,8 @@
   
   /* Input Focus State */
   .form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap primary color */
-    border-color: #007bff; /* Bootstrap primary border color */
+    box-shadow: 0 0 0 0.2rem var(--property-owner-color-secondary); /* Bootstrap primary color */
+    border-color: var(--property-owner-color); /* Bootstrap primary border color */
   }
   
   /* Validation Messages */
@@ -26,10 +26,10 @@
   }
   
   /* Button Hover Effects */
-  .btn-success:hover {
-    background-color: #0069d9; /* Darker shade of primary color */
-    border-color: #0062cc;
-  }
+  // .btn-success:hover {
+  //   background-color: #0069d9; /* Darker shade of primary color */
+  //   border-color: #0062cc;
+  // }
   
   
   .btn-secondary:hover {

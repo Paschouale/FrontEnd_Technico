@@ -95,7 +95,7 @@
             <p class="mb-2"><strong>Type:</strong> {{ repair.repairType }}</p>
             <p class="mb-2 d-flex align-items-center">
               <strong>Status:</strong>
-              <span class="badge bg-secondary ms-2">{{ repair.repairStatus }}</span>
+              <span class="badge bg-{{ getStatusBadge(repair.repairStatus) }} ms-2">{{ repair.repairStatus }}</span>
             </p>
             <p class="mb-2"><strong>Cost:</strong> ${{ repair.cost }}</p>
             <p class="mb-3"><strong>Description:</strong> {{ repair.description }}</p>
@@ -218,7 +218,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeCreateRepairModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Create Repair</button>
+          <button type="submit" class="btn btn-success">Create Repair</button>
         </div>
       </form>
     </div>

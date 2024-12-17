@@ -32,15 +32,78 @@
   <!-- Search Results -->
   <div *ngIf="searchTerm.trim() !== ''" class="search-results">
 
+    <!-- Property Owners Results -->
+    <div class="mb-5 results-zone">
+      <h4 class="mb-3 text-property-owner">Property Owners ({{ filteredPropertyOwners.length }})</h4>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" *ngFor="let owner of filteredPropertyOwners">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-person me-2 text-property-owner"></i>
+                Owner ID: {{ owner.id }}
+              </h5>
+              <p class="card-text"><strong>Name:</strong> {{ owner.name }} {{ owner.surname }}</p>
+              <p class="card-text"><strong>VAT Number:</strong> {{ owner.vatNumber }}</p>
+              <p class="card-text"><strong>Phone:</strong> {{ owner.phoneNumber }}</p>
+              <p class="card-text"><strong>Email:</strong> {{ owner.email }}</p>
+              <p class="card-text"><strong>Properties:</strong>
+                <span *ngFor="let property of owner.propertyList; let last = last">
+                  {{ property.id }}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-sm btn-property-owner" (click)="viewOwnerDetails(owner)">
+                <i class="bi bi-eye"></i> View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="filteredPropertyOwners.length === 0" class="text-muted mt-3">
+        No property owners match your search.
+      </div>
+    </div>
+
+      <!-- Properties Results -->
+      <div class="mb-5 results-zone">
+        <h4 class="mb-3 text-property">Properties ({{ filteredProperties.length }})</h4>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div class="col" *ngFor="let property of filteredProperties">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="bi bi-house-door me-2 text-property"></i>
+                  Property ID: {{ property.id }}
+                </h5>
+                <p class="card-text"><strong>E9 Number:</strong> {{ property.numberE9 }}</p>
+                <p class="card-text"><strong>Type:</strong> {{ property.propertyType }}</p>
+                <p class="card-text"><strong>Address:</strong> {{ property.address }}</p>
+                <p class="card-text"><strong>Year of Construction:</strong> {{ property.yearOfConstruction }}</p>
+              </div>
+              <div class="card-footer text-end">
+                <button class="btn btn-sm btn-property" (click)="viewPropertyDetails(property)">
+                  <i class="bi bi-eye"></i> View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="filteredProperties.length === 0" class="text-muted mt-3">
+          No properties match your search.
+        </div>
+      </div>
+
     <!-- Repairs Results -->
-    <div class="mb-5">
-      <h4 class="mb-3">Repairs ({{ filteredRepairs.length }})</h4>
+    <div class="mb-5 results-zone">
+      <h4 class="mb-3 text-repair">Repairs ({{ filteredRepairs.length }})</h4>
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col" *ngFor="let repair of filteredRepairs">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
               <h5 class="card-title">
-                <i class="bi bi-tools me-2 text-primary"></i>
+                <i class="bi bi-tools me-2 text-repair"></i>
                 Repair ID: {{ repair.id }}
               </h5>
               <p class="card-text"><strong>Type:</strong> {{ repair.repairType }}</p>
@@ -55,7 +118,7 @@
               <p class="card-text"><strong>Property ID:</strong> {{ repair.property.id }}</p>
             </div>
             <div class="card-footer text-end">
-              <button class="btn btn-sm btn-primary" (click)="viewRepairDetails(repair)">
+              <button class="btn btn-sm btn-repair" (click)="viewRepairDetails(repair)">
                 <i class="bi bi-eye"></i> View Details
               </button>
             </div>
@@ -66,69 +129,6 @@
         No repairs match your search.
       </div>
     </div>
-
-    <!-- Properties Results -->
-    <div class="mb-5">
-      <h4 class="mb-3">Properties ({{ filteredProperties.length }})</h4>
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col" *ngFor="let property of filteredProperties">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">
-                <i class="bi bi-house-door me-2 text-success"></i>
-                Property ID: {{ property.id }}
-              </h5>
-              <p class="card-text"><strong>E9 Number:</strong> {{ property.numberE9 }}</p>
-              <p class="card-text"><strong>Type:</strong> {{ property.propertyType }}</p>
-              <p class="card-text"><strong>Address:</strong> {{ property.address }}</p>
-              <p class="card-text"><strong>Year of Construction:</strong> {{ property.yearOfConstruction }}</p>
-            </div>
-            <div class="card-footer text-end">
-              <button class="btn btn-sm btn-success" (click)="viewPropertyDetails(property)">
-                <i class="bi bi-eye"></i> View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="filteredProperties.length === 0" class="text-muted mt-3">
-        No properties match your search.
-      </div>
-    </div>
-
-    <!-- Property Owners Results -->
-    <div class="mb-5">
-      <h4 class="mb-3">Property Owners ({{ filteredPropertyOwners.length }})</h4>
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col" *ngFor="let owner of filteredPropertyOwners">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">
-                <i class="bi bi-person me-2 text-warning"></i>
-                Owner ID: {{ owner.id }}
-              </h5>
-              <p class="card-text"><strong>Name:</strong> {{ owner.name }} {{ owner.surname }}</p>
-              <p class="card-text"><strong>VAT Number:</strong> {{ owner.vatNumber }}</p>
-              <p class="card-text"><strong>Phone:</strong> {{ owner.phoneNumber }}</p>
-              <p class="card-text"><strong>Email:</strong> {{ owner.email }}</p>
-              <p class="card-text"><strong>Properties:</strong>
-                <span *ngFor="let property of owner.propertyList; let last = last">
-                  {{ property.id }}<span *ngIf="!last">, </span>
-                </span>
-              </p>
-            </div>
-            <div class="card-footer text-end">
-              <button class="btn btn-sm btn-warning" (click)="viewOwnerDetails(owner)">
-                <i class="bi bi-eye"></i> View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="filteredPropertyOwners.length === 0" class="text-muted mt-3">
-        No property owners match your search.
-      </div>
-    </div>
   </div>
 
   <!-- Enhanced Admin Navigation Links -->
@@ -137,12 +137,12 @@
   <div class="col">
     <div class="card h-100 shadow-sm navigation-card">
       <div class="card-body d-flex flex-column justify-content-center align-items-center">
-        <i class="bi bi-people display-4 text-primary mb-3"></i>
+        <i class="bi bi-people display-4 text-property-owner mb-3"></i>
         <h5 class="card-title">Manage Property Owners</h5>
         <p class="card-text text-center">
           Add, edit, and manage property owners efficiently.
         </p>
-        <a routerLink="/admin-owners" class="btn btn-primary mt-auto">
+        <a routerLink="/admin-owners" class="btn btn-property-owner mt-auto">
           <i class="bi bi-arrow-right-circle me-2"></i> Go to Owners
         </a>
       </div>
@@ -153,12 +153,12 @@
   <div class="col">
     <div class="card h-100 shadow-sm navigation-card">
       <div class="card-body d-flex flex-column justify-content-center align-items-center">
-        <i class="bi bi-house-door display-4 text-success mb-3"></i>
+        <i class="bi bi-house-door display-4 text-property mb-3"></i>
         <h5 class="card-title">Manage Properties</h5>
         <p class="card-text text-center">
           Oversee property listings, details, and statuses seamlessly.
         </p>
-        <a routerLink="/admin-properties" class="btn btn-success mt-auto">
+        <a routerLink="/admin-properties" class="btn btn-property mt-auto">
           <i class="bi bi-arrow-right-circle me-2"></i> Go to Properties
         </a>
       </div>
@@ -169,12 +169,12 @@
   <div class="col">
     <div class="card h-100 shadow-sm navigation-card">
       <div class="card-body d-flex flex-column justify-content-center align-items-center">
-        <i class="bi bi-tools display-4 text-warning mb-3"></i>
+        <i class="bi bi-tools display-4 text-repair mb-3"></i>
         <h5 class="card-title">Manage Repairs</h5>
         <p class="card-text text-center">
           Track and update repair requests and their statuses.
         </p>
-        <a routerLink="/admin-repairs" class="btn btn-warning mt-auto">
+        <a routerLink="/admin-repairs" class="btn btn-repair mt-auto">
           <i class="bi bi-arrow-right-circle me-2"></i> Go to Repairs
         </a>
       </div>

@@ -168,9 +168,9 @@ export class AdminHomepageComponent implements OnInit {
   // Method to get badge color based on repair status
   getStatusBadge(status: string): string {
     switch (status.toLowerCase()) {
-      case 'completed':
+      case 'complete':
         return 'success';
-      case 'in progress':
+      case 'inprogress':
         return 'warning';
       case 'pending':
         return 'secondary';

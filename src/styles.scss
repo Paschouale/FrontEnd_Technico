@@ -1,7 +1,126 @@
+:root {
+  --property-owner-color: #6082b6;
+  --property-owner-color-secondary: #98b5e0;
+  --property-color: #056360;
+  --property-color-secondary: #33c3be;
+  --repair-color: #9f2b68;
+  --repair-color-secondary: #d25c9b;
+}
+
 body {
     background: #f8f9fa;
     font-family: system-ui, sans-serif;
     margin: 0;
     padding: 0;
   }
+
+  .bg-property-owner{
+    background-color: var(--property-owner-color);
+    color: white;
+  }
+
+  .text-property-owner{
+    color: var(--property-owner-color);
+  }
+
+  .btn-property-owner{
+    background-color: var(--property-owner-color);
+    color: white;
+  }
+
+  .btn-property-owner:hover{
+    background-color: var(--property-owner-color);
+    color: white;
+  }
+
+  .btn-property-owner:hover{
+    filter: brightness(90%);
+    background-color: var(--property-owner-color);
+    color: white;
+  }
+
+  .btn-property-owner:active:focus{
+    filter: brightness(90%);
+    background-color: var(--property-owner-color);
+    color: white;
+    border: 1px solid var(--property-owner-color);
+  }
+  
+  .btn-property-owner:disabled{
+    filter: grayscale(10%);
+    background-color: var(--property-owner-color);
+    color: white;
+  }
+
+  .bg-property{
+    background-color: var(--property-color);
+    color: white;
+  }
+
+  .text-property{
+    color: var(--property-color);
+  }
+  
+  .btn-property{
+    background-color: var(--property-color);
+    color: white;
+  }
+
+  .btn-property:hover{
+    filter: brightness(90%);
+    background-color: var(--property-color);
+    color: white;
+  }
+
+  .btn-property:active:focus{
+    filter: brightness(90%);
+    background-color: var(--property-color);
+    color: white;
+    border: 1px solid var(--property-color);
+  }
+  
+  .btn-property:disabled{
+    filter: grayscale(10%);
+    background-color: var(--property-color);
+    color: white;
+  }
+
+  .bg-repair{
+    background-color: var(--repair-color);
+    color: white;
+  }
+
+  .text-repair{
+    color: var(--repair-color);
+  }
+
+  .btn-repair{
+    background-color: var(--repair-color);
+    color: white;
+  }
+
+  .btn-repair:hover{
+    background-color: var(--repair-color);
+    color: white;
+  }
+
+  .btn-repair:hover{
+    filter: brightness(90%);
+    background-color: var(--repair-color);
+    color: white;
+  }
+
+  .btn-repair:active:focus{
+    filter: brightness(90%);
+    background-color: var(--repair-color);
+    color: white;
+    border: 1px solid var(--repair-color);
+  }
+  
+  .btn-repair:disabled{
+    filter: grayscale(10%);
+    background-color: var(--repair-color);
+    color: white;
+  }
+
   

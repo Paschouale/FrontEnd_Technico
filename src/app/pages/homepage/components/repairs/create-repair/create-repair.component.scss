@@ -14,8 +14,8 @@
   
   /* Input Focus State */
   .form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem var(--repair-color-secondary);
+    border-color: var(--repair-color);
   }
   
   /* Validation Messages */
@@ -24,10 +24,10 @@
   }
   
   /* Button Hover Effects */
-  .btn-success:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-  }
+  // .btn-success:hover {
+  //   background-color: #218838;
+  //   border-color: #1e7e34;
+  // }
   
   .btn-secondary:hover {
     background-color: #6c757d;
@@ -47,8 +47,8 @@
   
   .date-time-input-group .form-control:hover,
   .date-time-input-group .form-control:focus {
-    border-color: #28a745 !important;
-    box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.25);
+    border-color: var(--repair-color) !important;
+    box-shadow: 0 0 0 0.2rem var(--repair-color-secondary);
   }
   
   .date-time-input-group .input-group-text i {
@@ -64,5 +64,10 @@
     .form-label {
       font-size: 1em;
     }
+  }
+
+  .form-select:focus{
+    box-shadow: 0 0 0 0.2rem var(--repair-color-secondary);
+    border-color: var(--repair-color);
   }
   

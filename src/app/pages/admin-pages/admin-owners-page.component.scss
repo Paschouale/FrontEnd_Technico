@@ -1,5 +1,19 @@
 /* src/app/pages/admin-pages/admin-owners-page.component.scss */
 
+.entity-header{
+  border-bottom: 3px solid var(--property-owner-color);
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep { 
+  .customer-pagination-control-active {
+    .ngx-pagination .current {
+      background-color: #212529;
+    }
+  }
+ }
+
 /* Notification Dropdown Styling */
 .notification-dropdown {
     top: 100%;
