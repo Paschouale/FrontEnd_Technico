@@ -24,6 +24,7 @@ export class CreatePropertyComponent implements OnInit {
   propertyForm!: FormGroup;
   propertyTypes = Object.values(PropertyType); // Populate property types
   propertyOwners: PropertyOwner[] = [];
+  errorMessages: string[] = []; // Array to hold dynamic error messages
 
   @ViewChild('successModal') successModal!: TemplateRef<any>;
   @ViewChild('errorModal') errorModal!: TemplateRef<any>;
@@ -52,7 +53,7 @@ export class CreatePropertyComponent implements OnInit {
     this.propertyForm = new FormGroup({
       numberE9: new FormControl('', [
         Validators.required,
-        Validators.pattern("^\\d{5}$") // Pattern for exactly 5 digits
+        Validators.pattern("^\\d+$") // Pattern for exactly 5 digits
       ]),
       address: new FormControl(''),
       yearOfConstruction: new FormControl(''),
@@ -70,9 +71,9 @@ export class CreatePropertyComponent implements OnInit {
       let value: string = control.value;
       // Remove any non-digit characters
       value = value.replace(/\D/g, '');
-      // Limit to 5 digits
-      if (value.length > 5) {
-        value = value.slice(0, 5);
+      // Limit to 10 digits
+      if (value.length > 10) {
+        value = value.slice(0, 10);
       }
       control.setValue(value, { emitEvent: false });
     }
@@ -95,8 +96,25 @@ export class CreatePropertyComponent implements OnInit {
         .pipe(
           catchError((err) => {
             console.log(err);
-            // Open Error Modal instead of alert
-            this.modalService.open(this.errorModal);
+            this.errorMessages = []; // Reset error messages
+
+            // Extract error messages from the backend response
+            if (err.error) {
+              if (typeof err.error === 'string') {
+                this.errorMessages.push(err.error);
+              } else if (Array.isArray(err.error.errors)) {
+                this.errorMessages = err.error.errors;
+              } else if (err.error.message) {
+                this.errorMessages.push(err.error.message);
+              } else {
+                this.errorMessages.push('An unknown error occurred.');
+              }
+            } else {
+              this.errorMessages.push('An unknown error occurred.');
+            }
+
+            // Open Error Modal with the dynamic error messages
+            this.modalService.open(this.errorModal, { ariaLabelledBy: 'error-modal-title' });
             return EMPTY;
           })
         )
@@ -104,7 +122,7 @@ export class CreatePropertyComponent implements OnInit {
           // Open Success Modal instead of alert
           this.modalService.open(this.successModal);
           // Optionally, navigate after closing modal
-          // this.router.navigate(['/admin-properties']);
+          this.router.navigate(['/admin-properties']);
         });
     } else {
       // Open Error Modal if form is invalid instead of alert

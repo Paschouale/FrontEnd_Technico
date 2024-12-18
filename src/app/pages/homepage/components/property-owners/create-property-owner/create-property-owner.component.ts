@@ -96,7 +96,7 @@ export class CreatePropertyOwnerComponent implements OnInit {
           // Open Success Modal upon successful creation
           this.modalService.open(this.successModal, { ariaLabelledBy: 'success-modal-title' });
           // Optionally, navigate after closing modal
-          // this.router.navigate(["/admin-owners"]);
+          this.router.navigate(["/admin-owners"]);
         });
     } else {
       // Set a general error message for invalid form

@@ -82,7 +82,7 @@ export class CreateRepairComponent implements OnInit {
           // Open Success Modal upon successful creation
           this.modalService.open(this.successModal, { ariaLabelledBy: 'success-modal-title' });
           // Optionally, navigate after closing modal
-          // this.router.navigate(["/admin-repairs"]);
+          this.router.navigate(["/admin-repairs"]);
         });
     } else {
       // Set a general error message for invalid form

@@ -16,8 +16,8 @@
 
 /* Input Focus State */
 .form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Semi-transparent blue focus shadow */
-  border-color: #007bff; /* Bootstrap primary blue */
+  box-shadow: 0 0 0 0.2rem var(--property-owner-color-secondary); /* Semi-transparent blue focus shadow */
+  border-color: var(--property-owner-color); /* Bootstrap primary blue */
 }
 
 /* Validation Messages */
@@ -25,18 +25,17 @@
   font-size: 0.875em;
 }
 
-/* Button Hover Effects */
-.btn-property-owner {
-  background-color: #007bff; /* Bootstrap primary blue */
-  border-color: #007bff; /* Bootstrap primary blue */
-  color: #fff;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
+// /* Button Hover Effects */
+// .btn-property-owner {
+//   background-color: var(--property-owner-color);
+//   border-color: var(--property-owner-color);
+//   color: #fff;
+// }
 
-.btn-property-owner:hover {
-  background-color: #0056b3; /* Darker blue for hover */
-  border-color: #0056b3; /* Darker blue for hover */
-}
+// .btn-property-owner:hover {
+//   background-color: var(--property-owner-color); /* Darker blue for hover */
+//   border-color: #0056b3; /* Darker blue for hover */
+// }
 
 .btn-secondary {
   background-color: #6c757d; /* Bootstrap secondary gray */
@@ -61,8 +60,8 @@
 }
 
 .form-select:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem var(--property-owner-color-secondary);
+  border-color: var(--property-owner-color);
 }
 
 /* Modal Enhancements */
@@ -96,8 +95,8 @@
 }
 
 /* Ensure focus outlines are visible */
-.form-control:focus,
-.form-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Semi-transparent blue */
-}
+// .form-control:focus,
+// .form-select:focus {
+//   outline: none;
+//   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Semi-transparent blue */
+// }

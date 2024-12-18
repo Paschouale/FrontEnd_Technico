@@ -21,8 +21,8 @@
                   type="text"
                   class="form-control"
                   formControlName="numberE9"
-                  maxlength="5"
-                  placeholder="Enter 5-digit E9 Number"
+                  maxlength="10"
+                  placeholder="Enter only digits E9 Number"
                   aria-describedby="e9-prefix numberE9Help"
                   required
                   (input)="formatNumberE9()"
@@ -34,7 +34,7 @@
                   E9 Number is required.
                 </span>
                 <span *ngIf="propertyForm.get('numberE9')?.hasError('pattern')" class="text-danger">
-                  E9 Number must be exactly 5 digits.
+                  E9 Number must be only digits.
                 </span>
               </div>
             </div>
@@ -163,7 +163,9 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body">
-        An error occurred while creating the property. Please try again.
+        <ul class="error-list">
+          <li *ngFor="let msg of errorMessages">{{ msg }}</li>
+        </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>

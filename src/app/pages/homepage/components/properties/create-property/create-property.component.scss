@@ -25,17 +25,17 @@
   font-size: 0.875em;
 }
 
-/* Button Hover Effects */
-.btn-property {
-  background-color: var(--property-color);
-  border-color: var(--property-color);
-  color: #fff;
-}
+// /* Button Hover Effects */
+// .btn-property {
+//   background-color: var(--property-color);
+//   border-color: var(--property-color);
+//   color: #fff;
+// }
 
-.btn-property:hover {
-  background-color: var(--property-color-dark); /* Use the darkened color */
-  border-color: var(--property-color-dark); /* Use the darkened color */
-}
+// .btn-property:hover {
+//   background-color: var(--property-color-dark); /* Use the darkened color */
+//   border-color: var(--property-color-dark); /* Use the darkened color */
+// }
 
 .btn-secondary:hover {
   background-color: #6c757d;
@@ -77,20 +77,20 @@
 }
 
 /* Additional Styling for Accessibility */
-.btn-property {
-  background-color: var(--property-color);
-  border-color: var(--property-color);
-  color: #fff;
-}
+// .btn-property {
+//   background-color: var(--property-color);
+//   border-color: var(--property-color);
+//   color: #fff;
+// }
 
-.btn-property:hover {
-  background-color: var(--property-color-dark); /* Updated */
-  border-color: var(--property-color-dark); /* Updated */
-}
+// .btn-property:hover {
+//   background-color: var(--property-color-dark); /* Updated */
+//   border-color: var(--property-color-dark); /* Updated */
+// }
 
 /* Ensure focus outlines are visible */
-.form-control:focus,
-.form-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Semi-transparent green */
-}
+// .form-control:focus,
+// .form-select:focus {
+//   outline: none;
+//   box-shadow: 0 0 0 0.2rem var(--property-color-secondary); /* Semi-transparent green */
+// }

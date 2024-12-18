@@ -7,7 +7,13 @@
 }
 
 /* Existing Styles */
-/* ... (your existing styles) ... */
+:host ::ng-deep { 
+  .customer-pagination-control-active {
+    .ngx-pagination .current {
+      background-color: #212529;
+    }
+  }
+}
 
 /* Modal Enhancements */
 .modal-header.bg-success {

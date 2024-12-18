@@ -22,6 +22,8 @@ export class EditPropertyComponent implements OnInit {
   propertyForm!: FormGroup;
   propertyId!: number;
   propertyTypes = Object.values(PropertyType);
+  errorMessages: string[] = []; // Array to hold dynamic error messages
+
 
   @ViewChild('successModal') successModal!: TemplateRef<any>;
   @ViewChild('errorModal') errorModal!: TemplateRef<any>;
@@ -81,8 +83,25 @@ export class EditPropertyComponent implements OnInit {
         .pipe(
           catchError((err) => {
             console.log(err);
-            // Open Error Modal
-            this.modalService.open(this.errorModal);
+            this.errorMessages = []; // Reset error messages
+
+            // Extract error messages from the backend response
+            if (err.error) {
+              if (typeof err.error === 'string') {
+                this.errorMessages.push(err.error);
+              } else if (Array.isArray(err.error.errors)) {
+                this.errorMessages = err.error.errors;
+              } else if (err.error.message) {
+                this.errorMessages.push(err.error.message);
+              } else {
+                this.errorMessages.push('An unknown error occurred.');
+              }
+            } else {
+              this.errorMessages.push('An unknown error occurred.');
+            }
+
+            // Open Error Modal with the dynamic error messages
+            this.modalService.open(this.errorModal, { ariaLabelledBy: 'error-modal-title' });
             return EMPTY;
           })
         )
@@ -90,7 +109,7 @@ export class EditPropertyComponent implements OnInit {
           // Open Success Modal
           this.modalService.open(this.successModal);
           // Optionally, navigate after closing modal
-          // this.router.navigate(['/admin-properties']);
+          this.router.navigate(['/admin-properties']);
         });
     } else {
       // Open Error Modal if form is invalid
