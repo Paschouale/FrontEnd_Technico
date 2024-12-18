@@ -1,0 +1,64 @@
+<!-- src/app/edit-profile/edit-profile.component.html -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <h2 class="mb-4">Change your Password</h2>
+    </div>
+  </nav>
+  
+  <div class="container mt-4">
+    <div class="edit-form-container">
+      <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
+  
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input 
+            type="text" readonly 
+            id="username" 
+            class="form-control" 
+            formControlName="username" 
+            aria-label="Username"
+          >
+          <div *ngIf="ownerForm.get('username')?.invalid && ownerForm.get('username')?.touched" class="text-danger">
+            <small *ngIf="ownerForm.get('username')?.errors?.['minlength']">Username must be at least 5 characters long.</small>
+          </div>
+        </div>
+  
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">New Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control" 
+            formControlName="password" 
+            aria-label="New Password"
+          >
+          <div *ngIf="ownerForm.get('password')?.invalid && ownerForm.get('password')?.touched" class="text-danger">
+            <small *ngIf="ownerForm.get('password')?.errors?.['minlength']">Password must be at least 4 characters long.</small>
+          </div>
+        </div>
+  
+        <!-- Confirm Password -->
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm New Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            class="form-control" 
+            formControlName="confirmPassword" 
+            aria-label="Confirm New Password"
+          >
+          <div *ngIf="ownerForm.hasError('mismatch') && ownerForm.get('confirmPassword')?.touched" class="text-danger">
+            <small>Passwords do not match.</small>
+          </div>
+        </div>
+  
+        <!-- Form Buttons -->
+        <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid" aria-label="Update Profile">Update</button>
+        <button class="btn btn-secondary" type="button" (click)="cancelEdit()" aria-label="Cancel Edit">Cancel</button>
+      </form>
+    </div>
+  </div>
+  

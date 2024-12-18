@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/admin-pages/edit-repair.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +8,9 @@ import { RepairService } from '../../shared/services/repair.service';
 import { Repair } from '../../shared/model/repair';
 import { RepairType } from '../../shared/enumeration/repair-type';
 import { RepairStatus } from '../../shared/enumeration/repair-status';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-repair',
@@ -20,10 +25,14 @@ export class EditRepairComponent implements OnInit {
   repairTypes = Object.values(RepairType);
   repairStatuses = Object.values(RepairStatus);
 
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private repairService: RepairService
+    private repairService: RepairService,
+    private modalService: NgbModal // Inject NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +55,7 @@ export class EditRepairComponent implements OnInit {
     this.repairService.getRepairById(this.repairId).subscribe({
       next: (repair: Repair) => {
         this.repairForm.setValue({
-          scheduledRepairDate: repair.scheduledRepairDate?.toString() || '',
+          scheduledRepairDate: repair.scheduledRepairDate?.toString().slice(0,16) || '',
           repairStatus: repair.repairStatus || '',
           repairType: repair.repairType || '',
           cost: repair.cost?.toString() || '',
@@ -56,7 +65,8 @@ export class EditRepairComponent implements OnInit {
       },
       error: err => {
         console.error('Failed to load repair data', err);
-        alert('Failed to load repair data');
+        // Open Error Modal
+        this.modalService.open(this.errorModal);
       }
     });
   }
@@ -68,22 +78,29 @@ export class EditRepairComponent implements OnInit {
         id: this.repairId,
         // Convert cost to number if it's a string:
         cost: Number(this.repairForm.get('cost')?.value),
-        // Convert scheduledRepairDate to a Date or LocalDateTime if needed.
+        // Convert scheduledRepairDate to a Date object if needed:
+        scheduledRepairDate: new Date(this.repairForm.get('scheduledRepairDate')?.value),
         // If editing property: property: { id: this.repairForm.get('propertyId')?.value } as Property
       };
 
-      this.repairService.updateRepairById(this.repairId, updatedRepair).subscribe({
-        next: () => {
-          alert('Repair updated successfully!');
-          this.router.navigate(['/admin-repairs']);
-        },
-        error: err => {
-          console.error(err);
-          alert('Failed to update repair.');
-        }
-      });
+      this.repairService.updateRepairById(this.repairId, updatedRepair)
+        .pipe(
+          catchError((err) => {
+            console.log(err);
+            // Open Error Modal
+            this.modalService.open(this.errorModal);
+            return EMPTY;
+          })
+        )
+        .subscribe(() => {
+          // Open Success Modal
+          this.modalService.open(this.successModal);
+          // Optionally, navigate after closing modal
+          // this.router.navigate(['/admin-repairs']);
+        });
     } else {
-      alert('Please fill in all required fields correctly before submitting.');
+      // Open Error Modal if form is invalid
+      this.modalService.open(this.errorModal);
     }
   }
 

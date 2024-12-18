@@ -2,53 +2,95 @@
 
 /* Card Styling */
 .card {
-    border-radius: 0.75rem;
-  }
-  
-  .card-header {
-    border-bottom: none;
-  }
-  
-  /* Form Labels */
-  .form-label {
-    font-weight: 600;
-  }
-  
-  /* Input Focus State */
-  .form-control:focus {
-    box-shadow: 0 0 0 0.2rem var(--property-color-secondary); /* Green focus shadow */
-    border-color: var(--property-color); /* Bootstrap success border color */
-  }
-  
-  /* Validation Messages */
-  .text-danger {
-    font-size: 0.875em;
-  }
-  
-  /* Button Hover Effects */
-  // .btn-primary:hover {
-  //   background-color: #218838; /* Darker shade of green */
-  //   border-color: #1e7e34;
-  // }
-  
-  .btn-secondary:hover {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 1rem;
-    }
-  
-    .form-label {
-      font-size: 1em;
-    }
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: 600;
+}
+
+/* Input Focus State */
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem var(--property-color-secondary); /* Green focus shadow */
+  border-color: var(--property-color); /* Bootstrap success border color */
+}
+
+/* Validation Messages */
+.text-danger {
+  font-size: 0.875em;
+}
+
+/* Button Hover Effects */
+.btn-property {
+  background-color: var(--property-color);
+  border-color: var(--property-color);
+  color: #fff;
+}
+
+.btn-property:hover {
+  background-color: var(--property-color-dark); /* Use the darkened color */
+  border-color: var(--property-color-dark); /* Use the darkened color */
+}
+
+.btn-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
   }
 
-  .form-select:focus{
-    box-shadow: 0 0 0 0.2rem var(--property-color-secondary);
-    border-color: var(--property-color);
+  .form-label {
+    font-size: 1em;
   }
-  
+}
+
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem var(--property-color-secondary);
+  border-color: var(--property-color);
+}
+
+/* Modal Enhancements */
+.modal-header.bg-success {
+  background-color: #28a745 !important;
+}
+
+.modal-header.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+}
+
+.modal-title i {
+  font-size: 1.5rem;
+}
+
+/* Additional Styling for Accessibility */
+.btn-property {
+  background-color: var(--property-color);
+  border-color: var(--property-color);
+  color: #fff;
+}
+
+.btn-property:hover {
+  background-color: var(--property-color-dark); /* Updated */
+  border-color: var(--property-color-dark); /* Updated */
+}
+
+/* Ensure focus outlines are visible */
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Semi-transparent green */
+}

@@ -1,3 +1,5 @@
+<!-- src/app/pages/homepage/components/property-owners/create-repair/create-repair.component.html -->
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10">
@@ -6,43 +8,44 @@
           <h3 class="mb-0">Create Repair</h3>
         </div>
         <div class="card-body">
-          <form [formGroup]="repairForm" (ngSubmit)="onSubmit()" novalidate>
+          <form [formGroup]="repairForm" (ngSubmit)="onSubmit()" novalidate aria-label="Create Repair Form">
 
-<!-- Scheduled Repair Date -->
-<div class="mb-4">
-  <label for="scheduledRepairDate" class="form-label">
-    <i class="bi bi-calendar-event-fill"></i> Scheduled Date & Time
-  </label>
-  <div class="input-group date-time-input-group">
-    <span class="input-group-text" id="basic-addon1">
-      <i class="bi bi-clock-fill text-repair"></i>
-    </span>
-    <input
-      #scheduledInput
-      id="scheduledRepairDate"
-      formControlName="scheduledRepairDate"
-      class="form-control"
-      type="datetime-local"
-      aria-label="Select the scheduled date and time for the repair"
-      placeholder="YYYY-MM-DD HH:MM"
-      (change)="onScheduledDateChange(scheduledInput)"
-    />
-  </div>
-  <small class="form-text text-muted">
-    Specify the exact date and time the repair should start. This helps ensure prompt service.
-  </small>
-</div>
+            <!-- Scheduled Repair Date -->
+            <div class="mb-4">
+              <label for="scheduledRepairDate" class="form-label">
+                <i class="bi bi-calendar-event-fill" aria-hidden="true"></i> Scheduled Date & Time
+              </label>
+              <div class="input-group date-time-input-group">
+                <span class="input-group-text" id="basic-addon1">
+                  <i class="bi bi-clock-fill text-repair" aria-hidden="true"></i>
+                </span>
+                <input
+                  #scheduledInput
+                  id="scheduledRepairDate"
+                  formControlName="scheduledRepairDate"
+                  class="form-control"
+                  type="datetime-local"
+                  aria-label="Select the scheduled date and time for the repair"
+                  placeholder="YYYY-MM-DD HH:MM"
+                  (change)="onScheduledDateChange(scheduledInput)"
+                />
+              </div>
+              <small class="form-text text-muted">
+                Specify the exact date and time the repair should start. This helps ensure prompt service.
+              </small>
+            </div>
 
             <!-- Repair Type -->
             <div class="mb-4">
               <label for="repairType" class="form-label">
-                <i class="bi bi-tools"></i> Repair Type
+                <i class="bi bi-tools" aria-hidden="true"></i> Repair Type
               </label>
               <select
                 id="repairType"
                 formControlName="repairType"
                 class="form-select"
                 required
+                aria-label="Select a Repair Type"
               >
                 <option value="">Select a Repair Type</option>
                 <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
@@ -58,13 +61,14 @@
             <!-- Repair Status -->
             <div class="mb-4">
               <label for="repairStatus" class="form-label">
-                <i class="bi bi-info-circle-fill"></i> Repair Status
+                <i class="bi bi-info-circle-fill" aria-hidden="true"></i> Repair Status
               </label>
               <select
                 id="repairStatus"
                 formControlName="repairStatus"
                 class="form-select"
                 required
+                aria-label="Select a Repair Status"
               >
                 <option value="">Select a Repair Status</option>
                 <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
@@ -80,7 +84,7 @@
             <!-- Cost -->
             <div class="mb-4">
               <label for="cost" class="form-label">
-                <i class="bi bi-cash-stack"></i> Cost
+                <i class="bi bi-cash-stack" aria-hidden="true"></i> Cost
               </label>
               <input
                 type="number"
@@ -89,6 +93,7 @@
                 class="form-control"
                 min="0"
                 placeholder="Enter the cost"
+                aria-label="Enter the cost of the repair"
               />
               <div
                 *ngIf="repairForm.get('cost')?.hasError('min') && repairForm.get('cost')?.touched"
@@ -101,7 +106,7 @@
             <!-- Description -->
             <div class="mb-4">
               <label for="description" class="form-label">
-                <i class="bi bi-card-text"></i> Description
+                <i class="bi bi-card-text" aria-hidden="true"></i> Description
               </label>
               <textarea
                 id="description"
@@ -109,13 +114,14 @@
                 class="form-control"
                 rows="3"
                 placeholder="Enter a description of the repair"
+                aria-label="Enter a description of the repair"
               ></textarea>
             </div>
 
             <!-- Property ID -->
             <div class="mb-4" formGroupName="property">
               <label for="propertyId" class="form-label">
-                <i class="bi bi-building"></i> Property ID
+                <i class="bi bi-building" aria-hidden="true"></i> Property ID
               </label>
               <input
                 type="number"
@@ -124,6 +130,7 @@
                 class="form-control"
                 required
                 placeholder="Enter the Property ID"
+                aria-label="Enter the Property ID"
               />
               <div
                 *ngIf="repairForm.get('property.id')?.hasError('required') && repairForm.get('property.id')?.touched"
@@ -141,7 +148,7 @@
                 [disabled]="repairForm.invalid"
                 aria-label="Create Repair"
               >
-                <i class="bi bi-check-circle-fill me-2"></i> Create
+                <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i> Create
               </button>
               <button
                 type="button"
@@ -149,7 +156,7 @@
                 (click)="cancel()"
                 aria-label="Cancel Creation"
               >
-                <i class="bi bi-x-circle-fill me-2"></i> Cancel
+                <i class="bi bi-x-circle-fill me-2" aria-hidden="true"></i> Cancel
               </button>
             </div>
 
@@ -157,5 +164,37 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- Success Modal Template -->
+    <ng-template #successModal let-modal>
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="success-modal-title">
+          <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i> Success
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        Repair created successfully.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
+
+    <!-- Error Modal Template -->
+    <ng-template #errorModal let-modal>
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="error-modal-title">
+          <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i> Error
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="error-list">
+          <li *ngFor="let msg of errorMessages">{{ msg }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>

@@ -1,49 +1,82 @@
+<!-- src/app/pages/admin-pages/edit-repair.component.html -->
+
 <div class="container mt-4">
-    <h2>Edit Repair</h2>
-    <form [formGroup]="repairForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">Scheduled Repair Date</label>
-        <input class="form-control" formControlName="scheduledRepairDate" type="datetime-local" required>
-        <div *ngIf="repairForm.get('scheduledRepairDate')?.hasError('required') && repairForm.get('scheduledRepairDate')?.touched" class="text-danger">
-          Required
-        </div>
+  <h2>Edit Repair</h2>
+  <form [formGroup]="repairForm" (ngSubmit)="onSubmit()" aria-label="Edit Repair Form">
+    <div class="mb-3">
+      <label class="form-label">Scheduled Repair Date</label>
+      <input class="form-control" formControlName="scheduledRepairDate" type="datetime-local" required aria-label="Scheduled Repair Date">
+      <div *ngIf="repairForm.get('scheduledRepairDate')?.hasError('required') && repairForm.get('scheduledRepairDate')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label for="repairStatus" class="form-label">Repair Status</label>
-        <select id="repairStatus" formControlName="repairStatus" class="form-select" required>
-          <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
-        </select>
-        <div *ngIf="repairForm.get('repairStatus')?.hasError('required') && repairForm.get('repairStatus')?.touched" class="text-danger">
-          Required
-        </div>
-        <!-- Possibly use a select for predefined statuses -->
+    </div>
+    <div class="mb-3">
+      <label for="repairStatus" class="form-label">Repair Status</label>
+      <select id="repairStatus" formControlName="repairStatus" class="form-select" required aria-label="Repair Status">
+        <option *ngFor="let status of repairStatuses" [value]="status">{{ status }}</option>
+      </select>
+      <div *ngIf="repairForm.get('repairStatus')?.hasError('required') && repairForm.get('repairStatus')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label for="repairType" class="form-label">Repair Type</label>
-        <select id="repairType" formControlName="repairType" class="form-select" required>
-          <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
-        </select>
-        <div *ngIf="repairForm.get('repairType')?.hasError('required') && repairForm.get('repairType')?.touched" class="text-danger">
-          Required
-        </div>
-        <!-- Possibly use a select for predefined types -->
+      <!-- Possibly use a select for predefined statuses -->
+    </div>
+    <div class="mb-3">
+      <label for="repairType" class="form-label">Repair Type</label>
+      <select id="repairType" formControlName="repairType" class="form-select" required aria-label="Repair Type">
+        <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
+      </select>
+      <div *ngIf="repairForm.get('repairType')?.hasError('required') && repairForm.get('repairType')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label class="form-label">Cost</label>
-        <input class="form-control" formControlName="cost" type="number" step="0.01">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <input class="form-control" formControlName="description" type="text">
-      </div>
-      <!-- If editing property:
-      <div class="mb-3">
-        <label class="form-label">Property ID</label>
-        <input class="form-control" formControlName="propertyId" type="number" required>
-      </div>
-      -->
-      <button class="btn btn-primary me-2" type="submit" [disabled]="repairForm.invalid">Update</button>
-      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
-    </form>
-  </div>
-  
+      <!-- Possibly use a select for predefined types -->
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Cost</label>
+      <input class="form-control" formControlName="cost" type="number" step="0.01" aria-label="Cost">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <input class="form-control" formControlName="description" type="text" aria-label="Description">
+    </div>
+    <!-- If editing property:
+    <div class="mb-3">
+      <label class="form-label">Property ID</label>
+      <input class="form-control" formControlName="propertyId" type="number" required aria-label="Property ID">
+    </div>
+    -->
+    <button class="btn btn-primary me-2" type="submit" [disabled]="repairForm.invalid" aria-label="Update Repair">Update</button>
+    <button class="btn btn-secondary" type="button" (click)="cancel()" aria-label="Cancel">Cancel</button>
+  </form>
+
+  <!-- Success Modal Template -->
+  <ng-template #successModal let-modal>
+    <div class="modal-header bg-success text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-check-circle-fill me-2"></i>Success
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Repair updated successfully.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <!-- Error Modal Template -->
+  <ng-template #errorModal let-modal>
+    <div class="modal-header bg-danger text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>Error
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Failed to update repair. Please try again.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+</div>

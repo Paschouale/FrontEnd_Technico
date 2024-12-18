@@ -1,0 +1,191 @@
+/* src/app/pages/contact-us/contact-us.component.scss */
+
+.contact-us-container {
+  /* Hero Section Styling */
+  .hero-section {
+    /* Updated to Earth Tones: Warm Beige and Forest Green */
+    background: linear-gradient(135deg, #8D8741, #3B7A57); /* Warm Beige to Forest Green */
+    padding: 6rem 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 4rem;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #FFFFFF; /* Ensure white text for contrast */
+    }
+
+    .lead {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #F0F0F0; /* Slightly lighter shade for differentiation */
+    }
+  }
+
+  /* Contact Form Styling */
+  .card {
+    border: none;
+    border-radius: 0.75rem;
+    background-color: #f9f9f9;
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    .card-title {
+      font-weight: 700;
+      color: #3B7A57; /* Matching forest green */
+      display: flex;
+      align-items: center;
+    }
+
+    form {
+      .form-label {
+        font-weight: 600;
+        color: #3B7A57; /* Matching forest green */
+      }
+
+      .form-control {
+        border-radius: 0.3rem;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus {
+          border-color: #8D8741; /* Warm Beige on focus */
+          box-shadow: 0 0 5px rgba(141, 135, 65, 0.5);
+        }
+      }
+
+      .text-danger {
+        font-size: 0.875rem;
+      }
+
+      .btn-primary {
+        background-color: #3B7A57; /* Forest Green */
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+          background-color: #2E5A45; /* Darker Forest Green */
+          transform: translateY(-2px);
+        }
+
+        &:disabled {
+          background-color: #A9A9A9;
+          cursor: not-allowed;
+        }
+      }
+
+      .btn-outline-secondary {
+        color: #3B7A57; /* Forest Green */
+        border: 2px solid #3B7A57;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+          background-color: #3B7A57;
+          color: #fff;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+
+  /* Map Container Styling */
+  .map-container {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+
+    iframe {
+      height: 100%;
+      width: 100%;
+      border: none;
+    }
+  }
+
+  /* Our Location Section Styling */
+  .row + .row {
+    margin-top: 4rem;
+  }
+
+  h3 {
+    color: #3B7A57; /* Forest Green */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Confirmation Modal Styling */
+  .modal-header {
+    background-color: #E6FFE6;
+    border-bottom: none;
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .modal-body {
+    font-size: 1.1rem;
+  }
+
+  .modal-footer {
+    border-top: none;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 767.98px) {
+    .hero-section {
+      padding: 4rem 1rem;
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .lead {
+        font-size: 1.25rem;
+      }
+    }
+
+    .card {
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      form {
+        .btn-primary,
+        .btn-outline-secondary {
+          width: 100%;
+          margin-bottom: 1rem;
+        }
+
+        .d-flex {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+    }
+
+    .map-container {
+      height: 300px;
+    }
+
+    h3 {
+      font-size: 1.75rem;
+    }
+  }
+
+  /* Additional Styling for Accessibility */
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+}

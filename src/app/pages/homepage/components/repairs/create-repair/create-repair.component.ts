@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/homepage/components/property-owners/create-repair/create-repair.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RepairService } from '../../../../../shared/services/repair.service';
 import { Router } from '@angular/router';
@@ -6,6 +8,7 @@ import { RepairType } from '../../../../../shared/enumeration/repair-type';
 import { RepairStatus } from '../../../../../shared/enumeration/repair-status';
 import { CommonModule } from '@angular/common';
 import { EMPTY, catchError } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
 
 @Component({
   selector: 'app-create-repair',
@@ -20,7 +23,12 @@ export class CreateRepairComponent implements OnInit {
   repairTypes = Object.values(RepairType);
   repairStatuses = Object.values(RepairStatus);
 
-  constructor(private repairService: RepairService, private router: Router) {}
+  errorMessages: string[] = []; // Array to hold dynamic error messages
+
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+
+  constructor(private repairService: RepairService, private router: Router, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.repairForm = new FormGroup({
@@ -45,15 +53,42 @@ export class CreateRepairComponent implements OnInit {
       };
 
       this.repairService.createRepair(formValue)
-      .pipe(catchError((err) => {
-        console.log(err);
-        alert(err.error);
-        return EMPTY;
-      }))
-      .subscribe(() => {
-        alert('Repair created successfully!');
-        this.router.navigate(['/admin-repairs']);
-      });
+        .pipe(
+          catchError((err) => {
+            console.log(err);
+            this.errorMessages = []; // Reset error messages
+
+            // Extract error messages from the backend response
+            if (err.error) {
+              if (typeof err.error === 'string') {
+                this.errorMessages.push(err.error);
+              } else if (Array.isArray(err.error.errors)) {
+                this.errorMessages = err.error.errors;
+              } else if (err.error.message) {
+                this.errorMessages.push(err.error.message);
+              } else {
+                this.errorMessages.push('An unknown error occurred.');
+              }
+            } else {
+              this.errorMessages.push('An unknown error occurred.');
+            }
+
+            // Open Error Modal with the dynamic error messages
+            this.modalService.open(this.errorModal, { ariaLabelledBy: 'error-modal-title' });
+            return EMPTY;
+          })
+        )
+        .subscribe(() => {
+          // Open Success Modal upon successful creation
+          this.modalService.open(this.successModal, { ariaLabelledBy: 'success-modal-title' });
+          // Optionally, navigate after closing modal
+          // this.router.navigate(["/admin-repairs"]);
+        });
+    } else {
+      // Set a general error message for invalid form
+      this.errorMessages = ['Please fill in all required fields correctly before submitting.'];
+      // Open Error Modal with the general error message
+      this.modalService.open(this.errorModal, { ariaLabelledBy: 'error-modal-title' });
     }
   }
 

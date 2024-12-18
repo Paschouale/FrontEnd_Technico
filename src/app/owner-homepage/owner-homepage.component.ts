@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/owner-homepage/owner-homepage.component.ts
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Repair } from '../shared/model/repair';
 import { Property } from '../shared/model/property';
 import { RepairService } from '../shared/services/repair.service';
@@ -10,8 +12,7 @@ import { Router } from '@angular/router';
 import { RepairType } from '../shared/enumeration/repair-type';
 import { RepairStatus } from '../shared/enumeration/repair-status';
 import { PropertyOwner } from '../shared/model/property-owner';
-import { Role } from '../shared/enumeration/role';
-import { EMPTY, catchError } from 'rxjs';
+import { EMPTY, catchError, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-owner-homepage',
@@ -20,8 +21,7 @@ import { EMPTY, catchError } from 'rxjs';
   templateUrl: './owner-homepage.component.html',
   styleUrls: ['./owner-homepage.component.scss']
 })
-export class OwnerHomepageComponent implements OnInit {
-
+export class OwnerHomepageComponent implements OnInit, OnDestroy {
   repairs: Repair[] = [];
   properties: Property[] = [];
   username: string | null = null;
@@ -47,11 +47,7 @@ export class OwnerHomepageComponent implements OnInit {
     RepairType.FRAMES
   ];
 
-  // Fields for the edit-owner functionality
-  ownerForm!: FormGroup;
-  ownerId!: number;
-  owner!: PropertyOwner;
-  editMode: boolean = false; // toggle to show/hide the edit form
+  // Subscription variables removed
 
   constructor(
     private repairService: RepairService,
@@ -65,19 +61,17 @@ export class OwnerHomepageComponent implements OnInit {
     if (userStr) {
       const user = JSON.parse(userStr);
       this.username = user.username;
-      this.ownerId = user.propertyOwnerId;
+      const ownerId = user.propertyOwnerId;
 
-      if (this.ownerId) {
+      if (ownerId) {
         // Fetch Repairs
-        this.repairService.getRepairsByPropertyOwnerId(this.ownerId).subscribe((result: Repair[]) => {
+        this.repairService.getRepairsByPropertyOwnerId(ownerId).subscribe((result: Repair[]) => {
           this.repairs = result;
         });
 
         // Fetch Property Owner details
-        this.propertyOwnerService.getPropertyOwnerById(this.ownerId).subscribe({
+        this.propertyOwnerService.getPropertyOwnerById(ownerId).subscribe({
           next: (owner) => {
-            this.owner = owner;
-
             const vatNumber = owner.vatNumber;
             if (vatNumber) {
               this.propertyService.getPropertiesByOwnerVat(vatNumber).subscribe({
@@ -90,21 +84,9 @@ export class OwnerHomepageComponent implements OnInit {
                 }
               });
             } else {
-              console.error('VAT Number not found for owner ID:', this.ownerId);
+              console.error('VAT Number not found for owner ID:', ownerId);
               alert('Your VAT Number is missing. Please contact support.');
             }
-
-            // Initialize form with the same structure as edit-owner
-            this.ownerForm = new FormGroup({
-              vatNumber: new FormControl(owner.vatNumber || '', [Validators.required, Validators.pattern("\\d{9}")]),
-              name: new FormControl(owner.name || '', Validators.required),
-              surname: new FormControl(owner.surname || '', Validators.required),
-              address: new FormControl(owner.address || ''),
-              phoneNumber: new FormControl(owner.phoneNumber || '', Validators.pattern("^[26]\\d{9}$")),
-              email: new FormControl(owner.email || '', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]),
-              username: new FormControl(owner.loginUser?.username || '', Validators.minLength(5)),
-              password: new FormControl('', Validators.minLength(4))
-            });
           },
           error: (err) => {
             console.error('Failed to fetch property owner details:', err);
@@ -115,13 +97,41 @@ export class OwnerHomepageComponent implements OnInit {
     }
   }
 
-  requestUpdate(repair: Repair) {
+  // **Method to Logout**
+  logout(): void {
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  }
+
+  // **Method to Open Create Repair Modal**
+  openCreateRepairModal(property: Property): void {
+    this.selectedProperty = property;
+    this.createRepairForm = {
+      repairType: '',
+      description: ''
+    };
+    this.createRepairModalVisible = true;
+  }
+
+  // **Method to Close Create Repair Modal**
+  closeCreateRepairModal(): void {
+    this.createRepairModalVisible = false;
+    this.selectedProperty = null;
+    this.createRepairForm = {
+      repairType: '',
+      description: ''
+    };
+  }
+
+  // **Method to Request Repair Status Update**
+  requestUpdate(repair: Repair): void {
     this.selectedRepair = repair;
     this.updateMessage = '';
     this.showModal = true;
   }
 
-  sendUpdateRequest() {
+  // **Method to Send Update Request**
+  sendUpdateRequest(): void {
     if (this.selectedRepair && this.updateMessage.trim()) {
       this.repairService.sendStatusUpdateRequest(this.selectedRepair.id, this.updateMessage).subscribe({
         next: () => {
@@ -138,33 +148,12 @@ export class OwnerHomepageComponent implements OnInit {
     }
   }
 
-  closeModal() {
+  // **Method to Close Update Modal**
+  closeModal(): void {
     this.showModal = false;
   }
 
-  logout(): void {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
-  }
-
-  openCreateRepairModal(property: Property): void {
-    this.selectedProperty = property;
-    this.createRepairForm = {
-      repairType: '',
-      description: ''
-    };
-    this.createRepairModalVisible = true;
-  }
-
-  closeCreateRepairModal(): void {
-    this.createRepairModalVisible = false;
-    this.selectedProperty = null;
-    this.createRepairForm = {
-      repairType: '',
-      description: ''
-    };
-  }
-
+  // **Method to Submit Create Repair Form**
   submitCreateRepair(): void {
     if (!this.selectedProperty) {
       alert('No property selected.');
@@ -197,57 +186,11 @@ export class OwnerHomepageComponent implements OnInit {
     });
   }
 
-  // Toggle edit mode
-  toggleEditMode() {
-    this.editMode = !this.editMode;
+  ngOnDestroy(): void {
+    // No subscriptions to clean up
   }
 
-  // Update the owner using the service (same logic as edit-owner)
- onSubmit() {
-    if (this.ownerForm.valid) {
-      const updatedOwner: PropertyOwner = {
-        ...this.ownerForm.value,
-        id: this.ownerId,
-        loginUser: {
-          username: this.ownerForm.get('username')?.value,
-          password: this.ownerForm.get('password')?.value,
-          role: 'PROPERTY_OWNER'
-        }
-      };
-
-      this.propertyOwnerService.updatePropertyOwnerById(this.ownerId, updatedOwner)
-      .pipe(catchError((err) => {
-        console.log(err);
-        alert(err.error);
-        return EMPTY
-      }))
-        .subscribe(() => {
-          alert('Property Owner updated successfully!');
-          // Update local owner object
-          this.owner = updatedOwner;
-          this.editMode = false;
-        });
-    } else {
-      alert('Please fill in all required fields correctly before submitting.');
-    }
-  }
-
-  cancelEdit() {
-    this.editMode = false;
-    // Reset form to the owner's original data
-    this.ownerForm.setValue({
-      vatNumber: this.owner.vatNumber || '',
-      name: this.owner.name || '',
-      surname: this.owner.surname || '',
-      address: this.owner.address || '',
-      phoneNumber: this.owner.phoneNumber || '',
-      email: this.owner.email || '',
-      username: this.owner.loginUser?.username || '',
-      password: ''
-    });
-  }
-
-    // Method to get badge color based on repair status
+  // Method to get badge color based on repair status
     getStatusBadge(status: string): string {
       switch (status.toLowerCase()) {
         case 'complete':
@@ -260,4 +203,8 @@ export class OwnerHomepageComponent implements OnInit {
           return 'primary';
       }
     }
+
+
+
 }
+

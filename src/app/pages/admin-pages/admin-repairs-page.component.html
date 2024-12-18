@@ -1,81 +1,66 @@
+<!-- src/app/pages/admin-pages/admin-repairs-page.component.html -->
+
 <div class="container mt-4">
   <div class="mb-4 entity-header">
-    <h2>
-      Manage Repairs
-    </h2>
+    <h2>Manage Repairs</h2>
     <div>
-      <!-- Back Button -->
-      <button class="btn btn-secondary mb-3" (click)="backToHome()">
+      <button class="btn btn-secondary mb-3" (click)="backToHome()" aria-label="Back to Home">
         <i class="bi bi-arrow-left-circle me-2"></i> Back
       </button>
     </div>
   </div>
 
-
   <!-- Search and Add Repair Section -->
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <!-- Search Input -->
     <div class="input-group w-50">
       <span class="input-group-text" id="search-icon">
         <i class="bi bi-search"></i>
       </span>
-      <input type="text" class="form-control" placeholder="Search by Repair Type, Status, Property ID, etc..."
-        aria-label="Search" aria-describedby="search-icon" [(ngModel)]="searchTerm" (input)="onSearch()" />
-      <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" aria-label="Clear search">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by Repair Type, Status, Property ID, etc..."
+        aria-label="Search"
+        aria-describedby="search-icon"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
         <i class="bi bi-x-circle"></i>
       </button>
     </div>
 
-    <!-- Add Repair Button -->
-    <button class="btn btn-success" (click)="navigateToCreateRepair()">
+    <button class="btn btn-success" (click)="navigateToCreateRepair()" aria-label="Add Repair">
       <i class="bi bi-plus-circle me-2"></i> Add Repair
     </button>
   </div>
 
-  <!-- Loading Indicator -->
   <div *ngIf="isLoading" class="text-center my-5">
-    <div class="spinner-border text-primary" role="status">
+    <div class="spinner-border text-primary" role="status" aria-label="Loading">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 
-  <!-- Repairs Table -->
   <div class="table-responsive" *ngIf="!isLoading">
     <table class="table table-striped table-hover align-middle">
       <thead class="table-dark">
         <tr>
-          <th scope="col" (click)="sortTable('id')">
-            ID
-            <i [ngClass]="getSortIcon('id')"></i>
-          </th>
-          <th scope="col" (click)="sortTable('repairType')">
-            Repair Type
-            <i [ngClass]="getSortIcon('repairType')"></i>
-          </th>
-          <th scope="col" (click)="sortTable('repairStatus')">
-            Repair Status
-            <i [ngClass]="getSortIcon('repairStatus')"></i>
-          </th>
-          <th scope="col" (click)="sortTable('cost')">
-            Cost
-            <i [ngClass]="getSortIcon('cost')"></i>
-          </th>
-          <th scope="col" (click)="sortTable('description')">
-            Description
-            <i [ngClass]="getSortIcon('description')"></i>
-          </th>
-          <th scope="col" (click)="sortTable('propertyId')">
-            Property ID
-            <i [ngClass]="getSortIcon('propertyId')"></i>
-          </th>
-          <th scope="col">
-            Actions
-          </th>
+          <th scope="col" (click)="sortTable('id')" aria-label="Sort by ID">ID <i [ngClass]="getSortIcon('id')"></i></th>
+          <th scope="col" (click)="sortTable('repairType')" aria-label="Sort by Repair Type">Repair Type <i [ngClass]="getSortIcon('repairType')"></i></th>
+          <th scope="col" (click)="sortTable('repairStatus')" aria-label="Sort by Repair Status">Repair Status <i [ngClass]="getSortIcon('repairStatus')"></i></th>
+          <th scope="col" (click)="sortTable('cost')" aria-label="Sort by Cost">Cost <i [ngClass]="getSortIcon('cost')"></i></th>
+          <th scope="col" (click)="sortTable('description')" aria-label="Sort by Description">Description <i [ngClass]="getSortIcon('description')"></i></th>
+          <th scope="col" (click)="sortTable('propertyId')" aria-label="Sort by Property ID">Property ID <i [ngClass]="getSortIcon('propertyId')"></i></th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let repair of filteredRepairs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
+        <tr *ngFor="let repair of filteredRepairs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
           <td>{{repair.id}}</td>
           <td>{{repair.repairType}}</td>
           <td>{{repair.repairStatus}}</td>
@@ -86,7 +71,7 @@
             <button class="btn btn-sm btn-warning me-2" (click)="updateRepair(repair)" aria-label="Update Repair">
               <i class="bi bi-pencil-square me-1"></i> Update
             </button>
-            <button class="btn btn-sm btn-danger" (click)="deleteRepair(repair)" aria-label="Delete Repair">
+            <button class="btn btn-sm btn-danger" (click)="openDeleteModal(repair)" aria-label="Delete Repair">
               <i class="bi bi-trash-fill me-1"></i> Delete
             </button>
           </td>
@@ -97,11 +82,35 @@
 
   <!-- Pagination Controls -->
   <div class="d-flex justify-content-center mt-4 customer-pagination-control-active" *ngIf="!isLoading && filteredRepairs.length > 0">
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls (pageChange)="p = $event" aria-label="Pagination Controls"></pagination-controls>
   </div>
 
-  <!-- No Results Message -->
-  <div *ngIf="!isLoading && filteredRepairs.length === 0" class="text-muted text-center mt-5">
-    No repairs match your search criteria.
-  </div>
+  <div *ngIf="!isLoading && filteredRepairs.length === 0" class="text-muted text-center mt-5">No repairs match your search criteria.</div>
+
+  <!-- Success Modal Template -->
+  <ng-template #successModal let-modal>
+    <div class="modal-header bg-success text-white">
+      <h5 class="modal-title"><i class="bi bi-check-circle-fill me-2"></i>Success</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">Operation completed successfully.</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <!-- Delete Confirmation Modal Template -->
+  <ng-template #confirmDeleteModal let-modal>
+    <div class="modal-header bg-danger text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-exclamation-octagon-fill me-2"></i>Confirm Deletion
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">Are you sure you want to delete repair ID {{ repairToDelete?.id }}?</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Yes, Delete</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+    </div>
+  </ng-template>
 </div>

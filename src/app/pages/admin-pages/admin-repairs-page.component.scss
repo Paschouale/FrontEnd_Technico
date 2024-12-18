@@ -1,108 +1,113 @@
 /* src/app/pages/admin-pages/admin-repairs-page.component.scss */
 
-.entity-header{
+.entity-header {
   border-bottom: 3px solid var(--repair-color);
   display: flex;
   justify-content: space-between;
-
 }
 
-:host ::ng-deep { 
+/* Existing styles */
+:host ::ng-deep {
   .customer-pagination-control-active {
     .ngx-pagination .current {
       background-color: #212529;
     }
   }
- }
+}
 
-/* Notification Dropdown Styling */
 .notification-dropdown {
-    top: 100%;
-    right: 0;
-    width: 250px;
-    z-index: 1050;
-  }
-  
-  /* Enhance Back Button */
-  .btn-secondary {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Table Header Styling */
-  .table-dark th {
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .table-dark th i {
-    margin-left: 5px;
-    font-size: 0.8rem;
-    vertical-align: middle;
-  }
-  
-  /* Loading Spinner Centering */
-  .text-center.my-5 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Search Input Enhancements */
+  top: 100%;
+  right: 0;
+  width: 250px;
+  z-index: 1050;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+}
+
+.table-dark th {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-dark th i {
+  margin-left: 5px;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+
+.text-center.my-5 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group {
+  border-radius: 0.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.input-group:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bi-arrow-up,
+.bi-arrow-down,
+.bi-arrow-down-up {
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
   .input-group {
-    border-radius: 0.5rem;
-    transition: box-shadow 0.3s ease;
+    width: 100%;
   }
-  
-  .input-group:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 10px;
   }
-  
-  /* Clear Button Icon Alignment */
-  .btn-outline-secondary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Sort Icons Styling */
-  .bi-arrow-up,
-  .bi-arrow-down,
-  .bi-arrow-down-up {
-    font-size: 0.8rem;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .input-group {
-      width: 100%;
-    }
-  
-    .btn-primary {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  
-  /* Pagination Styling */
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-  }
-  
-  /* Table Cell Styling */
-  .table td, .table th {
-    vertical-align: middle;
-  }
-  
-  /* Hover Effects for Buttons */
-  .btn-warning:hover {
-    background-color: #ffc107;
-    border-color: #ffc107;
-  }
-  
-  .btn-danger:hover {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-  
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.table td, .table th {
+  vertical-align: middle;
+}
+
+.btn-warning:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.btn-danger:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.modal-header.bg-success {
+  background-color: #28a745 !important;
+}
+
+.modal-header.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+}
+
+.modal-title i {
+  font-size: 1.5rem;
+}

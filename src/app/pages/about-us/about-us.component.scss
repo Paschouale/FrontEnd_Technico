@@ -1,0 +1,31 @@
+/* src/app/pages/about-us/about-us.component.scss */
+
+.container {
+    max-width: 1000px;
+  }
+  
+  .text-center h1 {
+    font-weight: 700;
+  }
+  
+  .card {
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
+  .display-4 {
+    font-size: 3rem;
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+  

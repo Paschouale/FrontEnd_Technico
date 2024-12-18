@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/admin-pages/admin-properties-page.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination'; // Ensure ngx-pagination is installed
 import { PropertyService } from '../../shared/services/property.service';
 import { Property } from '../../shared/model/property';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
 
 type SortableColumn = 'id' | 'numberE9' | 'propertyOwner' | 'propertyType' | 'address' | 'yearOfConstruction';
 
@@ -27,7 +30,19 @@ export class AdminPropertiesPageComponent implements OnInit {
   sortColumn: SortableColumn | '' = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private propertyService: PropertyService, private router: Router) {}
+  // Modal Templates
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
+
+  // Property to be deleted
+  propertyToDelete!: Property | null;
+
+  constructor(
+    private propertyService: PropertyService,
+    private router: Router,
+    private modalService: NgbModal // Inject NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.loadProperties();
@@ -43,7 +58,8 @@ export class AdminPropertiesPageComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error fetching properties:', err);
-        alert('Failed to load properties.');
+        // Open Error Modal
+        this.modalService.open(this.errorModal);
         this.isLoading = false;
       },
     });
@@ -57,16 +73,27 @@ export class AdminPropertiesPageComponent implements OnInit {
     this.router.navigate(['/edit-property', property.id]);
   }
 
-  deleteProperty(property: Property) {
-    if (confirm(`Are you sure you want to delete property ID ${property.id}?`)) {
-      this.propertyService.deletePropertyByPropertyIdNumber(property.id).subscribe({
+  // New Method: Open Delete Confirmation Modal
+  openDeleteModal(property: Property) {
+    this.propertyToDelete = property;
+    this.modalService.open(this.confirmDeleteModal, { ariaLabelledBy: 'confirm-delete-modal-title' });
+  }
+
+  // New Method: Confirm Deletion
+  confirmDelete(modal: any) {
+    if (this.propertyToDelete) {
+      this.propertyService.deletePropertyByPropertyIdNumber(this.propertyToDelete.id).subscribe({
         next: () => {
           this.loadProperties();
-          alert('Property deleted successfully.');
+          modal.close();
+          // Open Success Modal
+          this.modalService.open(this.successModal);
         },
         error: (err: any) => {
           console.error('Error deleting property:', err);
-          alert('Failed to delete property.');
+          modal.dismiss();
+          // Open Error Modal
+          this.modalService.open(this.errorModal);
         },
       });
     }

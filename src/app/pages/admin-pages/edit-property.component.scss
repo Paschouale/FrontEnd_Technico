@@ -1,0 +1,18 @@
+/* Modal Enhancements */
+.modal-header.bg-success {
+    background-color: #28a745 !important;
+  }
+  
+  .modal-header.bg-danger {
+    background-color: #dc3545 !important;
+  }
+  
+  .modal-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-title i {
+    font-size: 1.5rem;
+  }
+  

@@ -1,42 +1,13 @@
-<!-- src/app/pages/owner-homepage/owner-homepage.component.html -->
+<!-- src/app/owner-homepage/owner-homepage.component.html -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <h2 class="mb-4">Welcome, {{ username }}!</h2>
-    <button class="btn btn-link" (click)="logout()">Logout</button>
   </div>
 </nav>
 
 <div class="container mt-4">
-
-  <!-- Edit Profile Button -->
-  <div class="mb-4">
-    <button class="btn btn-primary" (click)="toggleEditMode()">Edit Profile</button>
-  </div>
-
-  <!-- Edit Form (Shown only if editMode is true) -->
-  <div *ngIf="editMode">
-    <h2>Edit Owner</h2>
-    <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input class="form-control" formControlName="username" type="text" readonly>
-        <div *ngIf="ownerForm.get('username')?.hasError('minlength') && ownerForm.get('username')?.touched" class="text-danger">
-          Must be at least 5 characters
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input class="form-control" formControlName="password" type="password">
-        <div *ngIf="ownerForm.get('password')?.hasError('minlength') && ownerForm.get('password')?.touched" class="text-danger">
-          Must be at least 4 characters
-        </div>
-      </div>
-      <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid">Update</button>
-      <button class="btn btn-secondary" type="button" (click)="cancelEdit()">Cancel</button>
-    </form>
-    <hr>
-  </div>
+  <!-- Removed Edit Profile Form from here -->
 
   <!-- Properties Section -->
   <hr>
@@ -119,8 +90,6 @@
   </ng-template>
 </div>
 
-<!-- Existing modals remain unchanged -->
-
 <!-- Repair Status Update Modal -->
 <div
   class="modal fade"
@@ -128,6 +97,8 @@
   [class.show]="showModal"
   [style.display]="showModal ? 'block' : 'none'"
   role="dialog"
+  aria-labelledby="repairUpdateModalLabel"
+  aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -149,15 +120,12 @@
           [(ngModel)]="updateMessage"
           rows="4"
           placeholder="Enter your message..."
+          aria-label="Update Message"
         ></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">
-          Cancel
-        </button>
-        <button type="button" class="btn btn-primary" (click)="sendUpdateRequest()">
-          Send Request
-        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" aria-label="Cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="sendUpdateRequest()" aria-label="Send Request">Send Request</button>
       </div>
     </div>
   </div>
@@ -196,6 +164,7 @@
               [(ngModel)]="createRepairForm.repairType"
               name="repairType"
               required
+              aria-label="Repair Type"
             >
               <option value="" disabled selected>Select Repair Type</option>
               <option *ngFor="let type of repairTypes" [value]="type">{{ type }}</option>
@@ -213,12 +182,13 @@
               rows="3"
               placeholder="Enter repair description"
               required
+              aria-label="Repair Description"
             ></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeCreateRepairModal()">Cancel</button>
-          <button type="submit" class="btn btn-success">Create Repair</button>
+          <button type="button" class="btn btn-secondary" (click)="closeCreateRepairModal()" aria-label="Cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" aria-label="Create Repair">Create Repair</button>
         </div>
       </form>
     </div>

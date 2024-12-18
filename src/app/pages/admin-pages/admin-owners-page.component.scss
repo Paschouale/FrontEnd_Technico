@@ -1,107 +1,49 @@
 /* src/app/pages/admin-pages/admin-owners-page.component.scss */
 
-.entity-header{
+.entity-header {
   border-bottom: 3px solid var(--property-owner-color);
   display: flex;
   justify-content: space-between;
 }
 
-:host ::ng-deep { 
-  .customer-pagination-control-active {
-    .ngx-pagination .current {
-      background-color: #212529;
-    }
-  }
- }
+/* Existing Styles */
+/* ... (your existing styles) ... */
 
-/* Notification Dropdown Styling */
-.notification-dropdown {
-    top: 100%;
-    right: 0;
-    width: 250px;
-    z-index: 1050;
-  }
-  
-  /* Enhance Back Button */
-  .btn-secondary {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Table Header Styling */
-  .table-dark th {
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .table-dark th i {
-    margin-left: 5px;
-    font-size: 0.8rem;
-    vertical-align: middle;
-  }
-  
-  /* Loading Spinner Centering */
-  .text-center.my-5 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Search Input Enhancements */
-  .input-group {
-    border-radius: 0.5rem;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .input-group:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Clear Button Icon Alignment */
-  .btn-outline-secondary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Sort Icons Styling */
-  .bi-arrow-up,
-  .bi-arrow-down,
-  .bi-arrow-down-up {
-    font-size: 0.8rem;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .input-group {
-      width: 100%;
-    }
-  
-    .btn-primary {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  
-  /* Pagination Styling */
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-  }
-  
-  /* Table Cell Styling */
-  .table td, .table th {
-    vertical-align: middle;
-  }
-  
-  /* Hover Effects for Buttons */
-  .btn-warning:hover {
-    background-color: #ffc107;
-    border-color: #ffc107;
-  }
-  
-  .btn-danger:hover {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-  
+/* Modal Enhancements */
+.modal-header.bg-success {
+  background-color: #28a745 !important; /* Bootstrap success green */
+}
+
+.modal-header.bg-danger {
+  background-color: #dc3545 !important; /* Bootstrap danger red */
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+}
+
+.modal-title i {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Confirmation Modal Specific Styles */
+.modal-header.bg-danger .modal-title i {
+  color: #fff;
+}
+
+.modal-body {
+  font-size: 1rem;
+}
+
+.modal-footer .btn {
+  min-width: 100px;
+}
+
+/* Ensure focus outlines are visible */
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); /* Semi-transparent red for focus */
+}

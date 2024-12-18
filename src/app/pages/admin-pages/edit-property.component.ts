@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/admin-pages/edit-property.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyService } from '../../shared/services/property.service';
 import { Property } from '../../shared/model/property';
 import { PropertyType } from '../../shared/enumeration/property-type';
-import { EMPTY, catchError } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-property',
@@ -19,10 +23,14 @@ export class EditPropertyComponent implements OnInit {
   propertyId!: number;
   propertyTypes = Object.values(PropertyType);
 
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private modalService: NgbModal // Inject NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +42,7 @@ export class EditPropertyComponent implements OnInit {
       address: new FormControl(''),
       yearOfConstruction: new FormControl(''),
       propertyType: new FormControl('', Validators.required),
-      // If you want to allow changing owner, you can include a field for owner ID or similar
+      // If you want to allow changing owner, include a field for owner ID or similar
       // propertyOwnerId: new FormControl('', Validators.required)
     });
 
@@ -49,13 +57,13 @@ export class EditPropertyComponent implements OnInit {
           address: property.address || '',
           yearOfConstruction: property.yearOfConstruction || '',
           propertyType: property.propertyType || ''
-          // If editing owner: 
-          // propertyOwnerId: property.propertyOwner?.id || ''
+          // If editing owner: propertyOwnerId: property.propertyOwner?.id || ''
         });
       },
       error: err => {
         console.error('Failed to load property data', err);
-        alert('Failed to load property data');
+        // Open Error Modal
+        this.modalService.open(this.errorModal);
       }
     });
   }
@@ -70,18 +78,23 @@ export class EditPropertyComponent implements OnInit {
       };
 
       this.propertyService.updatePropertyById(this.propertyId, updatedProperty)
-      .pipe(catchError((err) => {
-        console.log(err);
-        alert(err.error);
-        return EMPTY
-      }))
-      .subscribe(() => {
-        alert('Property updated successfully!');
-        this.router.navigate(['/admin-properties']);
-      });
-  }
-      else {
-      alert('Please fill in all required fields correctly before submitting.');
+        .pipe(
+          catchError((err) => {
+            console.log(err);
+            // Open Error Modal
+            this.modalService.open(this.errorModal);
+            return EMPTY;
+          })
+        )
+        .subscribe(() => {
+          // Open Success Modal
+          this.modalService.open(this.successModal);
+          // Optionally, navigate after closing modal
+          // this.router.navigate(['/admin-properties']);
+        });
+    } else {
+      // Open Error Modal if form is invalid
+      this.modalService.open(this.errorModal);
     }
   }
 

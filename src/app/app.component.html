@@ -1,3 +1,5 @@
+<!-- src/app/app.component.html -->
+
 <div class="app-container">
   <!-- Header Component: Shown only on authenticated routes -->
   <app-header *ngIf="showNav"></app-header>
@@ -67,6 +69,18 @@
             >
               <i class="bi bi-house me-2"></i>
               <span>{{ ownerUsername }} Home</span>
+            </a>
+          </li>
+          <!-- **New "Edit Profile" Link** -->
+          <li class="nav-item">
+            <a
+              class="nav-link d-flex align-items-center px-3 py-2"
+              routerLink="/edit-profile"
+              routerLinkActive="active"
+              aria-label="Edit Profile"
+            >
+              <i class="bi bi-pencil-square me-2"></i>
+              <span>Change Password</span>
             </a>
           </li>
           <li class="nav-item">

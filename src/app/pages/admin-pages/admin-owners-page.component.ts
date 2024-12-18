@@ -1,12 +1,13 @@
 // src/app/pages/admin-pages/admin-owners-page.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination'; // Ensure ngx-pagination is installed
 import { PropertyOwnerService } from '../../shared/services/property-owner.service';
 import { PropertyOwner } from '../../shared/model/property-owner';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
 
 type SortableColumn = 'id' | 'name' | 'surname' | 'vatNumber' | 'phoneNumber' | 'username';
 
@@ -29,7 +30,19 @@ export class AdminOwnersPageComponent implements OnInit {
   sortColumn: SortableColumn | '' = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private propertyOwnerService: PropertyOwnerService, private router: Router) {}
+  // Modal Templates
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
+
+  // Owner to be deleted
+  ownerToDelete!: PropertyOwner | null;
+
+  constructor(
+    private propertyOwnerService: PropertyOwnerService,
+    private router: Router,
+    private modalService: NgbModal // Inject NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.loadOwners();
@@ -46,7 +59,8 @@ export class AdminOwnersPageComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error fetching property owners:', err);
-        alert('Failed to load property owners.');
+        // Open Error Modal
+        this.modalService.open(this.errorModal);
         this.isLoading = false;
       },
     });
@@ -60,16 +74,27 @@ export class AdminOwnersPageComponent implements OnInit {
     this.router.navigate(['/edit-owner', owner.id]);
   }
 
-  deletePropertyOwner(owner: PropertyOwner) {
-    if (confirm(`Are you sure you want to delete property owner ID ${owner.id}?`)) {
-      this.propertyOwnerService.deletePropertyOwnerById(owner.id).subscribe({
+  // New Method: Open Delete Confirmation Modal
+  openDeleteModal(owner: PropertyOwner) {
+    this.ownerToDelete = owner;
+    this.modalService.open(this.confirmDeleteModal, { ariaLabelledBy: 'confirm-delete-modal-title' });
+  }
+
+  // New Method: Confirm Deletion
+  confirmDelete(modal: any) {
+    if (this.ownerToDelete) {
+      this.propertyOwnerService.deletePropertyOwnerById(this.ownerToDelete.id).subscribe({
         next: () => {
           this.loadOwners();
-          alert('Property owner deleted successfully.');
+          modal.close();
+          // Open Success Modal
+          this.modalService.open(this.successModal);
         },
         error: (err: any) => {
           console.error('Error deleting property owner:', err);
-          alert('Failed to delete property owner.');
+          modal.dismiss();
+          // Open Error Modal
+          this.modalService.open(this.errorModal);
         },
       });
     }

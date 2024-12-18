@@ -2,49 +2,102 @@
 
 /* Card Styling */
 .card {
-    border-radius: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: 600;
+}
+
+/* Input Focus State */
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Semi-transparent blue focus shadow */
+  border-color: #007bff; /* Bootstrap primary blue */
+}
+
+/* Validation Messages */
+.text-danger {
+  font-size: 0.875em;
+}
+
+/* Button Hover Effects */
+.btn-property-owner {
+  background-color: #007bff; /* Bootstrap primary blue */
+  border-color: #007bff; /* Bootstrap primary blue */
+  color: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-property-owner:hover {
+  background-color: #0056b3; /* Darker blue for hover */
+  border-color: #0056b3; /* Darker blue for hover */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Bootstrap secondary gray */
+  border-color: #6c757d; /* Bootstrap secondary gray */
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* Darker gray for hover */
+  border-color: #545b62; /* Darker gray for hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
   }
-  
-  .card-header {
-    border-bottom: none;
-  }
-  
-  /* Form Labels */
+
   .form-label {
-    font-weight: 600;
+    font-size: 1em;
   }
-  
-  /* Input Focus State */
-  .form-control:focus {
-    box-shadow: 0 0 0 0.2rem var(--property-owner-color-secondary); /* Bootstrap primary color */
-    border-color: var(--property-owner-color); /* Bootstrap primary border color */
-  }
-  
-  /* Validation Messages */
-  .text-danger {
-    font-size: 0.875em;
-  }
-  
-  /* Button Hover Effects */
-  // .btn-success:hover {
-  //   background-color: #0069d9; /* Darker shade of primary color */
-  //   border-color: #0062cc;
-  // }
-  
-  
-  .btn-secondary:hover {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 1rem;
-    }
-  
-    .form-label {
-      font-size: 1em;
-    }
-  }
-  
+}
+
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #007bff;
+}
+
+/* Modal Enhancements */
+.modal-header.bg-success {
+  background-color: #28a745 !important; /* Bootstrap success green */
+}
+
+.modal-header.bg-danger {
+  background-color: #dc3545 !important; /* Bootstrap danger red */
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+}
+
+.modal-title i {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Style the error list within the modal */
+.error-list {
+  padding-left: 1.5rem; /* Indent the list */
+}
+
+.error-list li {
+  list-style-type: disc; /* Use disc bullets */
+  margin-bottom: 0.5rem; /* Space between items */
+  color: #464545; /* Bootstrap warning yellow */
+}
+
+/* Ensure focus outlines are visible */
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Semi-transparent blue */
+}

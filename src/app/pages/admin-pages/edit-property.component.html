@@ -1,43 +1,73 @@
+<!-- src/app/pages/admin-pages/edit-property.component.html -->
+
 <div class="container mt-4">
-    <h2>Edit Property</h2>
-    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">E9 Number</label>
-        <input class="form-control" formControlName="numberE9" type="text" required>
-        <div *ngIf="propertyForm.get('numberE9')?.hasError('required') && propertyForm.get('numberE9')?.touched" class="text-danger">
-          Required
+  <h2>Edit Property</h2>
+  <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" aria-label="Edit Property Form">
+    <div class="mb-3">
+      <label class="form-label">E9 Number</label>
+      <input class="form-control" formControlName="numberE9" type="text" required aria-label="E9 Number">
+      <div *ngIf="propertyForm.get('numberE9')?.hasError('required') && propertyForm.get('numberE9')?.touched" class="text-danger">
+        Required
       </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Address</label>
+      <input class="form-control" formControlName="address" type="text" aria-label="Address">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Year Of Construction</label>
+      <input class="form-control" formControlName="yearOfConstruction" type="number" aria-label="Year Of Construction">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Property Type</label>
+      <select class="form-control" formControlName="propertyType" aria-label="Property Type">
+        <option *ngFor="let type of propertyTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+      <div *ngIf="propertyForm.get('propertyType')?.hasError('required') && propertyForm.get('propertyType')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label class="form-label">Address</label>
-        <input class="form-control" formControlName="address" type="text">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Year Of Construction</label>
-        <input class="form-control" formControlName="yearOfConstruction" type="number">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Property Type</label>
-        <!-- <input class="form-control" formControlName="propertyType" type="text" required> -->
-        <select class="form-control" formControlName="propertyType">
-            <!-- <option value="" disabled>Select PropertyType</option> -->
-            <option *ngFor="let type of propertyTypes" [value]="type">
-                {{ type }}
-            </option>
-        </select>
-        <div *ngIf="propertyForm.get('propertyType')?.hasError('required') && propertyForm.get('propertyType')?.touched" class="text-danger">
-          Required
-      </div>        
-        <!-- You may want to use a select input if propertyType is an enumeration -->
-      </div>
-      <!-- If changing owner: -->
-      <!-- <div class="mb-3">
-        <label class="form-label">Owner ID</label>
-        <input class="form-control" formControlName="propertyOwnerId" type="number" required>
-      </div> -->
-     
-      <button class="btn btn-primary me-2" type="submit" [disabled]="propertyForm.invalid">Update</button>
-      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
-    </form>
-  </div>
-  
+    </div>
+    <!-- If changing owner:
+    <div class="mb-3">
+      <label class="form-label">Owner ID</label>
+      <input class="form-control" formControlName="propertyOwnerId" type="number" required aria-label="Owner ID">
+    </div>
+    -->
+    <button class="btn btn-primary me-2" type="submit" [disabled]="propertyForm.invalid" aria-label="Update Property">Update</button>
+    <button class="btn btn-secondary" type="button" (click)="cancel()" aria-label="Cancel">Cancel</button>
+  </form>
+
+  <!-- Success Modal Template -->
+  <ng-template #successModal let-modal>
+    <div class="modal-header bg-success text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-check-circle-fill me-2"></i>Success
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Property updated successfully.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <!-- Error Modal Template -->
+  <ng-template #errorModal let-modal>
+    <div class="modal-header bg-danger text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>Error
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Failed to update property. Please try again.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+</div>

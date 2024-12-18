@@ -1,5 +1,6 @@
-import { Routes } from '@angular/router';
+// src/app/app.routes.ts
 
+import { Routes } from '@angular/router';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { OwnerHomepageComponent } from './owner-homepage/owner-homepage.component';
 import { CreatePropertyOwnerComponent } from './pages/homepage/components/property-owners/create-property-owner/create-property-owner.component';
@@ -14,6 +15,8 @@ import { EditRepairComponent } from './pages/admin-pages/edit-repair.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { LoginComponent } from './login/login.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+ // Import the new component
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,10 +38,16 @@ export const routes: Routes = [
   { path: 'edit-property/:id', component: EditPropertyComponent },
   { path: 'edit-repair/:id', component: EditRepairComponent },
 
- { path: 'contact-us', component: ContactUsComponent}, 
- {path: 'about-us',component: AboutUsComponent}, 
+  // New Edit Profile Route
+  { path: 'edit-profile', component: EditProfileComponent },
 
+  // Static Pages
+  { path: 'contact-us', component: ContactUsComponent }, 
+  { path: 'about-us', component: AboutUsComponent }, 
 
   // Default Redirect
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // Wildcard Route (Optional)
+  { path: '**', redirectTo: 'login' }
 ];

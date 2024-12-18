@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/homepage/components/property/create-property/create-property.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PropertyService } from '../../../../../shared/services/property.service';
 import { PropertyOwnerService } from '../../../../../shared/services/property-owner.service';
@@ -6,7 +8,9 @@ import { Router } from '@angular/router';
 import { PropertyType } from '../../../../../shared/enumeration/property-type';
 import { CommonModule } from '@angular/common';
 import { PropertyOwner } from '../../../../../shared/model/property-owner';
-import { EMPTY, catchError } from 'rxjs';
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal
 
 @Component({
   selector: 'app-create-property',
@@ -21,10 +25,14 @@ export class CreatePropertyComponent implements OnInit {
   propertyTypes = Object.values(PropertyType); // Populate property types
   propertyOwners: PropertyOwner[] = [];
 
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+
   constructor(
     private propertyService: PropertyService,
     private propertyOwnerService: PropertyOwnerService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal // Inject NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +43,8 @@ export class CreatePropertyComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to fetch property owners:', err);
-        alert('Failed to load property owners. Please try again.');
+        // Open Error Modal instead of alert
+        this.modalService.open(this.errorModal);
       }
     });
 
@@ -83,17 +92,23 @@ export class CreatePropertyComponent implements OnInit {
       };
 
       this.propertyService.postProperty(formValue)
-        .pipe(catchError((err) => {
-          console.log(err);
-          alert(err.error);
-          return EMPTY;
-        }))
+        .pipe(
+          catchError((err) => {
+            console.log(err);
+            // Open Error Modal instead of alert
+            this.modalService.open(this.errorModal);
+            return EMPTY;
+          })
+        )
         .subscribe(() => {
-          alert('Property created successfully!');
-          this.router.navigate(['/admin-properties']);
+          // Open Success Modal instead of alert
+          this.modalService.open(this.successModal);
+          // Optionally, navigate after closing modal
+          // this.router.navigate(['/admin-properties']);
         });
     } else {
-      alert('Please fill in all required fields correctly before submitting.');
+      // Open Error Modal if form is invalid instead of alert
+      this.modalService.open(this.errorModal);
     }
   }
 

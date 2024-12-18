@@ -1,67 +1,100 @@
+<!-- src/app/pages/admin-pages/edit-owner.component.html -->
+
 <div class="container mt-4">
-    <h2>Edit Owner</h2>
-    <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">VatNumber</label>
-        <input class="form-control" formControlName="vatNumber" type="text" maxlength="9">
-      </div>
+  <h2>Edit Owner</h2>
+  <form [formGroup]="ownerForm" (ngSubmit)="onSubmit()" aria-label="Edit Owner Form">
+    <div class="mb-3">
+      <label class="form-label">VatNumber</label>
+      <input class="form-control" formControlName="vatNumber" type="text" maxlength="9" aria-label="VAT Number">
       <div *ngIf="ownerForm.get('vatNumber')?.hasError('required') && ownerForm.get('vatNumber')?.touched" class="text-danger">
         Required
       </div>
       <div *ngIf="ownerForm.get('vatNumber')?.hasError('pattern') && ownerForm.get('vatNumber')?.touched" class="text-danger">
         Must be 9 digits
       </div>
-      <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input class="form-control" formControlName="name" type="text" required>
-        <div *ngIf="ownerForm.get('name')?.hasError('required') && ownerForm.get('name')?.touched" class="text-danger">
-          Required
-        </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input class="form-control" formControlName="name" type="text" required aria-label="Name">
+      <div *ngIf="ownerForm.get('name')?.hasError('required') && ownerForm.get('name')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label class="form-label">Surname</label>
-        <input class="form-control" formControlName="surname" type="text" required>
-        <div *ngIf="ownerForm.get('surname')?.hasError('required') && ownerForm.get('surname')?.touched" class="text-danger">
-          Required
-        </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Surname</label>
+      <input class="form-control" formControlName="surname" type="text" required aria-label="Surname">
+      <div *ngIf="ownerForm.get('surname')?.hasError('required') && ownerForm.get('surname')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label class="form-label">Address</label>
-        <input class="form-control" formControlName="address" type="text">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Address</label>
+      <input class="form-control" formControlName="address" type="text" aria-label="Address">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Phone Number</label>
+      <input class="form-control" formControlName="phoneNumber" type="text" aria-label="Phone Number">
+      <div *ngIf="ownerForm.get('phoneNumber')?.hasError('pattern') && ownerForm.get('phoneNumber')?.touched" class="text-danger">
+        Must start with 2 or 6 and be 10 digits
       </div>
-      <div class="mb-3">
-        <label class="form-label">Phone Number</label>
-        <input class="form-control" formControlName="phoneNumber" type="text">
-        <div *ngIf="ownerForm.get('phoneNumber')?.hasError('pattern') && ownerForm.get('phoneNumber')?.touched" class="text-danger">
-          Must be 10 digits
-        </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input class="form-control" formControlName="email" type="email" required aria-label="Email">
+      <div *ngIf="ownerForm.get('email')?.hasError('required') && ownerForm.get('email')?.touched" class="text-danger">
+        Required
       </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input class="form-control" formControlName="email" type="email" required>
-        <div *ngIf="ownerForm.get('email')?.hasError('required') && ownerForm.get('email')?.touched" class="text-danger">
-          Required
-        </div>
-        <div *ngIf="ownerForm.get('email')?.hasError('pattern') && ownerForm.get('email')?.touched" class="text-danger">
-          Must be a correct email
-        </div>
+      <div *ngIf="ownerForm.get('email')?.hasError('pattern') && ownerForm.get('email')?.touched" class="text-danger">
+        Must be a correct email
       </div>
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input class="form-control" formControlName="username" type="text">
-        <div *ngIf="ownerForm.get('username')?.hasError('minlength') && ownerForm.get('username')?.touched" class="text-danger">
-          Must be at least 5 characters
-        </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Username</label>
+      <input class="form-control" formControlName="username" type="text" aria-label="Username">
+      <div *ngIf="ownerForm.get('username')?.hasError('minlength') && ownerForm.get('username')?.touched" class="text-danger">
+        Must be at least 5 characters
       </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input class="form-control" formControlName="password" type="password">
-        <div *ngIf="ownerForm.get('password')?.hasError('minlength') && ownerForm.get('password')?.touched" class="text-danger">
-          Must be at least 4 characters
-        </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input class="form-control" formControlName="password" type="password" aria-label="Password">
+      <div *ngIf="ownerForm.get('password')?.hasError('minlength') && ownerForm.get('password')?.touched" class="text-danger">
+        Must be at least 4 characters
       </div>
-      <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid">Update</button>
-      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
-    </form>
-  </div>
-  
+    </div>
+    <button class="btn btn-primary me-2" type="submit" [disabled]="ownerForm.invalid" aria-label="Update Owner">Update</button>
+    <button class="btn btn-secondary" type="button" (click)="cancel()" aria-label="Cancel">Cancel</button>
+  </form>
+
+  <!-- Success Modal Template -->
+  <ng-template #successModal let-modal>
+    <div class="modal-header bg-success text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-check-circle-fill me-2"></i>Success
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Owner updated successfully.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <!-- Error Modal Template -->
+  <ng-template #errorModal let-modal>
+    <div class="modal-header bg-danger text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>Error
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Failed to update owner. Please try again.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+</div>

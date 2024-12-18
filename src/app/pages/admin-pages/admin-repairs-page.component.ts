@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/admin-pages/admin-repairs-page.component.ts
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination'; // Ensure ngx-pagination is installed
+import { NgxPaginationModule } from 'ngx-pagination';
 import { RepairService } from '../../shared/services/repair.service';
 import { Repair } from '../../shared/model/repair';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 type SortableColumn = 'id' | 'repairType' | 'repairStatus' | 'cost' | 'description' | 'propertyId';
 
@@ -13,21 +16,30 @@ type SortableColumn = 'id' | 'repairType' | 'repairStatus' | 'cost' | 'descripti
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './admin-repairs-page.component.html',
-  styleUrls: ['./admin-repairs-page.component.scss']
+  styleUrls: ['./admin-repairs-page.component.scss'],
 })
 export class AdminRepairsPageComponent implements OnInit {
   repairs: Repair[] = [];
-  filteredRepairs: Repair[] = []; // Holds filtered results
-  isLoading: boolean = false; // Indicates if data is loading
-  searchTerm: string = ''; // Search input
-  p: number = 1; // Current page number
-  itemsPerPage: number = 10; // Items per page
+  filteredRepairs: Repair[] = [];
+  isLoading: boolean = false;
+  searchTerm: string = '';
+  p: number = 1;
+  itemsPerPage: number = 10;
 
-  // Sorting variables
   sortColumn: SortableColumn | '' = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private repairService: RepairService, private router: Router) {}
+  repairToDelete!: Repair | null;
+
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
+
+  constructor(
+    private repairService: RepairService,
+    private router: Router,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.loadRepairs();
@@ -43,7 +55,7 @@ export class AdminRepairsPageComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error fetching repairs:', err);
-        alert('Failed to load repairs.');
+        this.modalService.open(this.errorModal);
         this.isLoading = false;
       },
     });
@@ -57,32 +69,38 @@ export class AdminRepairsPageComponent implements OnInit {
     this.router.navigate(['/edit-repair', repair.id]);
   }
 
-  deleteRepair(repair: Repair) {
-    if (confirm(`Are you sure you want to delete repair ID ${repair.id}?`)) {
-      this.repairService.deleteRepairById(repair.id).subscribe({
+  openDeleteModal(repair: Repair) {
+    this.repairToDelete = repair;
+    this.modalService.open(this.confirmDeleteModal, { ariaLabelledBy: 'confirm-delete-modal-title' });
+  }
+
+  confirmDelete(modal: any) {
+    if (this.repairToDelete) {
+      this.repairService.deleteRepairById(this.repairToDelete.id).subscribe({
         next: () => {
           this.loadRepairs();
-          alert('Repair deleted successfully.');
+          modal.close();
+          this.modalService.open(this.successModal);
         },
         error: (err: any) => {
           console.error('Error deleting repair:', err);
-          alert('Failed to delete repair.');
+          modal.dismiss();
+          this.modalService.open(this.errorModal);
         },
       });
     }
   }
 
-  backToHome(){
+  backToHome() {
     this.router.navigate(['/admin-home']);
   }
 
-  // Search functionality
   onSearch() {
     if (this.searchTerm.trim() === '') {
       this.filteredRepairs = this.repairs;
     } else {
       const term = this.searchTerm.toLowerCase();
-      this.filteredRepairs = this.repairs.filter(rep =>
+      this.filteredRepairs = this.repairs.filter((rep) =>
         rep.repairType.toLowerCase().includes(term) ||
         rep.repairStatus.toLowerCase().includes(term) ||
         rep.description.toLowerCase().includes(term) ||
@@ -91,22 +109,19 @@ export class AdminRepairsPageComponent implements OnInit {
         rep.id.toString().includes(term)
       );
     }
-    this.p = 1; // Reset to first page after search
+    this.p = 1;
   }
 
   clearSearch() {
     this.searchTerm = '';
     this.filteredRepairs = this.repairs;
-    this.p = 1; // Reset to first page
+    this.p = 1;
   }
 
-  // Sorting functionality
   sortTable(column: SortableColumn) {
     if (this.sortColumn === column) {
-      // Toggle sort direction
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      // Set to ascending for new column
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
@@ -153,7 +168,7 @@ export class AdminRepairsPageComponent implements OnInit {
 
   getSortIcon(column: SortableColumn): string {
     if (this.sortColumn !== column) {
-      return 'bi bi-arrow-down-up'; // Default sort icon
+      return 'bi bi-arrow-down-up';
     }
     return this.sortDirection === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
   }

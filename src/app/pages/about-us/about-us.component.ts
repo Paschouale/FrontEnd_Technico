@@ -9,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./about-us.component.scss']
 })
 export class AboutUsComponent {
-  // Optional: Add logic or data binding here
+  // No additional logic required for static content
 }

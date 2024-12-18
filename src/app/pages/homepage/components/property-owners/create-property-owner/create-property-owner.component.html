@@ -1,3 +1,5 @@
+<!-- src/app/pages/homepage/components/property-owners/create-property-owner/create-property-owner.component.html -->
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10">
@@ -6,11 +8,11 @@
           <h3 class="mb-0">Create Property Owner</h3>
         </div>
         <div class="card-body">
-          <form [formGroup]="propertyOwnerForm" (ngSubmit)="onSubmit()" novalidate>
+          <form [formGroup]="propertyOwnerForm" (ngSubmit)="onSubmit()" novalidate aria-label="Create Property Owner Form">
             <!-- VAT Number -->
             <div class="mb-4">
               <label for="vatNumber" class="form-label">
-                <i class="bi bi-123"></i> VAT Number
+                <i class="bi bi-123" aria-hidden="true"></i> VAT Number
               </label>
               <input
                 id="vatNumber"
@@ -37,7 +39,7 @@
             <div class="row mb-4">
               <div class="col-md-6">
                 <label for="name" class="form-label">
-                  <i class="bi bi-person-fill"></i> First Name
+                  <i class="bi bi-person-fill" aria-hidden="true"></i> First Name
                 </label>
                 <input
                   id="name"
@@ -46,6 +48,7 @@
                   formControlName="name"
                   placeholder="Enter First Name"
                   required
+                  aria-label="First Name"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('name')?.touched" class="form-text">
@@ -56,7 +59,7 @@
               </div>
               <div class="col-md-6">
                 <label for="surname" class="form-label">
-                  <i class="bi bi-person-fill"></i> Surname
+                  <i class="bi bi-person-fill" aria-hidden="true"></i> Surname
                 </label>
                 <input
                   id="surname"
@@ -65,6 +68,7 @@
                   formControlName="surname"
                   placeholder="Enter Surname"
                   required
+                  aria-label="Surname"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('surname')?.touched" class="form-text">
@@ -78,7 +82,7 @@
             <!-- Address -->
             <div class="mb-4">
               <label for="address" class="form-label">
-                <i class="bi bi-house-fill"></i> Address
+                <i class="bi bi-house-fill" aria-hidden="true"></i> Address
               </label>
               <input
                 id="address"
@@ -86,6 +90,7 @@
                 class="form-control"
                 formControlName="address"
                 placeholder="Enter Address"
+                aria-label="Address"
               />
             </div>
 
@@ -93,14 +98,15 @@
             <div class="row mb-4">
               <div class="col-md-6">
                 <label for="phoneNumber" class="form-label">
-                  <i class="bi bi-telephone-fill"></i> Phone Number
+                  <i class="bi bi-telephone-fill" aria-hidden="true"></i> Phone Number
                 </label>
                 <input
                   id="phoneNumber"
                   type="text"
                   class="form-control"
                   formControlName="phoneNumber"
-                  placeholder="e.g., 697XXXXXXX or 21XXXXXXXX"
+                  placeholder="e.g., 697XXXXXXX or 26XXXXXXX"
+                  aria-label="Phone Number"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('phoneNumber')?.touched" class="form-text">
@@ -111,7 +117,7 @@
               </div>
               <div class="col-md-6">
                 <label for="email" class="form-label">
-                  <i class="bi bi-envelope-fill"></i> Email
+                  <i class="bi bi-envelope-fill" aria-hidden="true"></i> Email
                 </label>
                 <input
                   id="email"
@@ -120,6 +126,7 @@
                   formControlName="email"
                   placeholder="Enter Email"
                   required
+                  aria-label="Email"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('email')?.touched" class="form-text">
@@ -137,7 +144,7 @@
             <div formGroupName="loginUser" class="row mb-4">
               <div class="col-md-6">
                 <label for="username" class="form-label">
-                  <i class="bi bi-person-circle"></i> Username
+                  <i class="bi bi-person-circle" aria-hidden="true"></i> Username
                 </label>
                 <input
                   id="username"
@@ -145,6 +152,8 @@
                   class="form-control"
                   formControlName="username"
                   placeholder="Enter Username"
+                  required
+                  aria-label="Username"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('loginUser.username')?.touched" class="form-text">
@@ -158,7 +167,7 @@
               </div>
               <div class="col-md-6">
                 <label for="password" class="form-label">
-                  <i class="bi bi-lock-fill"></i> Password
+                  <i class="bi bi-lock-fill" aria-hidden="true"></i> Password
                 </label>
                 <input
                   id="password"
@@ -166,6 +175,8 @@
                   class="form-control"
                   formControlName="password"
                   placeholder="Enter Password"
+                  required
+                  aria-label="Password"
                 />
                 <!-- Validation Feedback -->
                 <div *ngIf="propertyOwnerForm.get('loginUser.password')?.touched" class="form-text">
@@ -185,9 +196,9 @@
                 type="submit"
                 class="btn btn-property-owner me-3"
                 [disabled]="propertyOwnerForm.invalid"
-                aria-label="Create Owner"
+                aria-label="Create Property Owner"
               >
-                <i class="bi bi-check-circle-fill me-2"></i> Create
+                <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i> Create
               </button>
               <button
                 type="button"
@@ -195,12 +206,45 @@
                 (click)="cancel()"
                 aria-label="Cancel Creation"
               >
-                <i class="bi bi-x-circle-fill me-2"></i> Cancel
+                <i class="bi bi-x-circle-fill me-2" aria-hidden="true"></i> Cancel
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Success Modal Template -->
+    <ng-template #successModal let-modal>
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="success-modal-title">
+          <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i> Success
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        Property Owner created successfully.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
+
+    <!-- Error Modal Template -->
+    <ng-template #errorModal let-modal>
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="error-modal-title">
+          <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i> Error
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="error-list">
+          <li *ngFor="let msg of errorMessages">{{ msg }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </ng-template>
 </div>
