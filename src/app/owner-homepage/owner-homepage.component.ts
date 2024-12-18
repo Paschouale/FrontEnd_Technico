@@ -36,9 +36,9 @@ export class OwnerHomepageComponent implements OnInit, OnDestroy {
     repairType: RepairType | '';
     description: string;
   } = {
-    repairType: '',
-    description: ''
-  };
+      repairType: '',
+      description: ''
+    };
   repairTypes: RepairType[] = [
     RepairType.ELECTRICAL,
     RepairType.PLUMBING,
@@ -54,7 +54,7 @@ export class OwnerHomepageComponent implements OnInit, OnDestroy {
     private propertyService: PropertyService,
     private propertyOwnerService: PropertyOwnerService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('user');
@@ -64,38 +64,43 @@ export class OwnerHomepageComponent implements OnInit, OnDestroy {
       const ownerId = user.propertyOwnerId;
 
       if (ownerId) {
-        // Fetch Repairs
-        this.repairService.getRepairsByPropertyOwnerId(ownerId).subscribe((result: Repair[]) => {
-          this.repairs = result;
-        });
-
-        // Fetch Property Owner details
         this.propertyOwnerService.getPropertyOwnerById(ownerId).subscribe({
           next: (owner) => {
-            const vatNumber = owner.vatNumber;
+            const vatNumber = owner?.vatNumber;
             if (vatNumber) {
               this.propertyService.getPropertiesByOwnerVat(vatNumber).subscribe({
                 next: (props: Property[]) => {
-                  this.properties = props;
+                  this.properties = props || [];
                 },
                 error: (err) => {
                   console.error('Failed to fetch properties:', err);
-                  alert('Failed to load your properties. Please try again later.');
+                  this.properties = [];
                 }
               });
             } else {
               console.error('VAT Number not found for owner ID:', ownerId);
-              alert('Your VAT Number is missing. Please contact support.');
+              this.properties = [];
             }
           },
           error: (err) => {
             console.error('Failed to fetch property owner details:', err);
-            alert('Failed to load your details. Please try again later.');
+            this.properties = [];
+          }
+        });
+
+        this.repairService.getRepairsByPropertyOwnerId(ownerId).subscribe({
+          next: (result: Repair[]) => {
+            this.repairs = result || [];
+          },
+          error: (err) => {
+            console.error('Failed to fetch repairs:', err);
+            this.repairs = [];
           }
         });
       }
     }
   }
+
 
   // **Method to Logout**
   logout(): void {
@@ -191,18 +196,18 @@ export class OwnerHomepageComponent implements OnInit, OnDestroy {
   }
 
   // Method to get badge color based on repair status
-    getStatusBadge(status: string): string {
-      switch (status.toLowerCase()) {
-        case 'complete':
-          return 'success';
-        case 'inprogress':
-          return 'warning';
-        case 'pending':
-          return 'secondary';
-        default:
-          return 'primary';
-      }
+  getStatusBadge(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'complete':
+        return 'success';
+      case 'inprogress':
+        return 'warning';
+      case 'pending':
+        return 'secondary';
+      default:
+        return 'primary';
     }
+  }
 
 
 
