@@ -66,7 +66,9 @@
           <td>{{repair.repairStatus}}</td>
           <td>{{repair.cost | currency}}</td>
           <td>{{repair.description}}</td>
-          <td>{{repair.property.id}}</td>
+          <td>
+            <i class="bi bi-house-door-fill text-success me-1" aria-hidden="true"></i>{{repair.property.id}}
+          </td>
           <td>
             <button class="btn btn-sm btn-warning me-2" (click)="updateRepair(repair)" aria-label="Update Repair">
               <i class="bi bi-pencil-square me-1"></i> Update

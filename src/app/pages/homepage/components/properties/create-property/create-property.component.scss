@@ -16,8 +16,7 @@
 
 /* Input Focus State */
 .form-control:focus {
-  box-shadow: 0 0 0 0.2rem var(--property-color-secondary); /* Green focus shadow */
-  border-color: var(--property-color); /* Bootstrap success border color */
+  box-shadow: 0 0 0 0.2rem var(--property-color-secondary);
 }
 
 /* Validation Messages */
